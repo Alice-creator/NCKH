@@ -19,23 +19,24 @@ class Classifier(Resource):
             return None
         with open(model_class, 'r') as jf:
             idx_to_class = json.load(jf)
-        model = get_model_instance(len(idx_to_class))
+        num_classes = len(idx_to_class)
 
         # load model
+        model = get_model_instance(num_classes)
         if os.path.isfile(model_dir):
             model = load_model(model, model_dir)
             model.eval().to(device)
         else:
             return None
         
-        # predict 
+        # predict
         pred = model(img.to(device))
-        arg = np.argmax(pred.to('cpu').detach().numpy())
+        arg = np.argmax(pred.to(device).detach().numpy())
         softmax = nn.Softmax(dim=1)
         prob = round(torch.max(softmax(pred)).item(),2)
         return {
-        	'index': str(arg),
-        	'prob': str(prob)
+            'index': str(arg),
+            'prob': str(prob)
         }
 
     def post(self):
