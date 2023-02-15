@@ -7,14 +7,7 @@ from image_transformer import ImageTransformer
 from utils import *
 import numpy as np
 
-
-app = Flask(__name__)
-api = Api(app)
-
 class Classifier(Resource):
-    def get(self):
-        return make_response(render_template('search.html', title='Searching Page'), 200)
-
     def predict(self, img):
         tf = ImageTransformer((299,299))
         img_tf = tf(img, 'test')
@@ -58,8 +51,3 @@ class Classifier(Resource):
             return jsonify({"result": pred}), 400
         error = 'Allowed file types are png and jpg'
         return jsonify({"error": error})
-
-api.add_resource(Classifier, '/search')
-
-if __name__ == '__main__':
-    app.run(debug=True)
