@@ -6,6 +6,12 @@
 --     primary key (CID)
 -- );
 
+-- create table empty_CID
+-- (
+--     CID varchar(10) UNIQUE,
+--     foreign key(CID) REFERENCES account_info(CID)
+-- );
+
 -- create table user_info(
 --     CID varchar(10) UNIQUE,
 --     foreign key(CID) REFERENCES account_info(CID)
@@ -106,6 +112,7 @@
 -- values('CID001');
 
 -- call insertaccount('user1@gmail.com', 'Anna', '12345');
+-- call insertaccount('', '', '');
 -- call insertaccount('user2@gmail.com', 'An', '1234567');
 -- call insertaccount('user3@gmail.com', 'Thanh', '12345678');
 
@@ -116,3 +123,5 @@
 -- select *from tourist_attraction;
 -- select *from bonus ;
 -- select *from storage;
+-- select *from empty_CID;
+
