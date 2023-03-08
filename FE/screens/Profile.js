@@ -1,25 +1,76 @@
 import { View, Text, SafeAreaView, Image, TouchableOpacity, Switch } from 'react-native'
-import React, { useState } from 'react'
-import { Avatar } from '../assets'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import avatarIcon from "../assets/avatar.jpg"
 import cameraIcon from "../assets/camera.png"
 import arrow_next from "../assets/arrow_next.png"
 import languageIcon from "../assets/language.png"
 import darkmodeIcon from "../assets/darkmode.png"
 import helpIcon from "../assets/help.png"
 
+import * as ImagePicker from 'expo-image-picker';
 
 const Profile = ({ navigation }) => {
+
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  
+  const [ user, setUser ] = useState(null)
+  const [ avatar, setAvatar ] = useState(null)
+  useEffect( ()=>{
+    const retrieveData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('user');
+        if (value !== null) {
+          setUser(JSON.parse(value))
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    };
+    retrieveData()
+  },[user]);
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    const data = {...user, avatar: result.assets[0].uri }
+    
+    if (!result.canceled) {
+      try {
+        await AsyncStorage.setItem('user', JSON.stringify(data));
+        const value = await AsyncStorage.getItem('user');
+
+        setUser(value);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const handleLogOut = () => {
+    AsyncStorage.removeItem('user')
+    .then(() => console.log('Item removed from local storage'))
+    .catch(error => console.error('Error removing item from local storage:', error));
+    navigation.navigate("Discover")
+  }
+
   return (
     <SafeAreaView className="bg-theme flex-1 items-center justify-between my-4">
       <View className="w-full px-8">
         <Text className="text-center font-bold text-[22px] text-bold-txt tracking-wider"> Profile </Text>
         <View className="flex items-center my-5">
-          <View className="w-[70px] h-[70px] rounded-full bg-primary relative">
+          <TouchableOpacity 
+            className="w-[70px] h-[70px] rounded-full bg-primary relative"
+            onPress={pickImage}
+          >
             <Image
-              className="w-full h-full rounded-full"
-              source={Avatar}
+              className="w-full h-full rounded-full object-cover"
+              source={ user?.avatar?.length > 0 ? { uri: user.avatar } : avatarIcon }
             />
             <View className="w-6 h-6 rounded-full bg-theme absolute -bottom-1 -right-1">
               <Image 
@@ -27,10 +78,10 @@ const Profile = ({ navigation }) => {
                 source={cameraIcon}
               />
             </View>
-          </View>
+          </TouchableOpacity>
           <View className="text-center mt-1">
-            <Text className="text-center text-bold-txt font-bold text-[20px]">Username</Text>
-            <Text className="text-center italic text-basic text-base">abcdef@gmail.com</Text>
+            <Text className="text-center text-bold-txt font-bold text-[20px]">{user ? user.username: 'Username'}</Text>
+            <Text className="text-center italic text-basic text-base">{user ? user.gmail : 'abcdef@gmail.com'}</Text>
           </View>
         </View>
         <View className="bg-white w-full rounded-3xl px-5 py-4">
@@ -119,11 +170,19 @@ const Profile = ({ navigation }) => {
         </View>
       </View>
       <View className="w-full px-8">
-        <TouchableOpacity className="w-full py-3 border-[1px] border-slate-500 rounded-xl"
-            onPress={() => navigation.navigate("Login")}
-        >
-          <Text className="text-center text-slate-500 font-semibold text-lg">Log in</Text>
-        </TouchableOpacity>
+        {user ? 
+          <TouchableOpacity className="w-full py-3 border-[1px] border-slate-500 rounded-xl"
+              onPress={handleLogOut}
+          >
+            <Text className="text-center text-slate-500 font-semibold text-lg">Log out</Text>
+          </TouchableOpacity>
+          :
+          <TouchableOpacity className="w-full py-3 border-[1px] border-slate-500 rounded-xl"
+              onPress={() => navigation.navigate("Login")}
+          >
+            <Text className="text-center text-slate-500 font-semibold text-lg">Log in</Text>
+          </TouchableOpacity>
+        }
       </View>
     </SafeAreaView>
   )

@@ -11,7 +11,6 @@ import { categoriesData } from '../services/categoriesData';
 import { touristAttractionData } from '../services/touristAttractionData'
 
 import { citiesData } from '../services/citiesData'
-import OverviewPlace from '../components/OverviewPlace'
 import axios from 'axios'
 
 const Discover = ({ navigation }) => {
@@ -28,6 +27,7 @@ const Discover = ({ navigation }) => {
 
         e.offset = currentOffset;    
     }
+
         // <GooglePlacesAutocomplete
         //             GooglePlacesDetailsQuery={{fields: "geometry"}}
         //             placeholder='Discover a city'
@@ -73,7 +73,7 @@ const Discover = ({ navigation }) => {
                   location_id: '1',
                   currency: 'USD',
                   sort: 'relevance',
-                  lang: 'vi' //or vi
+                  lang: 'en' //or vi
                 },
                 headers: {
                   'X-RapidAPI-Key': 'dfd82f7dc1msh79f889e9b674a2fp1d9bf5jsn06aaec52702a',
@@ -87,7 +87,7 @@ const Discover = ({ navigation }) => {
                 let dataLocations = []
                 let dataHotels = []
                 data.map((value) => {
-                    // if(value.result_object.timezone === 'Asia/Ho_Chi_Minh') {
+                    if(value.result_object.timezone === 'Asia/Ho_Chi_Minh') {
                         if(value.result_type === 'things_to_do' || value.result_type === 'geos') {
                             console.log(value)
                             dataLocations.push(value)
@@ -95,7 +95,7 @@ const Discover = ({ navigation }) => {
                         if(value.result_type === 'lodging') {
                             dataHotels.push(value)
                         }
-                    // }
+                    }
                 })
                 console.log(dataLocations)
 
@@ -192,7 +192,9 @@ const Discover = ({ navigation }) => {
                         <Text className="text-bold-txt text-2xl font-bold ">Where do you want to discover?</Text>
                     </View>
                     <View className="w-16 h-16 border-2 mr-2 border-slate-100 rounded-full bg-primary">
-                        <Image source={Avatar} className="w-full h-full rounded-full"/>
+                        <Image className="w-full h-full rounded-full"
+                                source={Avatar}
+                        />
                     </View>
 
                 </View>
@@ -205,7 +207,7 @@ const Discover = ({ navigation }) => {
                     <TextInput 
                         placeholder='Discover a city'
                         className="py-2 flex-1 text-lg"
-                        onKeyPress={handleChange}
+                        onChangeText={handleChange}
                     />           
                 </View>
                 <View>

@@ -36,7 +36,7 @@ const Maps = ({ route, navigation }) => {
 
     React.useEffect(() => {
         const currentLocation = {
-            streetName: "Kuching",
+            streetName: "adkdha",
             gps: {
                 latitude: 1.5496614931250685,
                 longitude: 110.36381866919922
@@ -50,10 +50,10 @@ const Maps = ({ route, navigation }) => {
         let street = currentLocation.streetName
 
         let mapRegion = {
-            latitude: (fromLoc.latitude + toLoc.latitude) / 2,
-            longitude: (fromLoc.longitude + toLoc.longitude) / 2,
-            latitudeDelta: Math.abs(fromLoc.latitude - toLoc.latitude) * 2,
-            longitudeDelta: Math.abs(fromLoc.longitude - toLoc.longitude) * 2
+            latitude: (1.5496614931250685 + 1.5496614931250685) / 2,
+            longitude: (110.36381866919922 + 110.36381866919922) / 2,
+            latitudeDelta: Math.abs(1.5496614931250685 - 1.5496614931250685) * 2,
+            longitudeDelta: Math.abs(110.36381866919922 - 110.36381866919922) * 2
         }
 
         setPlace(data)

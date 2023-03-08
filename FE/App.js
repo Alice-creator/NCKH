@@ -8,6 +8,9 @@ import Login from './screens/Login.js';
 import Signup from './screens/Signup.js';
 import Maps from './screens/Maps.js';
 
+import axios from 'axios';
+axios.defaults.baseURL = process.env.REACT_NATIVE_BASE_URL
+
 const Stack = createNativeStackNavigator();
 
 function App() {
