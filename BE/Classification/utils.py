@@ -3,7 +3,7 @@ from torch import nn as nn
 from torchvision import models
 import os
 
-model_dir = './best.pt'
+model_dir = '../BE/Classification/best.pt'
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 def allowed_file(filename):

@@ -12,29 +12,29 @@ class Classifier(Resource):
         tf = ImageTransformer((299,299))
         img_tf = tf(img, 'test')
         img = img_tf[None]
-
         # get num class
-        model_class = './model_class.json'
+        model_class = '../BE/Classification/model_class.json'
         if not os.path.isfile(model_class):
             return None
         with open(model_class, 'r') as jf:
             idx_to_class = json.load(jf)
         num_classes = len(idx_to_class)
-
+        # print(num_classes,'xxx')
         # load model
         model = get_model_instance(num_classes)
+        # print(os.path.isfile(model_dir))
         if os.path.isfile(model_dir):
             model = load_model(model, model_dir)
             model.eval().to(device)
         else:
             return None
-        
         # predict
         pred = model(img.to(device))
         arg = np.argmax(pred.to(device).detach().numpy())
         softmax = nn.Softmax(dim=1)
         prob = round(torch.max(softmax(pred)).item(),2)
         return {
+            'name' : idx_to_class[str(arg)],
             'index': str(arg),
             'prob': str(prob)
         }
@@ -48,7 +48,7 @@ class Classifier(Resource):
             data = file.read()
             img_obj = io.BytesIO(data)
             img = Image.open(img_obj)
-            print(img)
+            # print(img)
             pred = self.predict(img)
             return jsonify({"result": pred})
         error = 'Allowed file types are png and jpg'
