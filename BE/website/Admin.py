@@ -2,7 +2,7 @@ from flask_restful import Resource
 from flask_restful import request
 from website import extension, database
 import copy
-
+    
 class UserInfo(Resource):
     def get(self):
         connection = database.connect_db()
@@ -29,7 +29,7 @@ class UserInfoDetail(Resource):
     def delete(self, CID):
         connection = database.connect_db()
         cursor = connection.cursor()
-        data = extension.create_json(request.values.lists())
+        data    = extension.create_json(request.values.lists())
         try:
             cursor.execute(
                 '''

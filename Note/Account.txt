@@ -1,0 +1,47 @@
+Account
+
+SignUp
+Input:
+- gmail
+- username
+- password
+
+Output:
+successful case:
+	status: True
+	role: ...
+	message: ...
+
+unsuccessful case:
+	duplicate gmail:
+		status: False
+		role: ...
+		message: ...
+
+Login
+Input:
+- gmail
+- password
+
+Output:
+successful case:
+	status: ...
+	token_access: ...
+	message:...
+
+unsuccessful case:
+	status:...
+	message: wrong gmail or password
+
+ChangeInfo
+Input:
+- gmail
+- password
+- username
+- token_access
+
+Output:
+status: ...
+message: Successfully changed info
+Token_accesss: None
+

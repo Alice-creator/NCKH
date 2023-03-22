@@ -1,0 +1,11 @@
+Attraction
+
+Attraction:
+	get:
+	input: 
+	- token_access
+	- index
+	- TID
+	
+	output:
+	- article link : ...

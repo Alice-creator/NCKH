@@ -14,8 +14,8 @@ class Storage(Resource):
         data = extension.create_json(request.values.lists())
 
         cursor.execute(
-            '''
-            select count(TID) from storage 
+            ''' 
+            select count(TID) from storage
             where CID = %s and TID = %s;
             ''',
             (data['CID'], data['TID'])
