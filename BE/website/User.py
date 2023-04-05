@@ -1,5 +1,8 @@
 from flask_restful import Resource
 from flask_restful import request
+from PIL import Image
+from flask import jsonify
+import os, io
 from website import extension, database
 
 class TouristAttraction(Resource):
@@ -84,3 +87,23 @@ class Bonus(Resource):
             return {
                 'status': False
             }, 200
+
+class GetImg(Resource):
+    def get(self, CID):
+        connection = database.connect_db()
+        cursor = connection.cursor()
+        data = extension.create_json(request.values.lists())
+        cursor.execute(
+            '''
+            select image_path from user_post_image
+            WHERE CID = %s;
+            ''',
+            (CID,)
+        )
+        img = Image.open(cursor.fetchone()[0])
+        print(img)
+        # print(img.show())
+        # img = io.BytesIO(img)
+        # print(img)
+        return jsonify({'status': img})
+        

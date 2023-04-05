@@ -6,7 +6,7 @@ from PIL import Image
 from .image_transformer import ImageTransformer
 from .utils import *
 import numpy as np
-
+from website import extension, database
 class Classifier(Resource):
     def predict(self, img):
         tf = ImageTransformer((299,299))
@@ -40,15 +40,31 @@ class Classifier(Resource):
         }
 
     def post(self):
+        connection = database.connect_db()
+        cursor = connection.cursor()
+        data = extension.create_json(request.values.lists())
         file = request.files['file']
         if not file.filename:
             error = "no file uploaded"
             return jsonify({"error": error}), 400
         if file and allowed_file(file.filename):
-            data = file.read()
-            img_obj = io.BytesIO(data)
+            data_img = file.read()
+            print(file)
+            img_obj = io.BytesIO(data_img)
             img = Image.open(img_obj)
-            # print(img)
+            
+            img.resize((299,299))
+            img.save('../BE/Image/' + file.filename)
+            cursor.execute(
+                    '''
+                    UPDATE user_post_image
+                    set image_path = %s
+                    where CID = %s;
+                    ''',
+                    ('../BE/Image/' + file.filename, data['CID'],)
+                )
+            connection.commit()
+
             pred = self.predict(img)
             return jsonify({"result": pred})
         error = 'Allowed file types are png and jpg'
