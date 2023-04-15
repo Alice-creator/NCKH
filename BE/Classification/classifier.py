@@ -48,7 +48,6 @@ class Classifier(Resource):
             error = "no file uploaded"
             return jsonify({"error": error}), 400
         if file and allowed_file(file.filename):
-            return jsonify({'file': file})
             data_img = file.read()
             img_obj = io.BytesIO(data_img)
             img = Image.open(img_obj)
