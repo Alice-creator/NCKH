@@ -1,8 +1,10 @@
 from flask_restful import Resource
 from flask_restful import request
+from flask import send_file
 from PIL import Image
 from flask import jsonify
 import os, io
+import numpy as np
 from website import extension, database
 
 class TouristAttraction(Resource):
@@ -100,10 +102,6 @@ class GetImg(Resource):
             ''',
             (CID,)
         )
-        img = Image.open(cursor.fetchone()[0])
-        print(img)
-        # print(img.show())
-        # img = io.BytesIO(img)
-        # print(img)
-        return jsonify({'status': img})
+        img = open(cursor.fetchone()[0], 'rb')
+        return send_file(img, mimetype='image/jpeg')
         
