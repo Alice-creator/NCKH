@@ -14,14 +14,15 @@ class Classifier(Resource):
         img = img_tf[None]
         # get num class
         model_class = '../BE/Classification/model_class.json'
-        if not os.path.isfile(model_class):
-            return None
-        with open(model_class, 'r') as jf:
-            idx_to_class = json.load(jf)
-        num_classes = len(idx_to_class)
-        # print(num_classes,'xxx')
+        # if not os.path.isfile(model_class):
+        #     return None
+        # with open(model_class, 'r') as jf:
+        #     idx_to_class = json.load(jf)
+        # num_classes = len(idx_to_class)
+        classes, idx_to_class = get_num_class(model_class)
         # load model
-        model = get_model_instance(num_classes)
+        model = get_model_instance(classes)
+
         # print(os.path.isfile(model_dir))
         if os.path.isfile(model_dir):
             model = load_model(model, model_dir)
@@ -29,7 +30,7 @@ class Classifier(Resource):
         else:
             return None
         # predict
-        pred = model(img.to(device))
+        _, pred = model(img.to(device))
         arg = np.argmax(pred.to(device).detach().numpy())
         softmax = nn.Softmax(dim=1)
         prob = round(torch.max(softmax(pred)).item(),2)

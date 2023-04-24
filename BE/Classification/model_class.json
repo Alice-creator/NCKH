@@ -1,32 +1,71 @@
 {
-    "0": "Bitexco Tower",
-    "1": "Cau Vang",
-    "2": "Chua Buu Long",
-    "3": "Chua Long Son",
-    "4": "Chua Mot Cot",
-    "5": "Chua Tran Quoc",
-    "6": "Dam Sen",
-    "7": "Dia Dao Cu Chi",
-    "8": "Dinh Doc Lap",
-    "9": "Duong Ham Dieu Khac",
-    "10": "Ho Guom",
-    "11": "Ho Xuan Huong",
-    "12": "Hoang Thanh Thang Long",
-    "13": "Hon Thom",
-    "14": "Hot Springs Nui Than Tai",
-    "15": "Kinh Thanh Hue",
-    "16": "Landmark 81",
-    "17": "Lang Biang",
-    "18": "Lang Chu Tich HCM",
-    "19": "My Son",
-    "20": "Nha Hat Lon Ha Noi",
-    "21": "Nha Tho Duc Ba",
-    "22": "Nha Tho Lon Ha Noi",
-    "23": "Nui Tao Phung",
-    "24": "Quang Truong Lam Vien",
-    "25": "Sun World Ba Na Hills",
-    "26": "Thao Cam Vien",
-    "27": "Thung Lung Tinh Yeu",
-    "28": "VQG Bach Ma",
-    "29": "Van Mieu"
+    "0": {
+        "Nha Tho": {
+            "0": "Nha_Tho_Duc_Ba",
+            "1": "Nha_Tho_Lon_Ha_Noi"
+        }
+    },
+    "1": {
+        "Toa_Nha": {
+            "2": "Landmark_81",
+            "3": "Ben_Nha_Rong",
+            "4": "Cho_Ben_Thanh",
+            "5": "Nha_Hat_Lon_Ha_Noi",
+            "6": "Dinh_Doc_Lap",
+            "7": "Lang_Chu_Tich_HCM",
+            "8": "Buu_Dien_TPHCM",
+            "9": "Bitexco_Tower"
+        }
+    },
+    "2": {
+        "Cong_Vien": {
+            "10": "Ho_Xuan_Huong",
+            "11": "Quang_Truong_Lam_Vien",
+            "12": "Duong_Ham_Dieu_Khac",
+            "13": "Ho_Guom"
+        }
+    },
+    "3": {
+        "Di_Tich": {
+            "14": "Chua_Mot_Cot",
+            "15": "Van_Mieu",
+            "16": "Kinh_Thanh_Hue",
+            "17": "Hoang_Thanh_Thang_Long"
+        }
+    },
+    "4": {
+        "Nui": {
+            "18": "Lang_Biang",
+            "19": "Nui_Tao_Phung",
+            "20": "Sun_World_Ba_Na_Hills",
+            "21": "Thung_Lung_Tinh_Yeu",
+            "22": "Cau_Vang"
+        }
+    },
+    "5": {
+        "Unknown": {
+            "23": "Nui",
+            "24": "Bien",
+            "25": "Cong_Vien"
+        }
+    },
+    "6": {
+        "Thap": {
+            "26": "My_Son",
+            "27": "Thap_Ba_Ponagar"
+        }
+    },
+    "7": {
+        "Chua": {
+            "28": "Chua_Buu_Long",
+            "29": "Chua_Tran_Quoc",
+            "30": "Chua_Long_Son"
+        }
+    },
+    "8": {
+        "Bien": {
+            "31": "Hon_Thom",
+            "32": "Bien_Nha_Trang"
+        }
+    }
 }
