@@ -40,6 +40,7 @@ class Classifier(Resource):
         }
 
     def post(self):
+        print(request.files['file'])
         file = request.files['file']
         if not file.filename:
             error = "no file uploaded"

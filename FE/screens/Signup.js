@@ -25,7 +25,7 @@ const Signup = ({ navigation }) => {
         const data = { username, gmail, password }
         console.log(data)
 
-        fetch('http://192.168.44.231:5000/Account/sign-up', {
+        fetch('http://192.168.44.230:5000/Account/sign-up', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -51,7 +51,7 @@ const Signup = ({ navigation }) => {
     <SafeAreaView className="flex-1 relative">
         <View style={{ height: height * 0.8, width: width }}>
             <Image 
-                source={bgHomepage[Math.floor(Math.random()*3)]}
+                source={bgHomepage[2]}
                 resizeMode="cover"
                 className={`h-full object-cover w-full flex-1`}
             />

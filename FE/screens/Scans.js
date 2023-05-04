@@ -14,11 +14,45 @@ import locationIcon from "../assets/location.png"
 import distanceIcon from "../assets/distance.png"
 import typeIcon from "../assets/type.png"
 import { categoriesData } from '../services/categoriesData';
+import axios from 'axios';
 
-const DetailData = ({ image, navigation }) => {
+const DetailData = ({ image, setShowDetail, setImage, classifier, setPhoto, navigation }) => {
   const [ category, setCategory ] = useState('')
+  const [ data, setData ] = useState('')
+
   const handleTouchCategory = (name) => {
     setCategory(name)
+  }
+  console.log("classifier", classifier)
+  useEffect(() => {
+    const options = {
+      method: 'GET',
+      url: 'https://travel-advisor.p.rapidapi.com/locations/search',
+      params: {
+        query: classifier.name,
+        limit: 1,
+        offset: '0',
+        units: 'km',
+        location_id: '1',
+        currency: 'USD',
+        sort: 'relevance',
+        lang: 'en' //or vi
+      },
+      headers: {
+        'X-RapidAPI-Key': 'dfd82f7dc1msh79f889e9b674a2fp1d9bf5jsn06aaec52702a',
+        'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
+      }
+    };
+
+  axios.request(options).then(function (response) {
+      const { data } = response.data
+      setData(data[0].result_object)
+    })
+  }, [])
+  const handleShowDetail = () => {
+    setShowDetail(false)
+    setImage(undefined)
+    setPhoto(undefined)
   }
   const renderCategory = ({ item }) => {
     return (
@@ -35,7 +69,7 @@ const DetailData = ({ image, navigation }) => {
   return (
     <ScrollView className="flex-1 bg-theme">
       <TouchableOpacity className="bg-theme rounded-full p-[10px] w-10 h-10 absolute top-6 left-4 z-20"
-            onPress={() => navigation.navigate("Scan")}
+            onPress={handleShowDetail}
       >
         <Image className="w-full h-full" source={arrow_back} />
       </TouchableOpacity>
@@ -43,21 +77,21 @@ const DetailData = ({ image, navigation }) => {
         <Image style={styles.preview} source={{ uri: image }} />
       </View>
       <View className="p-4 flex-1 rounded-t-3xl -top-8 bottom-8 right-0 left-0 bg-theme">
-        <View className="flex-row justify-between items-center ">
-          <View>
-            <Text className="text-xl font-bold text-bold-txt tracking-wider ">Landmark 81</Text>
+        <View className="flex-row justify-between items-center mx-1">
+          <View className="">
+            <Text className="text-xl font-bold text-bold-txt tracking-wider ">{classifier.name}</Text>
             <View className="flex-row items-center">
                 <Image source={locationIcon} className="w-5 h-5" />
-                <Text className="text-base text-[#3F95EC]" >Binh Thanh, Ho Chi Minh</Text>
+                <Text className="text-base text-[#3F95EC]" >{data.address}</Text>
             </View>
           </View>
-          <View>
-            <Text>4.7</Text>
-          </View>
+          {/* <View>
+            <Text>{data.rating}</Text>
+          </View> */}
         </View>
         <View style={{ marginVertical: 10 }}>
-          <Text className="text-base text-[#4F606D]">fjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjafjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkskjfkfjdsakfjskfjaskjfk
-          </Text>
+          <Text className="text-base text-[#4F606D]">
+          Bitexco Financial Tower hay Tháp Tài chính Bitexco là một tòa nhà chọc trời được xây dựng tại trung tâm Quận 1, Thành phố Hồ Chí Minh. Tòa nhà được xây dựng trên diện tích gần 6.100 m². Tổng vốn đầu tư ước tính khoảng 220 triệu USD, được tập đoàn Bitexco Group có trụ sở tại Hà Nội đầu tư xây dựng.          </Text>
         </View>
 
         <View className="flex-row justify-between mt-2">
@@ -125,20 +159,40 @@ export default function Scans({ navigation }) {
   const [ image, setImage ] = useState(null);
   const [ type, setType ] = useState(CameraType.back)
   const [ flash, setFlash ] = useState(Camera.Constants.FlashMode.off)
-
+  const [ showDetail, setShowDetail ] = useState(false)
+  const [ classifier, setClassifier ] = useState(null)
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
+      allowsEditing: false,
+      aspect: [5, 6],
       quality: 1,
     });
 
-    console.log(result);
-
+    // console.log(result);
+    
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      const file = { file: result.assets[0].uri}
+      const data = new FormData();
+      data.append('file', {
+        uri: result.assets[0].uri,
+        type: 'image/jpeg',
+        name: 'photo.jpg',
+      });
+      axios.post('http://192.168.44.230:5000/User/Image', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }).then(response => {
+        
+        setClassifier(response.data.result)
+        setImage(result.assets[0].uri);
+        setShowDetail(true)
+      }).catch(error => {
+        console.log(error);
+      });
+      
     }
   };
   let cameraRef = useRef();
@@ -169,7 +223,11 @@ export default function Scans({ navigation }) {
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
+    console.log("new", newPhoto)
+    
     setPhoto(newPhoto);
+
+    setShowDetail(true)
   };
    
   if (photo) {
@@ -191,15 +249,23 @@ export default function Scans({ navigation }) {
     // <Button title="Discard" onPress={() => setPhoto(undefined)} />
     return (
       <SafeAreaView style={styles.container}>
-        <DetailData image={"data:image/jpg;base64," + photo.base64} navigation={navigation}/>
+        {showDetail && (
+          <DetailData image={"data:image/jpg;base64," + photo.base64} setShowDetail={setShowDetail} setImage={setImage} setPhoto={setPhoto} classifier={classifier} navigation={navigation}/>
+        )}
       </SafeAreaView>
     );
   }
   if(image) {
     return (
-      <DetailData image={image} navigation={navigation}/>
+      <>
+        {showDetail && (
+          <DetailData image={image} setShowDetail={setShowDetail} setImage={setImage} setPhoto={setPhoto}  classifier={classifier} navigation={navigation}/>
+        )}
+      </>
     )
   }
+  console.log("image",image)
+  console.log("photo",photo)
   return (
     <View className="w-full h-full flex-1" style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Camera 
@@ -218,8 +284,8 @@ export default function Scans({ navigation }) {
         <TouchableOpacity className="bg-theme rounded-full p-[10px] w-10 h-10 absolute top-6 left-6 z-20"
             onPress={() => navigation.navigate("Discover")}
         >
-        <Image className="w-full h-full" source={arrow_back} />
-      </TouchableOpacity>
+          <Image className="w-full h-full" source={arrow_back} />
+        </TouchableOpacity>
         <View className="bottom-12 px-10 py-2 rounded-full bg-[#00000080]">
           <View className="flex-row justify-center items-center">
             <TouchableOpacity

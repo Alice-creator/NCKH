@@ -23,7 +23,7 @@ const Login = ({ navigation }) => {
     const handleLogin = async () => {
         const data = { gmail, password }
 
-        fetch('http://192.168.1.10:5000/Account/login', {
+        fetch('http://192.168.44.230:5000/Account/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -51,7 +51,7 @@ const Login = ({ navigation }) => {
     <SafeAreaView className="flex-1 relative">
         <View style={{ height: height * 0.8, width: width }}>
             <Image 
-                source={bgHomepage[Math.floor(Math.random()*3)]}
+                source={bgHomepage[1]}
                 resizeMode="cover"
                 className={`h-full object-cover w-full flex-1`}
             />

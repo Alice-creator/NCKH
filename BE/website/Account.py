@@ -13,7 +13,7 @@ class SignUp(Resource):
                 select user_info.CID from user_info, account_info 
                 where user_info.cid = account_info.cid and gmail = %s;
                 ''',
-                (data['gmail'], data['username'], data['password'], data['gmail'])
+                (request.json['gmail'], request.json['username'], request.json['password'], request.json['gmail'])
             )
             connection.commit()
             if len(cursor.fetchone()) == 1:
@@ -38,7 +38,7 @@ class Login(Resource):
                 select CID, username from account_info 
                 where gmail = %s and password = %s;
                 ''',
-                (data['gmail'], data['password'])
+                (request.json['gmail'], request.json['password'])
             )
             CID = cursor.fetchone()
             cursor.execute(

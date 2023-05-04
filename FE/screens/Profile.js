@@ -7,6 +7,7 @@ import arrow_next from "../assets/arrow_next.png"
 import languageIcon from "../assets/language.png"
 import darkmodeIcon from "../assets/darkmode.png"
 import helpIcon from "../assets/help.png"
+import arrow_back from "../assets/arrow_back.png"
 
 import * as ImagePicker from 'expo-image-picker';
 
@@ -30,6 +31,7 @@ const Profile = ({ navigation }) => {
     };
     retrieveData()
   },[user]);
+  
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -61,6 +63,11 @@ const Profile = ({ navigation }) => {
 
   return (
     <SafeAreaView className="bg-theme flex-1 items-center justify-between my-4">
+      <TouchableOpacity className="bg-theme rounded-full p-[10px] w-10 h-10 absolute top-6 left-4 z-20"
+            onPress={() => navigation.navigate("Discover")}
+      >
+      <Image className="w-full h-full" source={arrow_back} />
+      </TouchableOpacity>
       <View className="w-full px-8">
         <Text className="text-center font-bold text-[22px] text-bold-txt tracking-wider"> Profile </Text>
         <View className="flex items-center my-5">
