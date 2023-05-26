@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from flask_restful import request
-from website import extension, database
+import requests
+from ..website import extension, database, middleware
 class SignUp(Resource):
     def post(self):
         connection = database.connect_db()
@@ -19,13 +20,15 @@ class SignUp(Resource):
             if len(cursor.fetchone()) == 1:
                 return {
                     'status': True,
-                    'role': 'User'
+                    'role': 'User',
+                    'message': 'successfully sign-up'
                 }, 200
         except:
             return {
                 'status': False,
-                'role': None
-            }, 403
+                'role': None,
+                'message': 'email or password is already taken'
+            }, 409
 
 class Login(Resource):
     def post(self):
@@ -48,27 +51,38 @@ class Login(Resource):
                 (CID[0],)
             )
             if cursor.fetchone()[0] == 1:
-                return {
-                    'status': True,
+                payload =  {
                     'CID': CID[0],
-                    'username': CID[1],
-                    'role': 'User'
-                }, 200
+                    'role': 'User',
+                    'language': 'Vietnamese'
+                }
             else:
-                return {
-                    'status': True,
+                payload = {
                     'CID': CID[0],
-                    'username': CID[1],
-                    'role': 'Admin'
-                }, 200
+                    'role': 'Admin',
+                    'language': 'Vietnamese'
+                }
+            return {
+                'status': True,
+                'username': CID[1],
+                'token': middleware.encryp(payload=payload)
+            }, 200
         except:
             return {
                 'status': False,
-                'role': None
-            }, 409
+                'username': None,
+                'token': None
+            }, 401
 
 class ChangeInfo(Resource):
-    def put(self, CID):
+    def put(self):
+        token = request.headers.get('Authorization')
+        token = token.split(' ')[1]
+        auth = middleware.authentication(token)
+        if not auth:
+            return {'status' : False,
+                    'message': 'you need to login first'
+                    }, 401
         connection = database.connect_db()
         cursor = connection.cursor()
         data = extension.create_json(request.values.lists())
@@ -77,7 +91,7 @@ class ChangeInfo(Resource):
             select count(CID) from account_info
             where CID = %s
             ''',
-            (CID,)
+            (auth['CID'],)
         )
 
         try:
@@ -89,7 +103,7 @@ class ChangeInfo(Resource):
                     set gmail = %s, username = %s, password = %s
                     where CID = %s;   
                     ''',
-                    (data['gmail'], data['username'], data['password'], CID,)
+                    (data['gmail'], data['username'], data['password'], auth['CID'],)
                 )
                 connection.commit()
                 data['status'] = True
@@ -101,3 +115,77 @@ class ChangeInfo(Resource):
             return {
                 'status': False
             }, 400
+
+class SearchByType(Resource):
+    def get(self, language, searchType):
+        token = request.headers.get('Authorization')
+        token = token.split(' ')[1]
+        if not middleware.authentication(token):
+            return {'status' : False,
+                    'message': 'you need to login first'
+                    }, 401
+        connection = database.connect_db()
+        cursor = connection.cursor()
+        if language.lower().strip() in 'vietnam':
+            cursor.execute(
+                '''
+                select viet_introduction.name, location_string, images, address, description from viet_introduction, attractions
+                where type = %s and viet_introduction.tid = attractions.tid;
+                ''',
+                (searchType,)
+            )
+        else:
+            cursor.execute(
+                '''
+                select eng_introduction.name, location_string, images, address, description from eng_introduction, attractions
+                where type = %s and eng_introduction.tid = attractions.tid;
+                ''',
+                (searchType,)
+            )
+        
+        return {
+            'data': cursor.fetchall()
+        }
+
+class ExternalSearch(Resource):
+    def get(self, language, key):
+        token = request.headers.get('Authorization')
+        token = token.split(' ')[1]
+        if not middleware.authentication(token):
+            return {'status' : False,
+                    'message': 'you need to login first'
+                    }, 401
+        
+        url = "https://travel-advisor.p.rapidapi.com/locations/search"
+
+        querystring = {"limit":"10","offset":"0","units":"km","location_id":"1","currency":"USD","sort":"relevance","lang":"en_US"}
+        querystring['query'] = key
+        if language.lower().strip() in 'vietnam':
+            querystring['lang'] = 'vi'
+            
+        headers = {
+            "X-RapidAPI-Key": "0b09af9f67mshd7ec0a82fbe69e6p137760jsnb3e029261ab3",
+            "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com"
+        }
+
+        response = requests.get(url, headers=headers, params=querystring)
+
+        data = response.json()
+        searchs = list()
+
+        result = data['data'][0]['result_object']
+
+        for i in data['data']:
+            result = i['result_object']
+            rs = {
+                'name': result['name'],
+                'location_string': result['location_string'],
+                'photo': result['photo'],
+            }
+            if 'geo_description' in result:
+                rs['description'] = result['geo_description']
+            searchs.append(rs)
+        
+        return {
+            'result': searchs
+        }, 200
