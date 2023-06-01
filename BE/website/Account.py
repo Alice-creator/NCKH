@@ -25,7 +25,7 @@ class SignUp(Resource):
             return {
                 'status': False,
                 'role': None
-            }, 409
+            }, 403
 
 class Login(Resource):
     def post(self):

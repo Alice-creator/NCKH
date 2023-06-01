@@ -1,0 +1,10 @@
+Classifier
+
+post:
+	input:
+	- token_access
+	- image
+	
+	output:
+	- index
+	

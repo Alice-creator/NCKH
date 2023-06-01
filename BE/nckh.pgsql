@@ -24,6 +24,7 @@ create table admin_info(
 
 create table tourist_attraction(
     TID varchar(10),
+    index int,
     description_path varchar(40),
     likes int,
     primary key(TID)
@@ -34,6 +35,13 @@ create table storage(
     TID varchar(10),
     foreign key(CID) REFERENCES user_info(CID),
     foreign key(TID) REFERENCES tourist_attraction(TID)
+);
+
+create table user_post_image
+(
+    CID varchar(10) UNIQUE,
+    image_path varchar(40) DEFAULT NULL,
+    foreign key(CID) REFERENCES account_info(CID)
 );
 
 create table bonus(
@@ -85,9 +93,11 @@ CREATE OR REPLACE PROCEDURE inserTourist(description_path varchar, likes int)
 LANGUAGE plpgsql
 AS $$
     DECLARE tidCount INT;
+    DECLARE TIndex INT;
 BEGIN
-    INSERT INTO tourist_attraction(tid, description_path, likes)
-    VALUES(Generatetouristid(), description_path, likes);
+    SELECT COUNT(*) INTO TIndex FROM tourist_attraction;
+    INSERT INTO tourist_attraction(tid, index, description_path, likes)
+    VALUES(Generatetouristid(), TIndex, description_path, likes);
 END;
 $$;
 
@@ -101,6 +111,9 @@ AS $$
         VALUES(CID,gmail, fullname, password);
 
         INSERT INTO user_info(cid)
+        VALUES(CID);
+
+        INSERT INTO user_post_image(CID)
         VALUES(CID);
     END;
 $$;
@@ -116,12 +129,8 @@ call insertaccount('', '', '');
 call insertaccount('user2@gmail.com', 'An', '1234567');
 call insertaccount('user3@gmail.com', 'Thanh', '12345678');
 
-
-select *from account_info;
-select *from user_info;
-select *from admin_info; 
-select *from tourist_attraction;
-select *from bonus ;
-select *from storage;
-select *from empty_CID;
-
+select * from user_info;
+select * from account_info;
+select * from bonus;
+select * from tourist_attraction;
+select * from user_post_image;

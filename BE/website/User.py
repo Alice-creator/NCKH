@@ -1,5 +1,10 @@
 from flask_restful import Resource
 from flask_restful import request
+from flask import send_file
+from PIL import Image
+from flask import jsonify
+import os, io
+import numpy as np
 from website import extension, database
 
 class TouristAttraction(Resource):
@@ -14,8 +19,8 @@ class Storage(Resource):
         data = extension.create_json(request.values.lists())
 
         cursor.execute(
-            '''
-            select count(TID) from storage 
+            ''' 
+            select count(TID) from storage
             where CID = %s and TID = %s;
             ''',
             (data['CID'], data['TID'])
@@ -84,3 +89,19 @@ class Bonus(Resource):
             return {
                 'status': False
             }, 200
+
+class GetImg(Resource):
+    def get(self, CID):
+        connection = database.connect_db()
+        cursor = connection.cursor()
+        data = extension.create_json(request.values.lists())
+        cursor.execute(
+            '''
+            select image_path from user_post_image
+            WHERE CID = %s;
+            ''',
+            (CID,)
+        )
+        img = open(cursor.fetchone()[0], 'rb')
+        return send_file(img, mimetype='image/jpeg')
+        
