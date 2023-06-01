@@ -17,5 +17,6 @@ api.add_resource(User.GetImg, '/User/JustPostedImg/<string:CID>')
 api.add_resource(Admin.Attractions, '/Admin/Attractions')
 api.add_resource(Account.SearchByType, '/<string:language>/Account/SearchByType/<string:searchType>')
 api.add_resource(Account.ExternalSearch, '/<string:language>/Account/Searchapi/<string:key>')
+api.add_resource(Dev.RootAttraction, '/Dev/RootAttraction')
 if __name__ == '__main__':
     app.run(debug = True)

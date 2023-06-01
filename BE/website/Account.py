@@ -124,28 +124,59 @@ class SearchByType(Resource):
             return {'status' : False,
                     'message': 'you need to login first'
                     }, 401
+        auth = middleware.authentication(token)
         connection = database.connect_db()
         cursor = connection.cursor()
-        if language.lower().strip() in 'vietnam':
-            cursor.execute(
-                '''
-                select viet_introduction.name, location_string, images, address, description from viet_introduction, attractions
-                where type = %s and viet_introduction.tid = attractions.tid;
-                ''',
-                (searchType,)
-            )
-        else:
-            cursor.execute(
-                '''
-                select eng_introduction.name, location_string, images, address, description from eng_introduction, attractions
-                where type = %s and eng_introduction.tid = attractions.tid;
-                ''',
-                (searchType,)
-            )
-        
-        return {
-            'data': cursor.fetchall()
+
+        result = {
         }
+        if language.lower().strip() in 'vietnam':
+            if searchType.lower() == 'all':
+                cursor.execute(
+                    '''
+                    select attractions.tid, viet_introduction.name, location_string, images, address, description from viet_introduction, attractions
+                    where viet_introduction.tid = attractions.tid;
+                    ''',
+                    (searchType,)
+                )
+            else:
+                cursor.execute(
+                    '''
+                    select attractions.tid, viet_introduction.name, location_string, images, address, description from viet_introduction, attractions
+                    where type = %s and viet_introduction.tid = attractions.tid;
+                    ''',
+                    (searchType,)
+                )
+        else:
+            if searchType.lower() == 'all':
+                cursor.execute(
+                    '''
+                    select attractions.tid, eng_introduction.name, location_string, images, address, description from eng_introduction, attractions
+                    where type = %s and eng_introduction.tid = attractions.tid;
+                    ''',
+                    (searchType,)
+                )
+            else:
+                cursor.execute(
+                    '''
+                    select attractions.tid, eng_introduction.name, location_string, images, address, description from eng_introduction, attractions
+                    where eng_introduction.tid = attractions.tid;
+                    ''',
+                    (searchType,)
+                )
+        
+        result['search'] = cursor.fetchall()
+
+        cursor.execute(
+            '''
+            select tid from user_storage
+            where cid = %s
+            ''',
+            (auth['CID'],)
+        )
+        result['stored'] = cursor.fetchall()
+
+        return result
 
 class ExternalSearch(Resource):
     def get(self, language, key):
