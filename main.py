@@ -4,7 +4,7 @@ from BE.website import *
 from Model import classifier
 app = Flask(__name__)
 api = Api(app)
-# Attraction.insertAttraction() 
+
 api.add_resource(Account.SignUp, '/Account/sign-up')
 api.add_resource(Account.Login, '/Account/login')
 api.add_resource(User.Storage, '/<string:language>/User/storage')

@@ -6,7 +6,7 @@ from PIL import Image
 from .image_transformer import ImageTransformer
 from .utils import *
 import numpy as np
-from BE.website import extension, database, middleware
+from BE.website import extension, database, middleware, Account
 class Classifier(Resource):
     def predict(self, img):
         tf = ImageTransformer((299,299))
@@ -23,7 +23,7 @@ class Classifier(Resource):
         # load model
         model = get_model_instance(classes)
 
-        print(os.path.isfile(model_dir))
+        # print(os.path.isfile(model_dir))
         if os.path.isfile(model_dir):
             model = load_model(model, model_dir)
             model.eval().to(device)
@@ -61,7 +61,6 @@ class Classifier(Resource):
             self.saveImg(auth, file.filename, img)
 
             pred = self.predict(img)
-            print(pred)
             return jsonify({"result": self.getAttractionInfo(pred, language)})
         error = 'Allowed file types are png and jpg'
         return jsonify({"error": error})
@@ -84,6 +83,9 @@ class Classifier(Resource):
     def getAttractionInfo(self, predict, language):
         connection = database.connect_db()
         cursor = connection.cursor()
+        if predict['index'] in range(23, 26):
+            return Account.SearchByType(language=language, searchType=predict['name'])
+                
         if language.lower().strip() in 'vietnam':
             cursor.execute(
                 '''
