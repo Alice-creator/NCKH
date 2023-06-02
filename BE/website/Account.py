@@ -134,7 +134,7 @@ class SearchByType(Resource):
             if searchType.lower() == 'all':
                 cursor.execute(
                     '''
-                    select attractions.tid, viet_introduction.name, location_string, images, address, description from viet_introduction, attractions
+                    select * from viet_introduction, attractions
                     where viet_introduction.tid = attractions.tid;
                     ''',
                     (searchType,)
@@ -142,7 +142,7 @@ class SearchByType(Resource):
             else:
                 cursor.execute(
                     '''
-                    select attractions.tid, viet_introduction.name, location_string, images, address, description from viet_introduction, attractions
+                    select * from viet_introduction, attractions
                     where type = %s and viet_introduction.tid = attractions.tid;
                     ''',
                     (searchType,)
