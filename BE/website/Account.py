@@ -135,7 +135,7 @@ class SearchByType(Resource):
                 cursor.execute(
                     '''
                     select * from viet_introduction, attractions
-                    where viet_introduction.tid = attractions.tid;
+                    where viet_introduction.tid = attractions.tid and type != 'Unknown';
                     ''',
                     (searchType,)
                 )
@@ -152,7 +152,7 @@ class SearchByType(Resource):
                 cursor.execute(
                     '''
                     select * from eng_introduction, attractions
-                    where type = %s and eng_introduction.tid = attractions.tid;
+                    where eng_introduction.tid = attractions.tid and type != 'Unknown';
                     ''',
                     (searchType,)
                 )
@@ -160,7 +160,7 @@ class SearchByType(Resource):
                 cursor.execute(
                     '''
                     select * from eng_introduction, attractions
-                    where eng_introduction.tid = attractions.tid;
+                    where type = %s and eng_introduction.tid = attractions.tid;
                     ''',
                     (searchType,)
                 )
