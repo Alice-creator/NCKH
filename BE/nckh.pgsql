@@ -36,10 +36,14 @@ create table viet_introduction(
     TID varchar(10),
     index int,
     name varchar(30) DEFAULT NULL,
+    latitude varchar(30) DEFAULT NULL,
+    longitude varchar(30) DEFAULT NULL,
+    timezone varchar(30) DEFAULT NULL,
     location_string varchar(100) DEFAULT NULL,
-    images varchar(100) DEFAULT NULL,
+    images varchar(200) DEFAULT NULL,
     address varchar(100) DEFAULT NULL,
     description text DEFAULT NULL,
+    story text DEFAULT NULL,
     foreign key(TID) REFERENCES attractions(TID)
 );
 
@@ -47,17 +51,21 @@ create table eng_introduction(
     TID varchar(10),
     index int,
     name varchar(30) DEFAULT NULL,
+    latitude varchar(30) DEFAULT NULL,
+    longitude varchar(30) DEFAULT NULL,
+    timezone varchar(30) DEFAULT NULL,
     location_string varchar(100) DEFAULT NULL,
-    images varchar(100) DEFAULT NULL,
+    images varchar(200) DEFAULT NULL,
     address varchar(100) DEFAULT NULL,
     description text DEFAULT NULL,
+    story text DEFAULT NULL,
     foreign key(TID) REFERENCES attractions(TID)
 );
 
 create table user_post_image
 (
     CID varchar(10) UNIQUE,
-    image_path varchar(40) DEFAULT NULL,
+    image_path varchar(100) DEFAULT NULL,
     foreign key(CID) REFERENCES account_info(CID)
 );
 
@@ -117,27 +125,27 @@ BEGIN
 END
 $ID$LANGUAGE plpgsql; 
 
-CREATE OR REPLACE PROCEDURE insertIntro_Viet(name varchar, location varchar, img varchar, address varchar, description text)
+CREATE OR REPLACE PROCEDURE insertIntro_Viet(name varchar, latitude varchar, longitude varchar, timezone varchar, location_string varchar, img varchar, address varchar, description text, story text)
 LANGUAGE plpgsql
 AS $$
     DECLARE tidCount INT;
     DECLARE TIndex INT;
 BEGIN
     SELECT COUNT(*) INTO TIndex FROM viet_introduction;
-    INSERT INTO viet_introduction(tid, index, name, location_string, images, address, description)
-    VALUES(GenerateIntroIDViet(), TIndex, name, location, img, address, description);
+    INSERT INTO viet_introduction(tid, index, name, latitude, longitude, timezone, location_string, images, address, description, story)
+    VALUES(GenerateIntroIDViet(), TIndex, name, latitude, longitude, timezone, location_string, img, address, description, story);
 END;
 $$;
 
-CREATE OR REPLACE PROCEDURE insertIntro_Eng(name varchar, location varchar, img varchar, address varchar, description text)
+CREATE OR REPLACE PROCEDURE insertIntro_Eng(name varchar, latitude varchar, longitude varchar, timezone varchar, location_string varchar, img varchar, address varchar, description text, story text)
 LANGUAGE plpgsql
 AS $$
     DECLARE tidCount INT;
     DECLARE TIndex INT;
 BEGIN
     SELECT COUNT(*) INTO TIndex FROM eng_introduction;
-    INSERT INTO eng_introduction(tid, index, name, location_string, images, address, description)
-    VALUES(GenerateIntroIDEng(), TIndex, name, location, img, address, description);
+    INSERT INTO eng_introduction(tid, index, name, latitude, longitude, timezone, location_string, images, address, description, story)
+    VALUES(GenerateIntroIDEng(), TIndex, name, latitude, longitude, timezone, location_string, img, address, description, story);
 END;
 $$;
 
@@ -198,6 +206,6 @@ select * from user_storage;
 select * from account_info;
 select * from comments;
 select * from attractions;
-select * from user_post_image;  
+select * from user_post_image;
 SELECT * from viet_introduction;
 SELECT * from eng_introduction;
