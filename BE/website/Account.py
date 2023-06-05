@@ -119,6 +119,7 @@ class ChangeInfo(Resource):
 class SearchByType(Resource):
     def get(self, language, searchType):
         token = request.headers.get('Authorization')
+        # print(token)
         token = token.split(' ')[1]
         if not middleware.authentication(token):
             return {'status' : False,

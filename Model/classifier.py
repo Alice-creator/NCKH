@@ -7,6 +7,7 @@ from .image_transformer import ImageTransformer
 from .utils import *
 import numpy as np
 from BE.website import extension, database, middleware, Account
+import requests
 class Classifier(Resource):
     def predict(self, img):
         tf = ImageTransformer((299,299))
@@ -61,7 +62,7 @@ class Classifier(Resource):
             self.saveImg(auth, file.filename, img)
 
             pred = self.predict(img)
-            return jsonify({"result": self.getAttractionInfo(pred, language)})
+            return jsonify({"result": self.getAttractionInfo(pred, language, request.headers.get('Authorization'))})
         error = 'Allowed file types are png and jpg'
         return jsonify({"error": error})
     
@@ -80,11 +81,15 @@ class Classifier(Resource):
             )
         connection.commit()
     
-    def getAttractionInfo(self, predict, language):
+    def getAttractionInfo(self, predict, language, token):
         connection = database.connect_db()
         cursor = connection.cursor()
-        if predict['index'] in range(23, 26):
-            return Account.SearchByType(language=language, searchType=predict['name'])
+        # print(int(predict['index']) in range(23, 26))
+        if int(predict['index']) in range(23, 26):
+            headers = {}
+            headers['Authorization'] = token
+            # print(requests.get('http://127.0.0.1:5000/' +  language + '/Account/SearchByType/' + predict['name'], headers=headers).json())
+            return requests.get('http://127.0.0.1:5000/' +  language + '/Account/SearchByType/' + predict['name'], headers=headers).json()
                 
         if language.lower().strip() in 'vietnam':
             cursor.execute(
