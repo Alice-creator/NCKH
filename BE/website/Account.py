@@ -134,47 +134,101 @@ class SearchByType(Resource):
             if searchType.lower() == 'all':
                 cursor.execute(
                     '''
-                    select * from viet_introduction, attractions
-                    where viet_introduction.tid = attractions.tid and type != 'Unknown';
+                    SELECT *
+                    FROM viet_introduction, attractions
+                    WHERE viet_introduction.tid = attractions.tid and attractions.type != 'Unknown' and viet_introduction.tid not in ( select viet_introduction.tid from attractions, viet_introduction, user_storage
+                    where attractions.tid = viet_introduction.tid and user_storage.cid = %s
+                    and user_storage.tid = viet_introduction.tid
+                    );
                     ''',
-                    (searchType,)
+                    (auth['CID'],)
                 )
+                result['notStored'] = cursor.fetchall()
+
+                cursor.execute(
+                    '''
+                    select * from attractions, viet_introduction, user_storage
+                    where attractions.tid = viet_introduction.tid and user_storage.cid = %s
+                    and user_storage.tid = viet_introduction.tid;
+                    ''',
+                    (auth['CID'],)
+                )
+
+                result['stored'] = cursor.fetchall()
             else:
                 cursor.execute(
                     '''
-                    select * from viet_introduction, attractions
-                    where type = %s and viet_introduction.tid = attractions.tid;
+                    select * from attractions, viet_introduction, user_storage
+                    where attractions.tid = viet_introduction.tid and user_storage.cid = %s
+                    and user_storage.tid = viet_introduction.tid and attractions.type = %s;
                     ''',
-                    (searchType,)
+                    (auth['CID'], searchType,)
                 )
+
+                result['stored'] = cursor.fetchall()
+
+                cursor.execute(
+                    '''
+                    SELECT *
+                    FROM viet_introduction, attractions
+                    WHERE viet_introduction.tid = attractions.tid and attractions.type = %s and viet_introduction.tid not in ( select viet_introduction.tid from attractions, viet_introduction, user_storage
+                    where attractions.tid = viet_introduction.tid and user_storage.cid = %s
+                    and user_storage.tid = viet_introduction.tid
+                    );
+                    ''',
+                    (searchType, auth['CID'],)
+                )
+                result['notStored'] = cursor.fetchall()
+
         else:
             if searchType.lower() == 'all':
                 cursor.execute(
                     '''
-                    select * from eng_introduction, attractions
-                    where eng_introduction.tid = attractions.tid and type != 'Unknown';
+                    SELECT *
+                    FROM eng_introduction, attractions
+                    WHERE eng_introduction.tid = attractions.tid and attractions.type != 'Unknown' and eng_introduction.tid not in ( select eng_introduction.tid from attractions, eng_introduction, user_storage
+                    where attractions.tid = eng_introduction.tid and user_storage.cid = %s
+                    and user_storage.tid = eng_introduction.tid
+                    );
                     ''',
-                    (searchType,)
+                    (auth['CID'],)
                 )
+                result['notStored'] = cursor.fetchall()
+
+                cursor.execute(
+                    '''
+                    select * from attractions, eng_introduction, user_storage
+                    where attractions.tid = eng_introduction.tid and user_storage.cid = %s
+                    and user_storage.tid = eng_introduction.tid;
+                    ''',
+                    (auth['CID'],)
+                )
+
+                result['stored'] = cursor.fetchall()
             else:
                 cursor.execute(
                     '''
-                    select * from eng_introduction, attractions
-                    where type = %s and eng_introduction.tid = attractions.tid;
+                    select * from attractions, eng_introduction, user_storage
+                    where attractions.tid = eng_introduction.tid and user_storage.cid = %s
+                    and user_storage.tid = eng_introduction.tid and attractions.type = %s;
                     ''',
-                    (searchType,)
+                    (auth['CID'], searchType,)
                 )
-        
-        result['search'] = cursor.fetchall()
 
-        cursor.execute(
-            '''
-            select tid from user_storage
-            where cid = %s
-            ''',
-            (auth['CID'],)
-        )
-        result['stored'] = cursor.fetchall()
+                result['stored'] = cursor.fetchall()
+
+                cursor.execute(
+                    '''
+                    SELECT *
+                    FROM eng_introduction, attractions
+                    WHERE eng_introduction.tid = attractions.tid and attractions.type = %s and eng_introduction.tid not in ( select eng_introduction.tid from attractions, eng_introduction, user_storage
+                    where attractions.tid = eng_introduction.tid and user_storage.cid = %s
+                    and user_storage.tid = eng_introduction.tid
+                    );
+                    ''',
+                    (searchType, auth['CID'],)
+                )
+                result['notStored'] = cursor.fetchall()
 
         return result
 
