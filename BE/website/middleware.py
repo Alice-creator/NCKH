@@ -36,3 +36,30 @@ def authorization(token):
     
 def decryp(token):
     return jwt.decode(token, secret, verify=True, algorithms=["HS256"])
+
+def update_Like(TID, state):
+    connection = database.connect_db()
+    cursor = connection.cursor()
+    cursor.execute(
+        '''
+        UPDATE attractions
+        set likes = likes + %s
+        where TID = %s;
+        ''',
+        (state, TID)
+    )
+    connection.commit()
+
+    
+def update_Search(TID):
+    connection = database.connect_db()
+    cursor = connection.cursor()
+    cursor.execute(
+            '''
+            UPDATE analyse_info
+            set searchs = searchs + 1
+            where TID = %s;
+            ''',
+            (TID,)
+        )
+    connection.commit()

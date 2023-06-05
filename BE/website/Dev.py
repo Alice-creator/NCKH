@@ -4,6 +4,21 @@ from ..website import extension, database, middleware
 import copy
 import json
 
+class Analyse(Resource):
+    def get(self):
+        connection = database.connect_db()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            '''
+            select attractions.name, likes, searchs from attractions, analyse_info
+            where attractions.tid = analyse_info.tid;
+            '''
+        )
+        return {
+            'info': cursor.fetchall()
+        }
+
 class RootAttraction(Resource):
     def post(self):
         token = request.headers.get('Authorization')

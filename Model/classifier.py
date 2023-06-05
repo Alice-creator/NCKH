@@ -107,4 +107,6 @@ class Classifier(Resource):
                 ''',
                 (predict['index'],)
             )
-        return cursor.fetchone()
+        result = cursor.fetchone()
+        middleware.update_Search(result[0])
+        return result

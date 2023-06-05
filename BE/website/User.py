@@ -37,6 +37,7 @@ class Storage(Resource):
                     (auth['CID'], data['TID'])
                 )
                 connection.commit()
+                middleware.update_Like(data['TID'], 1)
                 return {
                     'status': True,
                     'message': 'Success'
@@ -101,6 +102,8 @@ class Storage(Resource):
         )
 
         connection.commit()
+        print('here')
+        middleware.update_Like(data['TID'], -1)
         return{
             'status': True,
             'message': 'Successfully deleted'

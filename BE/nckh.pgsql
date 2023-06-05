@@ -75,6 +75,13 @@ create table comments(
     foreign key(CID) REFERENCES user_info(CID)
 );
 
+create table analyse_info(
+    TID varchar(10),
+    name varchar(50),
+    searchs int DEFAULT 0,
+    FOREIGN key(TID) REFERENCES attractions(TID)
+);
+
 CREATE OR REPLACE FUNCTION GenerateID(ID INT)
 RETURNS VARCHAR AS $tempStr$
 
@@ -163,12 +170,16 @@ $ID$LANGUAGE plpgsql;
 CREATE OR REPLACE PROCEDURE inserTourist(name varchar, type varchar, likes int)
 LANGUAGE plpgsql
 AS $$
-    DECLARE tidCount INT;
+    DECLARE tidCount varchar;
     DECLARE TIndex INT;
 BEGIN
     SELECT COUNT(*) INTO TIndex FROM attractions;
+    tidCount = Generatetouristid();
     INSERT INTO attractions(tid, index, name, type, likes)
-    VALUES(Generatetouristid(), TIndex, name, type, likes);
+    VALUES(tidCount, TIndex, name, type, likes);
+
+    INSERT INTO analyse_info(tid, name)
+    values(tidCount, name);
 END;
 $$;
 
