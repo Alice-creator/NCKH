@@ -145,7 +145,7 @@ class SearchByType(Resource):
 
                 cursor.execute(
                     '''
-                    select * from attractions, viet_introduction, user_storage
+                    select * from viet_introduction, attractions, user_storage
                     where attractions.tid = viet_introduction.tid and user_storage.cid = %s
                     and user_storage.tid = viet_introduction.tid;
                     ''',
@@ -156,7 +156,7 @@ class SearchByType(Resource):
             else:
                 cursor.execute(
                     '''
-                    select * from attractions, viet_introduction, user_storage
+                    select * from viet_introduction, attractions, user_storage
                     where attractions.tid = viet_introduction.tid and user_storage.cid = %s
                     and user_storage.tid = viet_introduction.tid and attractions.type = %s;
                     ''',
@@ -195,7 +195,7 @@ class SearchByType(Resource):
 
                 cursor.execute(
                     '''
-                    select * from attractions, eng_introduction, user_storage
+                    select * from eng_introduction, attractions, user_storage
                     where attractions.tid = eng_introduction.tid and user_storage.cid = %s
                     and user_storage.tid = eng_introduction.tid;
                     ''',
@@ -206,7 +206,7 @@ class SearchByType(Resource):
             else:
                 cursor.execute(
                     '''
-                    select * from attractions, eng_introduction, user_storage
+                    select * from eng_introduction, attractions, user_storage
                     where attractions.tid = eng_introduction.tid and user_storage.cid = %s
                     and user_storage.tid = eng_introduction.tid and attractions.type = %s;
                     ''',
