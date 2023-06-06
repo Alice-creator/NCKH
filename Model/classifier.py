@@ -63,7 +63,8 @@ class Classifier(Resource):
 
             pred = self.predict(img)
             result = self.getAttractionInfo(pred, language, request.headers.get('Authorization'))
-            col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story']
+            # print(result)
+            col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'TID', 'index', 'name', 'type', 'likes']
             return jsonify({"result": middleware.toDict(key=col_name, value=[result])})
         error = 'Allowed file types are png and jpg'
         return jsonify({"error": error})
@@ -96,16 +97,16 @@ class Classifier(Resource):
         if language.lower().strip() in 'vietnam':
             cursor.execute(
                 '''
-                select * from viet_introduction
-                where index = %s;
+                select * from viet_introduction, attractions
+                where viet_introduction.index = %s and viet_introduction.tid = attractions.tid;
                 ''',
                 (predict['index'],)
             )
         else:
             cursor.execute(
                 '''
-                select * from eng_introduction
-                where index = %s;
+                select * from eng_introduction, attractions
+                where eng_introduction.index = %s and eng_introduction.tid = attractions.tid;
                 ''',
                 (predict['index'],)
             )

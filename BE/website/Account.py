@@ -227,7 +227,8 @@ class SearchByType(Resource):
                     (searchType, auth['CID'],)
                 )
                 result['notStored'] = cursor.fetchall()
-        col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'description', 'story']
+        # print(result['notStored'])
+        col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'TID', 'index', 'name', 'type', 'likes']
         result['notStored'] = middleware.toDict(col_name, result['notStored'])
         result['stored'] = middleware.toDict(col_name, result['stored'])
         result['notStored'] = middleware.addAttribute('Stored', False, result['notStored'])

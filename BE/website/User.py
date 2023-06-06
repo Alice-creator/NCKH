@@ -79,7 +79,7 @@ class Storage(Resource):
                 (auth['CID'],)
             )
         col_name = ['TID', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'likes']
-        return {middleware.toDict(key=col_name, value=cursor.fetchall())}
+        return {'info' : middleware.toDict(key=col_name, value=cursor.fetchall())}
     
     def delete(self, language):
         token = request.headers.get('Authorization')
@@ -164,7 +164,7 @@ class Feedback(Resource):
         col_name = ['username', 'feedback']
 
         return {
-            middleware.toDict(key=col_name, value=cursor.fetchall())
+            'info': middleware.toDict(key=col_name, value=cursor.fetchall())
         }, 200
 
 class GetImg(Resource):
