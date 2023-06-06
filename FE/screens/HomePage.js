@@ -1,20 +1,36 @@
-import { View, Text, Image, TouchableOpacity, Animated } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Animated, SafeAreaView } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { bgHomepage } from '../contains/bgHomePage'
 import elipBg from "../assets/elipse.png"
 import { Dimensions } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const { width, height } = Dimensions.get("window");
 
 const HomePage = () => {
   const navigation = useNavigation()
   const scrollX = new Animated.Value(0);
   const [ bg, setBg ] = useState(bgHomepage[0])
-
+  const [ isAdmin, setIsAdmin ] = useState(false)
+  React.useEffect( ()=>{
+    const checkLogin = async () => {
+      try {
+        const value = JSON.parse(await AsyncStorage.getItem('user'));
+        if (value !== null) {
+          if (value.role == 'Admin') {
+            setIsAdmin(true)
+          }
+        }
+        setIsAdmin(false)
+      } catch (error) {
+        console.log(error)
+      }
+    };
+    checkLogin()
+  },[]);
   function renderDots() {
-
-    const dotPosition = Animated.divide(scrollX, 100)
-
+    const dotPosition = Animated.divide(scrollX, width)
     return (
           <View
                 style={{
@@ -63,7 +79,7 @@ const HomePage = () => {
     }
 
   return (
-    <View className='flex-1'>
+    <SafeAreaView className='flex-1 bg-theme'>
         <Animated.ScrollView
             horizontal
             pagingEnabled
@@ -85,7 +101,7 @@ const HomePage = () => {
                   </View>
                 ))
               }
-          </Animated.ScrollView>
+        </Animated.ScrollView>
       <View className="w-full flex justify-center absolute -bottom-2 z-20">
         <View className="flex">
           <View className={`w-full h-[80] `}>
@@ -101,7 +117,7 @@ const HomePage = () => {
               <Text className="text-center text-basic text-[15px]">If you are craving for discovering your desired tourist attractions, this application suits you best</Text>
               <View className="mt-3">
                 <TouchableOpacity
-                  onPress={() => navigation.navigate("Tab")}
+                  onPress={() => isAdmin ? navigation.navigate("AdminHome") : navigation.navigate("Tab")}
                 >
                   <View className="w-full bg-primary py-4 rounded-full">
                     <Text className="text-center text-white text-xl font-medium">Get Started</Text>
@@ -114,7 +130,7 @@ const HomePage = () => {
       </View>
 
       
-    </View>
+    </SafeAreaView>
   )
 }
 

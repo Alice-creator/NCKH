@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "TravelAIApp",
-    "slug": "TravelAIApp",
+    "name": "IMap",
+    "slug": "IMap",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,7 +11,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -25,10 +24,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.vy_huynh214.TravelAIApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4ba6b808-4f7e-47a2-8d9d-6aaec34ce5dd"
+      }
     }
   }
 }

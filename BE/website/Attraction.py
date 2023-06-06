@@ -4,7 +4,7 @@ from website import extension, database
 import json
 
 def insertAttraction():
-    f = open('D:/Project/Python/NCKH/BE/Classification/model_class.json')
+    f = open('../Model/model_class.json')
     data = json.load(f)
     connection = database.connect_db()
     cursor = connection.cursor()

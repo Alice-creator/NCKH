@@ -1,1 +1,1 @@
-__all__ = ['BE', 'FE', 'Classification']
+__all__ = ['BE', 'FE', 'Model']

@@ -1,5 +1,5 @@
-import { View, Image, Text, SafeAreaView, TouchableOpacity, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import { View, Image, Text, TouchableOpacity, TextInput, SafeAreaView } from 'react-native'
+import React, { useContext, useState } from 'react'
 
 import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
@@ -12,9 +12,12 @@ import eyeIcon from "../assets/eye.png"
 import closeEyeIcon from "../assets/closeEye.png"
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { REACT_NATIVE_BASE_URL } from '../contains'
+import { MyContext } from '../context';
 
 
 const Login = ({ navigation }) => {
+    const { setUser } = useContext(MyContext)
     const [ gmail, setGmail ] = useState('')
     const [ password, setPassword ] = useState('')
 
@@ -22,21 +25,27 @@ const Login = ({ navigation }) => {
 
     const handleLogin = async () => {
         const data = { gmail, password }
-
-        fetch('http://192.168.44.230:5000/Account/login', {
+        fetch(`${REACT_NATIVE_BASE_URL}/Account/login`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(data)
         })
         .then((response) => response.json())
         .then(async (data) => {
+            console.log(data)
             if(data.status) {
-                console.log("data",data)
-                await AsyncStorage.setItem('user', JSON.stringify({ username : data.username, gmail, avatar: '' }));
-                navigation.navigate('Discover')
+                setUser({ username : data.username, gmail, avatar: '', role: data.role })
+                await AsyncStorage.setItem('user', JSON.stringify({ username : data.username, gmail, avatar: '', role: data.role }));
+                await AsyncStorage.setItem('token', JSON.stringify(data.token));
+
+                if(data.role == "Admin") {
+                    navigation.navigate('AdminHome')
+                } else {
+                    navigation.navigate('Profile')
+                }
             } else {
                 console.log('tai khoan khong ton tai')
             }
