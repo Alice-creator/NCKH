@@ -8,15 +8,17 @@ class Analyse(Resource):
     def get(self):
         connection = database.connect_db()
         cursor = connection.cursor()
-
+        
         cursor.execute(
             '''
             select attractions.name, likes, searchs from attractions, analyse_info
             where attractions.tid = analyse_info.tid;
             '''
         )
+        result = cursor.fetchall()
+        col_name = ['name', 'likes', 'searchs']
         return {
-            'info': cursor.fetchall()
+            'info': middleware.toDict(col_name, result)
         }
 
 class RootAttraction(Resource):

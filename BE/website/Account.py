@@ -53,14 +53,12 @@ class Login(Resource):
             if cursor.fetchone()[0] == 1:
                 payload =  {
                     'CID': CID[0],
-                    'role': 'User',
-                    'language': 'Vietnamese'
+                    'role': 'User'
                 }
             else:
                 payload = {
                     'CID': CID[0],
-                    'role': 'Admin',
-                    'language': 'Vietnamese'
+                    'role': 'Admin'
                 }
             return {
                 'status': True,
@@ -230,8 +228,14 @@ class SearchByType(Resource):
                     (searchType, auth['CID'],)
                 )
                 result['notStored'] = cursor.fetchall()
-
-        return result
+        col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'description', 'story']
+        result['notStored'] = middleware.toDict(col_name, result['notStored'])
+        result['stored'] = middleware.toDict(col_name, result['stored'])
+        result['notStored'] = middleware.addAttribute('Stored', False, result['notStored'])
+        result['stored'] = middleware.addAttribute('Stored', True, result['stored'])
+        final = result['stored']
+        final.extend(result['notStored'])
+        return final
 
 class ExternalSearch(Resource):
     def get(self, language, key):

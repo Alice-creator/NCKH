@@ -49,8 +49,7 @@ def update_Like(TID, state):
         (state, TID)
     )
     connection.commit()
-
-    
+   
 def update_Search(TID):
     connection = database.connect_db()
     cursor = connection.cursor()
@@ -63,3 +62,19 @@ def update_Search(TID):
             (TID,)
         )
     connection.commit()
+
+def toDict(key, value):
+    result = list()
+    for i in value:
+        temp = dict()
+        for j in range(len(key)):
+            temp[key[j]] = i[j]
+        result.append(temp)
+
+    return result
+
+def addAttribute(att, value, temp):
+    for i in range(len(temp)):
+        temp[i][att] = value
+    
+    return temp
