@@ -14,7 +14,7 @@ class Classifier(Resource):
         img_tf = tf(img, 'test')
         img = img_tf[None]
         # get num class
-        model_class = "D:/Project/NCKH/Model/model_class.json"
+        model_class = "../NCKH/Model/model_class.json"
         # if not os.path.isfile(model_class):
         #     return None
         # with open(model_class, 'r') as jf:
@@ -45,10 +45,10 @@ class Classifier(Resource):
         token = request.headers.get('Authorization')
         token = token.split(' ')[1]
         auth = middleware.authentication(token)
-        if not auth:
-            return {'status' : False,
-                    'message': 'you need to login first'
-                    }, 401
+        # if not auth:
+        #     return {'status' : False,
+        #             'message': 'you need to login first'
+        #             }, 401
 
         file = request.files['file']
         if not file.filename:
@@ -59,10 +59,12 @@ class Classifier(Resource):
             img_obj = io.BytesIO(data_img)
             img = Image.open(img_obj)
 
-            self.saveImg(auth, file.filename, img)
+            # self.saveImg(auth, file.filename, img)
 
             pred = self.predict(img)
-            return jsonify({"result": self.getAttractionInfo(pred, language, request.headers.get('Authorization'))})
+            result = self.getAttractionInfo(pred, language, request.headers.get('Authorization'))
+            col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story']
+            return jsonify({"result": middleware.toDict(key=col_name, value=[result])})
         error = 'Allowed file types are png and jpg'
         return jsonify({"error": error})
     
