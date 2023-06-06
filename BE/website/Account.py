@@ -117,13 +117,12 @@ class ChangeInfo(Resource):
 class SearchByType(Resource):
     def get(self, language, searchType):
         token = request.headers.get('Authorization')
-        # print(token)
+        auth = {
+            'CID' : 'CID000'
+        }
         token = token.split(' ')[1]
-        if not middleware.authentication(token):
-            return {'status' : False,
-                    'message': 'you need to login first'
-                    }, 401
-        auth = middleware.authentication(token)
+        if middleware.authentication(token):
+            auth = middleware.authentication(token)
         connection = database.connect_db()
         cursor = connection.cursor()
 

@@ -78,7 +78,8 @@ class Storage(Resource):
                 ''',
                 (auth['CID'],)
             )
-        return {'info': cursor.fetchall()}
+        col_name = ['TID', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'likes']
+        return {middleware.toDict(key=col_name, value=cursor.fetchall())}
     
     def delete(self, language):
         token = request.headers.get('Authorization')
@@ -102,7 +103,6 @@ class Storage(Resource):
         )
 
         connection.commit()
-        print('here')
         middleware.update_Like(data['TID'], -1)
         return{
             'status': True,
@@ -161,10 +161,10 @@ class Feedback(Resource):
             where comments.cid = account_info.cid;
             '''
         )
+        col_name = ['username', 'feedback']
 
         return {
-            'status': True,
-            'info': cursor.fetchall()
+            middleware.toDict(key=col_name, value=cursor.fetchall())
         }, 200
 
 class GetImg(Resource):
