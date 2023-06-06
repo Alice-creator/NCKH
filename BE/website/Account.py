@@ -129,7 +129,6 @@ class SearchByType(Resource):
             auth = middleware.authentication(token)
         connection = database.connect_db()
         cursor = connection.cursor()
-        print(token)
         result = {
         }
         if language.lower().strip() in 'vietnam':

@@ -8,7 +8,6 @@ class Analyse(Resource):
     def get(self):
         connection = database.connect_db()
         cursor = connection.cursor()
-
         cursor.execute(
             '''
             select attractions.name, likes, searchs from attractions, analyse_info

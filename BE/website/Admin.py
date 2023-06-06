@@ -8,24 +8,32 @@ class UserInfo(Resource):
         connection = database.connect_db()
         cursor = connection.cursor()
         data = extension.create_json(request.values.lists())
+        
+        cursor.execute(
+            '''
+            call insertourist(%s, %s, %s);
+            ''',
+            (data['name'], data['type'], 0)
+        )
+        cursor.execute(
+            '''
+            call insertintro_viet(%s, %s, %s,%s, %s, %s, %s, %s,%s);
+            ''',
+            (data['vie_name'], data['latitude'], data['longitude'], data['timezone'], data['location_string'], data['images'], data['vie_address'], data['vie_description'], data['vie_story'])
+        )
+        cursor.execute(
+            '''
+            call insertintro_eng(%s, %s, %s,%s, %s, %s, %s, %s,%s);
+            ''',
+            (data['eng_name'], data['latitude'], data['longitude'], data['timezone'], data['location_string'], data['images'], data['eng_address'], data['eng_description'], data['eng_story'])
+        )
+        connection.commit()
+        return {       
+            'status': True,
+            'message': 'Update completed'
+        }
 
-        try:
-            cursor.execute(
-                '''
-                select account_info.cid, gmail, username, password from account_info, user_info
-                WHERE user_info.CID = account_info.CID;
-                '''
-            )
-            result = cursor.fetchall()
-            return {
-                'status': True,
-                'data': result
-            }
-        except:
-            return {
-                'status': False
-            }
-
+       
 class UserInfoDetail(Resource):
     def delete(self, CID):
         connection = database.connect_db()
