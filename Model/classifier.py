@@ -64,8 +64,8 @@ class Classifier(Resource):
             pred = self.predict(img)
             result = self.getAttractionInfo(pred, language, request.headers.get('Authorization'))
             # print(result)
-            col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'TID', 'index', 'name', 'type', 'likes']
-            return jsonify({"result": middleware.toDict(key=col_name, value=[result])})
+            
+            return jsonify({"result": result})
         error = 'Allowed file types are png and jpg'
         return jsonify({"error": error})
     
@@ -111,5 +111,6 @@ class Classifier(Resource):
                 (predict['index'],)
             )
         result = cursor.fetchone()
+        col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'TID', 'index', 'name', 'type', 'likes']
         middleware.update_Search(result[0])
-        return result
+        return middleware.toDict(key=col_name, value=[result])
