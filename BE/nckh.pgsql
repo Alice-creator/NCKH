@@ -19,8 +19,8 @@ create table admin_info(
 create table attractions(
     TID varchar(10),
     index int,
-    name varchar(40),
-    type varchar(20),
+    name varchar(100),
+    type varchar(100),
     likes int,
     primary key(TID)
 );
@@ -35,10 +35,10 @@ create table user_storage(
 create table viet_introduction(
     TID varchar(10),
     index int,
-    name varchar(30) DEFAULT NULL,
+    name varchar(100) DEFAULT NULL,
     latitude varchar(30) DEFAULT NULL,
     longitude varchar(30) DEFAULT NULL,
-    timezone varchar(30) DEFAULT NULL,
+    timezone varchar(100) DEFAULT NULL,
     location_string varchar(100) DEFAULT NULL,
     images varchar(200) DEFAULT NULL,
     address varchar(100) DEFAULT NULL,
@@ -50,10 +50,10 @@ create table viet_introduction(
 create table eng_introduction(
     TID varchar(10),
     index int,
-    name varchar(30) DEFAULT NULL,
-    latitude varchar(30) DEFAULT NULL,
-    longitude varchar(30) DEFAULT NULL,
-    timezone varchar(30) DEFAULT NULL,
+    name varchar(100) DEFAULT NULL,
+    latitude varchar(100) DEFAULT NULL,
+    longitude varchar(100) DEFAULT NULL,
+    timezone varchar(100) DEFAULT NULL,
     location_string varchar(100) DEFAULT NULL,
     images varchar(200) DEFAULT NULL,
     address varchar(100) DEFAULT NULL,
@@ -77,7 +77,7 @@ create table comments(
 
 create table analyse_info(
     TID varchar(10),
-    name varchar(50),
+    name varchar(100),
     searchs int DEFAULT 0,
     FOREIGN key(TID) REFERENCES attractions(TID)
 );
