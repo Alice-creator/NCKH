@@ -1,7 +1,8 @@
 from flask_restful import Resource
 from flask_restful import request
 import requests
-from ..website import extension, database, middleware
+from BE.website import extension, database, middleware
+
 class SignUp(Resource):
     def post(self):
         connection = database.connect_db()
@@ -14,7 +15,7 @@ class SignUp(Resource):
                 select user_info.CID from user_info, account_info 
                 where user_info.cid = account_info.cid and gmail = %s;
                 ''',
-                (data['gmail'], data['username'], data['password'], data['gmail'])
+                (request.json['gmail'], request.json['username'], request.json['password'], request.json['gmail'])
             )
             connection.commit()
             if len(cursor.fetchone()) == 1:
@@ -34,14 +35,14 @@ class Login(Resource):
     def post(self):
         connection = database.connect_db()
         cursor = connection.cursor()
-        data = extension.create_json(request.values.lists())
+        # data = extension.create_json(request.values.lists())
         try:
             cursor.execute(
                 '''
                 select CID, username from account_info 
                 where gmail = %s and password = %s;
                 ''',
-                (data['gmail'], data['password'])
+                (request.json['gmail'], request.json['password'])
             )
             CID = cursor.fetchone()
             cursor.execute(
@@ -53,16 +54,20 @@ class Login(Resource):
             if cursor.fetchone()[0] == 1:
                 payload =  {
                     'CID': CID[0],
-                    'role': 'User'
+                    'role': 'User',
+                    'language': 'Vietnamese'
                 }
             else:
                 payload = {
                     'CID': CID[0],
-                    'role': 'Admin'
+                    'role': 'Admin',
+                    'language': 'Vietnamese'
                 }
+            # Lưu token vào sesion
             return {
                 'status': True,
                 'username': CID[1],
+                'role': payload['role'],
                 'token': middleware.encryp(payload=payload)
             }, 200
         except:
@@ -113,7 +118,6 @@ class ChangeInfo(Resource):
             return {
                 'status': False
             }, 400
-
 class SearchByType(Resource):
     def get(self, language, searchType):
         token = request.headers.get('Authorization')
@@ -125,7 +129,6 @@ class SearchByType(Resource):
             auth = middleware.authentication(token)
         connection = database.connect_db()
         cursor = connection.cursor()
-
         result = {
         }
         if language.lower().strip() in 'vietnam':
@@ -227,8 +230,8 @@ class SearchByType(Resource):
                     (searchType, auth['CID'],)
                 )
                 result['notStored'] = cursor.fetchall()
-        # print(result['notStored'])
-        col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'TID', 'index', 'name', 'type', 'likes']
+        col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'TID', 'index', 'hashtag', 'type', 'likes']
+        
         result['notStored'] = middleware.toDict(col_name, result['notStored'])
         result['stored'] = middleware.toDict(col_name, result['stored'])
         result['notStored'] = middleware.addAttribute('Stored', False, result['notStored'])
@@ -236,21 +239,14 @@ class SearchByType(Resource):
         final = result['stored']
         final.extend(result['notStored'])
         return final
-
+    
 class ExternalSearch(Resource):
-    def get(self, language, key):
-        token = request.headers.get('Authorization')
-        token = token.split(' ')[1]
-        if not middleware.authentication(token):
-            return {'status' : False,
-                    'message': 'you need to login first'
-                    }, 401
-        
+    def get(self, language, key):        
         url = "https://travel-advisor.p.rapidapi.com/locations/search"
 
-        querystring = {"limit":"10","offset":"0","units":"km","location_id":"1","currency":"USD","sort":"relevance","lang":"en_US"}
+        querystring = {"limit":"15","offset":"0","units":"km","location_id":"1","currency":"USD","sort":"relevance","lang":"en_US"}
         querystring['query'] = key
-        if language.lower().strip() in 'vietnam':
+        if language.lower().strip() in 'vi':
             querystring['lang'] = 'vi'
             
         headers = {
@@ -267,15 +263,19 @@ class ExternalSearch(Resource):
 
         for i in data['data']:
             result = i['result_object']
-            rs = {
-                'name': result['name'],
-                'location_string': result['location_string'],
-                'photo': result['photo'],
-            }
-            if 'geo_description' in result:
-                rs['description'] = result['geo_description']
-            searchs.append(rs)
-        
+            if result['timezone'] == 'Asia/Ho_Chi_Minh':                
+                rs = {
+                    'name': result['name'],
+                    'location_string': result['location_string'],
+                    'photo': result['photo']['images']['original']['url'],
+                    'address': result.get('address', result.get('location_string')),
+                    'rating': result.get('rating', 'None'),
+                    'latitude': result['latitude'],
+                    'longitude': result['longitude'],
+                }
+                if 'geo_description' in result:
+                    rs['description'] = result['geo_description']
+                searchs.append(rs)
         return {
             'result': searchs
         }, 200

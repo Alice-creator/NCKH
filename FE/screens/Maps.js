@@ -1,67 +1,110 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     View,
     Text,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    ScrollView,
+    SafeAreaView
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import MapViewDirections from "react-native-maps-directions";
-
+import * as Location from 'expo-location';
+import getDirections from 'react-native-google-maps-directions';
 import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
-const GOOGLE_API_KEY =  "AIzaSyCYvMpmVhFc0ydILEuXGJNYNGFnBoKPCL8"
 
 import carIcon from "../assets/car.png"
 import redPinIcon from "../assets/red-pin.png"
 import pinIcon from "../assets/pin.png"
 import starIcon from "../assets/star.png"
 
-
-
 const Maps = ({ route, navigation }) => {
 
     const mapView = React.useRef()
 
     const [place, setPlace] = React.useState(null)
-    const [streetName, setStreetName] = React.useState("")
-    const [fromLocation, setFromLocation] = React.useState(null)
+    const [placeName, setPlaceName] = React.useState("")
+    const [fromLocation, setFromLocation] = React.useState({latitude: 10.769801, longitude: 106.70902})
     const [toLocation, setToLocation] = React.useState(null)
     const [region, setRegion] = React.useState(null)
-
+    const [ nearList, setNearList ] = useState([])
     const [duration, setDuration] = React.useState(0)
-    const [isReady, setIsReady] = React.useState(false)
     const [angle, setAngle] = React.useState(0)
+    const [zoomLevel, setZoomLevel] = useState(1);
 
     React.useEffect(() => {
-        const currentLocation = {
-            streetName: "adkdha",
-            gps: {
-                latitude: 1.5496614931250685,
-                longitude: 110.36381866919922
+        // const currentLocation = {
+        //     streetName: "adkdha",
+        //     gps: {
+        //         latitude: 1.5496614931250685,
+        //         longitude: 110.36381866919922
+        //     }
+        // }
+        const getCurrentLocation = async () => {
+            // (async () => {
+                // Kiểm tra quyền truy cập vào định vị
+                let { status } = await Location.requestForegroundPermissionsAsync();
+                if (status !== 'granted') {
+                  console.log('Quyền truy cập vào định vị bị từ chối');
+                  return;
+                }
+          
+                // Lấy vị trí hiện tại
+                let location = await Location.getCurrentPositionAsync({});
+
+    
+                const { latitude, longitude } = location.coords;
+                
+                // setFromLocation({ latitude, longitude })
+                setFromLocation({ latitude: 10.769801, longitude: 106.70902 })
+                console.log('Vị trí hiện tại:', location.coords);
+                // return { latitude, longitude }
+                return { latitude: 10.779801, longitude: 106.69902 }
+            // })();
+        }
+        
+        
+        const updateMapRegion = async () => {
+            let { data, nearList } = route.params;
+            // let toLoc = { "latitude": parseFloat(data.latitude), "longitude": parseFloat(data.longitude) }
+            const toLoc = { latitude: 10.779801, longitude: 106.69902 }
+            // const currentLocation = await getCurrentLocation();
+            const currentLocation = {latitude: 10.69801, longitude: 106.7902}
+            if (!currentLocation) {
+              return;
             }
-        }
-
-        let { data } = route.params;
-        console.log(data.result_object.longitude)
-        let fromLoc = currentLocation.gps
-        let toLoc = { "latitude": data.result_object.latitude, "longitude": data.result_object.longitude }
-        let street = currentLocation.streetName
-
-        let mapRegion = {
-            latitude: (1.5496614931250685 + 1.5496614931250685) / 2,
-            longitude: (110.36381866919922 + 110.36381866919922) / 2,
-            latitudeDelta: Math.abs(1.5496614931250685 - 1.5496614931250685) * 2,
-            longitudeDelta: Math.abs(110.36381866919922 - 110.36381866919922) * 2
-        }
-
-        setPlace(data)
-        setStreetName(street)
-        setFromLocation(fromLoc)
-        setToLocation(toLoc)
-        setRegion(mapRegion)
-
+        
+            const minLatitude = Math.min(currentLocation.latitude, toLoc.latitude);
+            const maxLatitude = Math.max(currentLocation.latitude, toLoc.latitude);
+            const minLongitude = Math.min(currentLocation.longitude, toLoc.longitude);
+            const maxLongitude = Math.max(currentLocation.longitude, toLoc.longitude);
+            const latitudeDelta = maxLatitude - minLatitude + 0.02;
+            const longitudeDelta = maxLongitude - minLongitude + 0.02;
+            // let mapRegion = {
+            //   latitude: (minLatitude + maxLatitude) / 2,
+            //   longitude: (minLongitude + maxLongitude) / 2,
+            //   latitudeDelta,
+            //   longitudeDelta,
+            // }; 
+            let mapRegion = {
+                latitude: (currentLocation.latitude + toLoc.latitude) / 2,
+                longitude: (currentLocation.longitude + toLoc.longitude) / 2,
+                latitudeDelta: Math.abs(currentLocation.latitude - toLoc.latitude),
+                longitudeDelta: Math.abs(currentLocation.longitude - toLoc.longitude)
+            }
+            mapView.current.animateToRegion(mapRegion, 100)
+            setPlaceName(data.name);
+            setPlace(data)
+            setRegion(mapRegion);
+            setToLocation(toLoc)
+            setNearList(nearList)
+        };
+        
+        updateMapRegion();
+        
+        // setStreetName(street)
+   
     }, [])
 
     function calculateAngle(coordinates) {
@@ -98,14 +141,14 @@ const Maps = ({ route, navigation }) => {
         setRegion(newRegion)
         mapView.current.animateToRegion(newRegion, 200)
     }
-
+    var id = 1
     function renderMap() {
         const destinationMarker = () => (
             <Marker
-                coordinate={toLocation}
+                coordinate={toLocation ? toLocation : {latitude: 10, longitude: 106}}
             >
                 <View className="w-10 h-10 rounded-2xl flex items-center justify-center bg-white">
-                    <View className="w-8 h-8 rounded-2xl flex justify-center items-center bg-primary">
+                    <View className="w-8 h-8 rounded-2xl flex justify-center items-center bg-red-500">
                         <Image
                             source={pinIcon}
                             style={{
@@ -119,72 +162,59 @@ const Maps = ({ route, navigation }) => {
             </Marker>
         )
 
-        const carIcon = () => (
+        const carIconMarker = () => (
             <Marker
                 coordinate={fromLocation}
-                anchor={{ x: 0.5, y: 0.5 }}
-                flat={true}
-                rotation={angle}
+                // anchor={{ x: 0.5, y: 0.5 }}
+                // flat={true}
             >
                 <Image
                     source={carIcon}
                     style={{
-                        width: 40,
-                        height: 40
+                        width: 25,
+                        height: 25
                     }}
                 />
             </Marker>
         )
-
+        
         return (
-            <View style={{ flex: 1 }}>
+            <SafeAreaView className="flex-1">
                 <MapView
                     ref={mapView}
                     provider={PROVIDER_GOOGLE}
                     initialRegion={region}
                     style={{ flex: 1 }}
+                    onRegionChangeComplete={(region) => {
+                        // Tính toán mức độ zoom dựa trên delta của region
+                        const calculatedZoomLevel = Math.log2(360 / region.longitudeDelta) + 1;
+                        setZoomLevel(calculatedZoomLevel);
+                    }}
                 >
-                    <MapViewDirections
-                        origin={fromLocation}
-                        destination={toLocation}
-                        apikey={GOOGLE_API_KEY}
-                        strokeWidth={5}
-                        strokeColor="#3F95EC"
-                        optimizeWaypoints={true}
-                        onReady={result => {
-                            setDuration(result.duration)
-
-                            if (!isReady) {
-                                // Fit route into maps
-                                mapView.current.fitToCoordinates(result.coordinates, {
-                                    edgePadding: {
-                                        right: (width / 20),
-                                        bottom: (height / 4),
-                                        left: (width / 20),
-                                        top: (height / 8)
-                                    }
-                                })
-
-                                // Reposition the car
-                                let nextLoc = {
-                                    latitude: result.coordinates[0]["latitude"],
-                                    longitude: result.coordinates[0]["longitude"]
-                                }
-
-                                if (result.coordinates.length >= 2) {
-                                    let angle = calculateAngle(result.coordinates)
-                                    setAngle(angle)
-                                }
-
-                                setFromLocation(nextLoc)
-                                setIsReady(true)
-                            }
-                        }}
-                    />
-                    {destinationMarker()}
-                    {fromLocation? carIcon() : null}
+                    {destinationMarker(toLocation)}
+                    {carIconMarker()}
+                    
+                    {nearList?.map((place, index) => (
+                        <Marker
+                            key={index}
+                            coordinate={{
+                                latitude: parseFloat(place.latitude),
+                                longitude: parseFloat(place.longitude),
+                            }}
+                            anchor={{ x: 0.5, y: 0.5 }}
+                            title={place.name}
+                            description={place.address}
+                        >
+                            <View className="w-8 h-8">
+                                <Image
+                                    source={{ uri: place?.image }}
+                                    className="w-full h-full"
+                                />
+                            </View>
+                            </Marker>
+                    ))}
                 </MapView>
-            </View>
+            </SafeAreaView>
         )
     }
 
@@ -209,7 +239,7 @@ const Maps = ({ route, navigation }) => {
                         paddingVertical: 4,
                         paddingHorizontal: 8,
                         borderRadius: 15,
-                        backgroundColor: "#fff"
+                        backgroundColor: "#fff",
                     }}
                 >
                     <Image
@@ -218,16 +248,64 @@ const Maps = ({ route, navigation }) => {
                     />
 
                     <View style={{ flex: 1 }}>
-                        <Text>{streetName}</Text>
+                        <Text>{placeName}</Text>
                     </View>
-
                     <Text>{Math.ceil(duration)} mins</Text>
                 </View>
             </View>
         )
     }
+    function renderPlace(place) {
+        return (
+            <View style={{ flexDirection: 'row', alignItems: 'center' }} key={place?.name}>
+                {/* Avatar */}
+                <Image
+                    source={{ uri: place?.image ? place.image : 'https://scontent.fsgn5-8.fna.fbcdn.net/v/t39.30808-6/349509252_1425089914979804_2757360445407738847_n.jpg?stp=cp6_dst-jpg&_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=a-0pPGGtYOkAX_IklEd&_nc_ht=scontent.fsgn5-8.fna&oh=00_AfA_7WQkJC92JzJoUyg3xU13Ra3wP9aht--RHSfNmUOKiQ&oe=6479279E' }}
+                    style={{
+                        width: 50,
+                        height: 50,
+                        borderRadius: 25
+                    }}
+                />
 
+                <View style={{ flex: 1, marginLeft: 8 }}>
+                    {/* Name & Rating */}
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text>{place?.name}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Image
+                                className="h-4 w-4 mr-2"
+                                source={starIcon}
+                                style={{ tintColor: "#3F95EC" }}
+                            />
+                            <Text>{place?.rating}</Text>
+                        </View>
+                    </View>
+                    <Text className="text-basic">{place?.name}</Text>
+                </View>
+            </View>
+        )
+    }
     function renderDeliveryInfo() {
+        const handleMapPress = event => {
+            
+            const data = {
+              source: toLocation,
+              destination: fromLocation,
+              params: [
+                {
+                  key: 'travelmode',
+                  value: 'driving'
+                },
+                {
+                  key: 'dir_action',
+                  value: 'navigate'
+                }
+              ]
+            };
+        
+            getDirections(data);
+          };
         return (
             <View
                 style={{
@@ -248,72 +326,56 @@ const Maps = ({ route, navigation }) => {
                         backgroundColor: "#fff"
                     }}
                 >
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        {/* Avatar */}
-                        <Image
-                            source={{ uri: place?.result_object.photo.images.original.url}}
-                            style={{
-                                width: 50,
-                                height: 50,
-                                borderRadius: 25
-                            }}
-                        />
-
-                        <View style={{ flex: 1, marginLeft: 8 }}>
-                            {/* Name & Rating */}
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Text>{place?.result_object.name}</Text>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Image
-                                        className="h-4 w-4 mr-2"
-                                        source={starIcon}
-                                        style={{ tintColor: "#3F95EC" }}
-                                    />
-                                    <Text>{place?.result_object.rating}</Text>
-                                </View>
-                            </View>
-                            <Text className="text-basic">{place?.result_object.name}</Text>
-                        </View>
-                    </View>
-
+                    {renderPlace(place)}
+                    <ScrollView 
+                        horizontal 
+                        showsHorizontalScrollIndicator={false}
+                        className="my-2 flex-row overflow-x-scroll"
+                    >
+                        {/* {nearList.map(place => (
+                            renderPlace(place)
+                        ))} */}
+                    </ScrollView>
                     <View className="flex-row mt-4 justify-between">
-                        <TouchableOpacity className="flex-1 h-12 mr-3 bg-primary items-center justify-center rounded-xl"
-                            onPress={() => navigation.navigate("HomePage")}
+                        <TouchableOpacity className="flex-1 h-12 mr-3 bg-slate-200 items-center justify-center rounded-xl"
+                            onPress={() => navigation.navigate("Discover")}
                         >
-                            <Text className="text-white">Call</Text>
+                            <Text className="text-slate-700">Back</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity className="text-secondary flex-1 h-12 items-center justify-center rounded-xl">
-                            <Text className="text-white">Cancel</Text>
+                        <TouchableOpacity className="bg-primary flex-1 h-12 items-center justify-center rounded-xl"
+                            onPress={handleMapPress}
+                        >
+                            <Text className="text-white">Direction</Text>
                         </TouchableOpacity>
                     </View>
 
                 </View>
+                
             </View>
         )
     }
 
     function renderButtons() {
         return (
-            <View
+            <View className="flex-col"
                 style={{
                     position: 'absolute',
-                    bottom: height * 0.35,
-                    right: 16,
+                    bottom: height * 0.25,
+                    right: 10,
                     width: 60,
                     height: 130,
-                    justifyContent: 'space-between'
                 }}
             >
                 {/* Zoom In */}
-                <TouchableOpacity className="h-16 w-16 rounded-full bg-white items-center justify-center"
+                <TouchableOpacity className="h-8 w-12 rounded-t-lg bg-white items-center justify-center border-b-[1px] border-slate-400"
                     onPress={() => zoomIn()}
                 >
                     <Text className="font-bold">+</Text>
                 </TouchableOpacity>
 
                 {/* Zoom Out */}
-                <TouchableOpacity className="h-16 w-16 rounded-full bg-white items-center justify-center"
+                <TouchableOpacity className="h-8 w-12 rounded-b-lg bg-white items-center justify-center"
                     onPress={() => zoomOut()}
                 >
                     <Text className="font-bold">-</Text>
@@ -322,7 +384,6 @@ const Maps = ({ route, navigation }) => {
 
         )
     }
-
     return (
         <View className="flex-1" >
             {renderMap()}

@@ -5,13 +5,14 @@ from PIL import Image
 from flask import jsonify
 import os, io
 import numpy as np
-from ..website import extension, database, middleware
+from BE.website import extension, database, middleware
 
 class Storage(Resource):
     def post(self, language):
         token = request.headers.get('Authorization')
         token = token.split(' ')[1]
         auth = middleware.authentication(token)
+        print(auth)
         if not auth:
             return {'status' : False,
                     'message': 'you need to login first'
@@ -19,12 +20,13 @@ class Storage(Resource):
         connection = database.connect_db()
         cursor = connection.cursor()
         data = extension.create_json(request.values.lists())
+        
         cursor.execute(
             '''
             select count(TID) from user_storage
             where CID = %s and TID = %s;
             ''',
-            (auth['CID'], data['TID'],)
+            (auth['CID'], request.json['TID'],)
         )
         try:
             temp = cursor.fetchone()[0]
@@ -34,10 +36,10 @@ class Storage(Resource):
                     insert into user_storage(CID, TID)
                     values(%s, %s);
                     ''',
-                    (auth['CID'], data['TID'])
+                    (auth['CID'], request.json['TID'])
                 )
                 connection.commit()
-                middleware.update_Like(data['TID'], 1)
+                middleware.update_Like(request.json['TID'], 1)
                 return {
                     'status': True,
                     'message': 'Success'
@@ -59,7 +61,7 @@ class Storage(Resource):
         if not auth:
             return {'status' : False,
                     'message': 'you need to login first'
-                    }, 401
+                    }
         connection = database.connect_db()
         cursor = connection.cursor()
         if language.lower().strip() in 'vietnam':
@@ -79,7 +81,8 @@ class Storage(Resource):
                 (auth['CID'],)
             )
         col_name = ['TID', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'likes']
-        return {'info' : middleware.toDict(key=col_name, value=cursor.fetchall())}
+        print(middleware.toDict(key=col_name, value=cursor.fetchall()))
+        return {'info': middleware.toDict(key=col_name, value=cursor.fetchall())}
     
     def delete(self, language):
         token = request.headers.get('Authorization')
@@ -99,16 +102,16 @@ class Storage(Resource):
             delete from user_storage
             where CID = %s and TID = %s
             ''',
-            (auth['CID'], data['TID'],)
+            (auth['CID'], request.json['TID'],)
         )
 
         connection.commit()
-        middleware.update_Like(data['TID'], -1)
+        middleware.update_Like(request.json['TID'], -1)
         return{
             'status': True,
             'message': 'Successfully deleted'
         }
-
+    
 class Feedback(Resource):
     def post(self):
         token = request.headers.get('Authorization')
@@ -127,7 +130,7 @@ class Feedback(Resource):
                 insert into comments(CID, comment)
                 values(%s, %s);
                 ''',
-                (auth['CID'], data['feedback'])
+                (auth['CID'], request.json['feedback'])
             )
             connection.commit()
             cursor.close()
@@ -164,7 +167,7 @@ class Feedback(Resource):
         col_name = ['username', 'feedback']
 
         return {
-            'info': middleware.toDict(key=col_name, value=cursor.fetchall())
+            middleware.toDict(key=col_name, value=cursor.fetchall())
         }, 200
 
 class GetImg(Resource):
@@ -181,4 +184,3 @@ class GetImg(Resource):
         )
         img = open(cursor.fetchone()[0], 'rb')
         return send_file(img, mimetype='image/jpeg')
-        

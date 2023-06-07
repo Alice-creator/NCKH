@@ -5,7 +5,6 @@ import os
 import json
 from .inception import InceptionV3
 
-model_dir = 'D:/Project/NCKH/Model/best.pt'
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 def allowed_file(filename):

@@ -8,31 +8,28 @@ class Analyse(Resource):
     def get(self):
         connection = database.connect_db()
         cursor = connection.cursor()
-        
         cursor.execute(
             '''
             select attractions.name, likes, searchs from attractions, analyse_info
             where attractions.tid = analyse_info.tid;
             '''
         )
-        result = cursor.fetchall()
-        col_name = ['name', 'likes', 'searchs']
         return {
-            'info': middleware.toDict(col_name, result)
+            'info': cursor.fetchall()
         }
-
+        
 class RootAttraction(Resource):
     def post(self):
-        token = request.headers.get('Authorization')
-        token = token.split(' ')[1]
-        if not middleware.authentication(token):
-            return {'status' : False,
-                    'message': 'you need to login first'
-                    }, 401
-        if middleware.authorization(token) != 'Admin':
-            return {'status' : False,
-                    'message': "you don't have right to access this feature"
-                    }, 403
+        # token = request.headers.get('Authorization')
+        # token = token.split(' ')[1]
+        # if not middleware.authentication(token):
+        #     return {'status' : False,
+        #             'message': 'you need to login first'
+        #             }, 401
+        # if middleware.authorization(token) != 'Admin':
+        #     return {'status' : False,
+        #             'message': "you don't have right to access this feature"
+        #             }, 403
         connection = database.connect_db()
         cursor = connection.cursor()
         files = request.files

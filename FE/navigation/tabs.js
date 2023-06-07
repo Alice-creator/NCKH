@@ -16,12 +16,11 @@ import Saved from '../screens/Saved.js'
 
 const Tab = createBottomTabNavigator()
 
-
 function MyTabBar({ state, descriptors, navigation }) {
   return (
     <View 
       style={state.index == 1 ? { flexDirection: 'row', justifyContent: 'space-around', alignContent: 'center', alignItems: 'center',
-              height: 70, bottom: 25, right: 20, left: 20, position: 'absolute', backgroundColor:"#fff", borderRadius: 13}
+              height: 60, bottom: 15, right: 20, left: 20, position: 'absolute', backgroundColor: 'rgba(255, 255, 255, 0.9)' ,borderRadius: 13}
               : { display : 'none'}
             }>
       

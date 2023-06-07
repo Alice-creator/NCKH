@@ -1,4 +1,4 @@
-import { View, Image, Text, SafeAreaView, TouchableOpacity, TextInput } from 'react-native'
+import { View, Image, Text, TouchableOpacity, TextInput, SafeAreaView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 import { Dimensions } from "react-native";
@@ -12,7 +12,7 @@ import googleIcon from "../assets/google.png"
 import eyeIcon from "../assets/eye.png"
 import closeEyeIcon from "../assets/closeEye.png"
 
-import axios from 'axios';
+import { REACT_NATIVE_BASE_URL } from '../contains'
 
 const Signup = ({ navigation }) => {
     const [ username, setUsername ] = useState('')
@@ -25,7 +25,7 @@ const Signup = ({ navigation }) => {
         const data = { username, gmail, password }
         console.log(data)
 
-        fetch('http://192.168.44.231:5000/Account/sign-up', {
+        fetch(`${REACT_NATIVE_BASE_URL}/Account/sign-up`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -51,7 +51,7 @@ const Signup = ({ navigation }) => {
     <SafeAreaView className="flex-1 relative">
         <View style={{ height: height * 0.8, width: width }}>
             <Image 
-                source={bgHomepage[Math.floor(Math.random()*3)]}
+                source={bgHomepage[2]}
                 resizeMode="cover"
                 className={`h-full object-cover w-full flex-1`}
             />

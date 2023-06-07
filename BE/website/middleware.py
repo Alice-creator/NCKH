@@ -4,7 +4,6 @@ from ..website import extension, database
 
 secret = 'my-secret'
 def encryp(payload):
-    payload['exp'] = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
     return jwt.encode(payload, secret, algorithm="HS256")
 
 def authentication(token):
@@ -49,7 +48,8 @@ def update_Like(TID, state):
         (state, TID)
     )
     connection.commit()
-   
+
+    
 def update_Search(TID):
     connection = database.connect_db()
     cursor = connection.cursor()
@@ -62,7 +62,6 @@ def update_Search(TID):
             (TID,)
         )
     connection.commit()
-
 def toDict(key, value):
     result = list()
     for i in value:

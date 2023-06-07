@@ -1,144 +1,87 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, Image, View, StyleSheet, Text, SafeAreaView, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { Image, View, StyleSheet, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import { Camera, CameraType } from 'expo-camera';
-import { shareAsync } from 'expo-sharing';
 import { StatusBar } from 'expo-status-bar';
 
 import imageIcon from "../assets/image.png"
 import retweetIcon from "../assets/retweet.png"
 import flashIcon from "../assets/flash.png"
 import arrow_back from "../assets/arrow_back.png"
-import locationIcon from "../assets/location.png"
-import distanceIcon from "../assets/distance.png"
-import typeIcon from "../assets/type.png"
-import { categoriesData } from '../services/categoriesData';
-
-const DetailData = ({ image, navigation }) => {
-  const [ category, setCategory ] = useState('')
-  const handleTouchCategory = (name) => {
-    setCategory(name)
-  }
-  const renderCategory = ({ item }) => {
-    return (
-        <TouchableOpacity
-            onPress={() => handleTouchCategory(item.name)}
-        >
-            <View className={item.name == category ? "mr-4 flex-row items-center rounded-3xl px-4 py-[6px] bg-primary" : "mr-4 flex-row items-center rounded-3xl px-4 py-[6px] bg-secondary"}>
-                <Image source={item.icon} className="w-6 h-6 mr-2" />
-                <Text className="text-white">{item.name}</Text>
-            </View>
-        </TouchableOpacity>
-    )
-  }
-  return (
-    <ScrollView className="flex-1 bg-theme">
-      <TouchableOpacity className="bg-theme rounded-full p-[10px] w-10 h-10 absolute top-6 left-4 z-20"
-            onPress={() => navigation.navigate("Scan")}
-      >
-        <Image className="w-full h-full" source={arrow_back} />
-      </TouchableOpacity>
-      <View className="h-[373] w-full">
-        <Image style={styles.preview} source={{ uri: image }} />
-      </View>
-      <View className="p-4 flex-1 rounded-t-3xl -top-8 bottom-8 right-0 left-0 bg-theme">
-        <View className="flex-row justify-between items-center ">
-          <View>
-            <Text className="text-xl font-bold text-bold-txt tracking-wider ">Landmark 81</Text>
-            <View className="flex-row items-center">
-                <Image source={locationIcon} className="w-5 h-5" />
-                <Text className="text-base text-[#3F95EC]" >Binh Thanh, Ho Chi Minh</Text>
-            </View>
-          </View>
-          <View>
-            <Text>4.7</Text>
-          </View>
-        </View>
-        <View style={{ marginVertical: 10 }}>
-          <Text className="text-base text-[#4F606D]">fjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjafjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkfjdsakfjskfjaskjfkskjfkfjdsakfjskfjaskjfk
-          </Text>
-        </View>
-
-        <View className="flex-row justify-between mt-2">
-          <View className="flex-row">
-              <View className="bg-[#CBEDFD] mr-3 rounded-lg w-12 h-12 p-3">
-                <Image className="w-full h-full" source={distanceIcon} />
-              </View>
-              <View>
-                <Text className="text-[14px] font-bold tracking-wide mb-1 text-[#154874]">Distance</Text>
-                <Text className="text-[13px]">4.7km</Text>
-              </View>
-          </View>
-          <View className="flex-row">
-              <View className="bg-[#FCF2E3] mr-3 rounded-lg w-12 h-12 p-3">
-                <Text className="text-base">⭐</Text>
-              </View>
-              <View>
-                <Text className="text-[14px] font-bold tracking-wide mb-1 text-[#FCD53E]">Rating</Text>
-                <Text className="text-[13px]">4.0</Text>
-              </View>
-          </View>
-          <View className="flex-row">
-              <View className="bg-[#D5D3FB] mr-3 rounded-lg w-12 h-12 p-3">
-                <Image className="w-full h-full" source={typeIcon} />
-              </View>
-              <View>
-                <Text className="text-[14px] font-bold tracking-wide mb-1 text-[#5F3FF1]">Type</Text>
-                <Text className="text-[13px]">lodging</Text>
-              </View>
-          </View>
-        
-        </View>
-
-        <View>
-          <Text className="font-bold text-lg text-[#4F606D]">Suggest</Text>
-          <View className="">
-              <FlatList
-                  data={categoriesData}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  keyExtractor={item => `${item.id}`}
-                  renderItem={renderCategory}
-                  contentContainerStyle={{ paddingVertical: 10 }}
-              />
-          </View>
-        </View>
-
-
-        <View className="mt-6">
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Maps")}
-            >
-              <View className="w-full bg-primary py-4 rounded-full">
-                <Text className="text-center text-white text-xl font-medium">Check on map</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      
-    </ScrollView>
-  )
-}
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { REACT_NATIVE_BASE_URL } from '../contains';
+import Loading from './components/Loading';
 
 export default function Scans({ navigation }) {
   const [ image, setImage ] = useState(null);
   const [ type, setType ] = useState(CameraType.back)
   const [ flash, setFlash ] = useState(Camera.Constants.FlashMode.off)
-
+  const [ loading, setLoading ] = useState(false)
+  const getPlace = async (data, image) => {
+    setLoading(true)
+    const token = JSON.parse(await AsyncStorage.getItem('token'));
+    const language = await AsyncStorage.getItem('language');
+        axios.post(`${REACT_NATIVE_BASE_URL}/${language}/FindingPlace`, data, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(response => {
+          console.log("result", response.data)
+          
+          const result = response.data.result
+          let data = {}
+          if(result.length > 1) {
+            data = {
+              suggest: result,
+              image: image,
+              name: result[0].type
+            }
+          } else {
+            data = {
+              id: result[0].TID,
+              name: result[0].name,
+              latitude: result[0].latitude,
+              longitude: result[0].longitude,
+              location_string: result[0].location_string,
+              image: image,
+              address: result[0].address,
+              description: result[0].description,
+              story: result[0].story,
+              type: result[0].type,
+              likes: result[0].likes,
+              isStorage: result[0].Stored
+            }
+          }
+          navigation.navigate("Details", { data, scan: true })
+          setLoading(false)
+        }).catch(error => {
+          console.log(error);
+        });  
+  }
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
+      allowsEditing: false,
+      aspect: [5, 6],
       quality: 1,
     });
 
-    console.log(result);
-
+    // console.log(result);
+    
     if (!result.canceled) {
+      const data = new FormData();
+      data.append('file', {
+        uri: result.assets[0].uri,
+        type: 'image/jpeg',
+        name: 'photo.jpg',
+      });
+      console.log(result.assets)
       setImage(result.assets[0].uri);
+      getPlace(data, result.assets[0].uri) //Add
     }
   };
   let cameraRef = useRef();
@@ -153,10 +96,13 @@ export default function Scans({ navigation }) {
       setHasCameraPermission(cameraPermission.status === "granted");
       setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
     })();
+    
   }, []);
 
   if (hasCameraPermission === undefined) {
-    return <Text>Requesting permissions...</Text>
+    return (
+      <SafeAreaView className="flex-1 bg-theme"><Loading /></SafeAreaView>
+    )
   } else if (!hasCameraPermission) {
     return <Text>Permission for camera not granted. Please change this in settings.</Text>
   }
@@ -169,39 +115,20 @@ export default function Scans({ navigation }) {
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
-    setPhoto(newPhoto);
+    
+    const data = new FormData();
+    data.append('file', {
+      uri: newPhoto.uri,
+      type: 'image/jpeg',
+      name: 'photo.jpg',
+    });
+    setPhoto(newPhoto); 
+    getPlace(data, "data:image/jpg;base64," + newPhoto.base64) //add
   };
-   
-  if (photo) {
-    let sharePic = () => {
-      shareAsync(photo.uri).then(() => {
-        setPhoto(undefined);
-      });
-    };
 
-    let savePhoto = () => {
-      MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        setPhoto(undefined);
-      });
-    };
-
-    // <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
-    // <Button title="Share" onPress={sharePic} />
-    // {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
-    // <Button title="Discard" onPress={() => setPhoto(undefined)} />
-    return (
-      <SafeAreaView style={styles.container}>
-        <DetailData image={"data:image/jpg;base64," + photo.base64} navigation={navigation}/>
-      </SafeAreaView>
-    );
-  }
-  if(image) {
-    return (
-      <DetailData image={image} navigation={navigation}/>
-    )
-  }
+  if (loading) return <SafeAreaView className="flex-1 bg-theme"><Loading /></SafeAreaView>
   return (
-    <View className="w-full h-full flex-1" style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <SafeAreaView className="flex-1" style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Camera 
         className="w-full flex-1 flex items-center justify-end relative" 
         ref={cameraRef}
@@ -218,17 +145,18 @@ export default function Scans({ navigation }) {
         <TouchableOpacity className="bg-theme rounded-full p-[10px] w-10 h-10 absolute top-6 left-6 z-20"
             onPress={() => navigation.navigate("Discover")}
         >
-        <Image className="w-full h-full" source={arrow_back} />
-      </TouchableOpacity>
+          <Image className="w-full h-full" source={arrow_back} />
+        </TouchableOpacity>
         <View className="bottom-12 px-10 py-2 rounded-full bg-[#00000080]">
           <View className="flex-row justify-center items-center">
             <TouchableOpacity
-              className="w-14 h-14 rounded-full"
+              className="w-10 h-10"
               onPress={pickImage}
             >
               <Image 
-                className="h-full w-full rounded-full"
+                className="h-full w-full"
                 source={imageIcon}/>
+                
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -253,7 +181,7 @@ export default function Scans({ navigation }) {
         <StatusBar style="auto" />
       </Camera>
 
-    </View>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({

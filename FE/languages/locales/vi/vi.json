@@ -1,0 +1,66 @@
+{
+    "discover": {
+        "title": "Các nơi bạn muốn khám phá?",
+        "search": "Khám phá một nơi",
+        "exploreCity": "Khám phá thành phố",
+        "popularPlace": "Nơi phổ biến",
+        "forYou": "Phù hợp với bạn",
+        "all": "Tất cả",
+        "monuments": "Di tích",
+        "pagoda": "Chùa",
+        "building": "Tòa tháp",
+        "tower": "Tháp",
+        "park": "Công viên",
+        "church": "Nhà Thờ",
+        "beach": "Biển",
+        "mountain": "Núi",
+        "seeAll": "Xem tất cả",
+        "collapse": "Thu gọn"           
+    },
+    "detail": {
+        "description": "Mô tả",
+        "story": "Câu chuyện",
+        "distance": "Khoảng cách",
+        "rating": "Bình chọn",
+        "type": "Loại",
+        "hotels": "Khách sạn",
+        "restaurants": "Nhà hàng",
+        "attractions": "Thu hút",
+        "seeMore": "See More",
+        "hide": "Hide"
+    },
+    "saved": {
+        "title": "Kho lưu trữ",
+        "requireLogin": "Bạn cần đăng nhập trước tiên",
+        "noItem": "Bạn không có bất kỳ lưu trữ nào"
+    },
+    "profile": {
+        "title": "Hồ sơ",
+        "storage": "Kho lưu trữ",
+        "password": "Mật khẩu",
+        "language": "Ngôn ngữ",
+        "darkMode": "Chế độ tối",
+        "report": "Góp ý",
+        "help": "Giúp đỡ",
+        "setting": "Cài đặt"
+    },
+    "modal": {
+        "requireLogin": {
+            "title": "Yêu cầu đăng nhập",
+            "content": "Vui lòng đăng nhập để tiếp tục",
+            "button": "Đi tới đăng nhập"
+        }
+    },
+    "button": {
+        "submit": "Gửi",
+        "checkMap": "Kiểm tra trên bản đồ"
+    },
+    "label": {
+        "content": "Nội dung"
+    },
+    "input": {
+        "feedback": "Nhập vào góp ý của bạn"
+    },
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất"
+}

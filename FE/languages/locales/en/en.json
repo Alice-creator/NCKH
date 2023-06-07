@@ -1,0 +1,66 @@
+{
+    "discover": {
+        "title": "Where do you want to discover?",
+        "search": "Discover a place",
+        "exploreCity": "Explore Cities",
+        "popularPlace": "Popular Places",
+        "forYou": "For You",
+        "all": "All",
+        "monuments": "Monuments",
+        "pagoda": "Pagoda",
+        "building": "Building",
+        "tower": "Tower",
+        "park": "Park",
+        "church": "Church",
+        "beach": "Beach",
+        "mountain": "Mountain",
+        "seeAll": "See All",
+        "collapse": "Collapse"        
+    },
+    "detail": {
+        "description": "Description",
+        "story": "Story",
+        "distance": "Distance",
+        "rating": "Like",
+        "type": "Type",
+        "hotels": "Hotel",
+        "restaurants": "Restaurant",
+        "attractions": "Attraction",
+        "seeMore": "See More",
+        "hide": "Hide"
+    },
+    "saved": {
+        "title": "Storage",
+        "requireLogin": "You need to login first",
+        "noItem": "You don't have any storage yet"
+    },
+    "profile": {
+        "title": "Profile",
+        "storage": "Storage",
+        "password": "Password",
+        "language": "Language",
+        "darkMode": "Dark Mode",
+        "report": "Feedback",
+        "help": "Help",
+        "setting": "Setting"
+    },
+    "modal": {
+        "requireLogin": {
+            "title": "Require Login",
+            "content": "Please log in to continue",
+            "button": "Go to Log in"
+        }
+    },
+    "button": {
+        "submit": "Submit",
+        "checkMap": "Check on map"
+    },
+    "label": {
+        "content": "Content"
+    },
+    "input": {
+        "feedback": "Enter your feedback"
+    },
+    "login": "Log in",
+    "logout": "Log out"
+}
