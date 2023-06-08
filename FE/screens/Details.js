@@ -146,8 +146,7 @@ const Details = ({ route, navigation }) => {
         </View>   
         {data.suggest ?
           <View className="p-4 flex-1 rounded-t-3xl -top-10 bottom-0 bg-theme">
-             <Text className="text-xl font-bold text-bold-txt tracking-wider ">{data.name}</Text>
-             <Text className="font-bold text-lg text-[#4F606D] mt-2">{t('detail.suggest')}</Text>
+             <Text className="text-xl font-bold text-bold-txt tracking-wider ">{t('detail.suggest')}</Text>
              <ScrollView 
                   horizontal 
                   showsHorizontalScrollIndicator={false}
