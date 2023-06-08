@@ -85,7 +85,7 @@ class ChangeInfo(Resource):
         if not auth:
             return {'status' : False,
                     'message': 'you need to login first'
-                    }, 401
+                    }
         connection = database.connect_db()
         cursor = connection.cursor()
         data = extension.create_json(request.values.lists())
@@ -106,7 +106,7 @@ class ChangeInfo(Resource):
                     set gmail = %s, username = %s, password = %s
                     where CID = %s;   
                     ''',
-                    (data['gmail'], data['username'], data['password'], auth['CID'],)
+                    (request.json['gmail'], request.json['username'], request.json['password'], auth['CID'],)
                 )
                 connection.commit()
                 data['status'] = True

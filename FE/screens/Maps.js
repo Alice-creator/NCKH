@@ -13,7 +13,8 @@ import getDirections from 'react-native-google-maps-directions';
 import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
-
+import locationIcon from "../assets/location.png"
+import nearLocationIcon from "../assets/nearLocation.png"
 import carIcon from "../assets/car.png"
 import redPinIcon from "../assets/red-pin.png"
 import pinIcon from "../assets/pin.png"
@@ -56,21 +57,21 @@ const Maps = ({ route, navigation }) => {
     
                 const { latitude, longitude } = location.coords;
                 
-                // setFromLocation({ latitude, longitude })
-                setFromLocation({ latitude: 10.769801, longitude: 106.70902 })
+                setFromLocation({ latitude, longitude })
+                // setFromLocation({ latitude: 10.769801, longitude: 106.70902 })
                 console.log('Vị trí hiện tại:', location.coords);
-                // return { latitude, longitude }
-                return { latitude: 10.779801, longitude: 106.69902 }
+                return { latitude, longitude }
+                // return { latitude: 10.779801, longitude: 106.69902 }
             // })();
         }
         
         
         const updateMapRegion = async () => {
             let { data, nearList } = route.params;
-            // let toLoc = { "latitude": parseFloat(data.latitude), "longitude": parseFloat(data.longitude) }
-            const toLoc = { latitude: 10.779801, longitude: 106.69902 }
-            // const currentLocation = await getCurrentLocation();
-            const currentLocation = {latitude: 10.69801, longitude: 106.7902}
+            let toLoc = { "latitude": parseFloat(data.latitude), "longitude": parseFloat(data.longitude) }
+            // const toLoc = { latitude: 10.779801, longitude: 106.69902 }
+            const currentLocation = await getCurrentLocation();
+            // const currentLocation = {latitude: 10.69801, longitude: 106.7902}
             if (!currentLocation) {
               return;
             }
@@ -141,7 +142,6 @@ const Maps = ({ route, navigation }) => {
         setRegion(newRegion)
         mapView.current.animateToRegion(newRegion, 200)
     }
-    var id = 1
     function renderMap() {
         const destinationMarker = () => (
             <Marker
@@ -188,13 +188,14 @@ const Maps = ({ route, navigation }) => {
                     onRegionChangeComplete={(region) => {
                         // Tính toán mức độ zoom dựa trên delta của region
                         const calculatedZoomLevel = Math.log2(360 / region.longitudeDelta) + 1;
+                        console.log(calculatedZoomLevel)
                         setZoomLevel(calculatedZoomLevel);
                     }}
                 >
                     {destinationMarker(toLocation)}
                     {carIconMarker()}
                     
-                    {nearList?.map((place, index) => (
+                    {zoomLevel > 15 && nearList?.map((place, index) => (
                         <Marker
                             key={index}
                             coordinate={{
@@ -204,14 +205,22 @@ const Maps = ({ route, navigation }) => {
                             anchor={{ x: 0.5, y: 0.5 }}
                             title={place.name}
                             description={place.address}
+                            onPress={() => setPlace(place)}
                         >
-                            <View className="w-8 h-8">
-                                <Image
-                                    source={{ uri: place?.image }}
-                                    className="w-full h-full"
-                                />
+                            <View className="flex-col justify-center items-center">
+                                    <View className="w-12 h-12 rounded-lg">
+                                        <Image
+                                            source={{ uri: place?.image }}
+                                            className="w-full h-full rounded-lg"
+                                        /> 
+                                    </View> 
+                                    <View className="flex-row items-center">
+                                        <Image source={locationIcon} tintColor="#3F95EC" className="w-4 h-4" />
+                                        <Text className="text-xs font-semibold text-primary">{place.distance}</Text>
+                                    </View>
+                                
                             </View>
-                            </Marker>
+                        </Marker>
                     ))}
                 </MapView>
             </SafeAreaView>
@@ -257,7 +266,7 @@ const Maps = ({ route, navigation }) => {
     }
     function renderPlace(place) {
         return (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }} key={place?.name}>
+            <View className="flex-row items-center mx-2" key={place?.name}>
                 {/* Avatar */}
                 <Image
                     source={{ uri: place?.image ? place.image : 'https://scontent.fsgn5-8.fna.fbcdn.net/v/t39.30808-6/349509252_1425089914979804_2757360445407738847_n.jpg?stp=cp6_dst-jpg&_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=a-0pPGGtYOkAX_IklEd&_nc_ht=scontent.fsgn5-8.fna&oh=00_AfA_7WQkJC92JzJoUyg3xU13Ra3wP9aht--RHSfNmUOKiQ&oe=6479279E' }}
@@ -278,10 +287,10 @@ const Maps = ({ route, navigation }) => {
                                 source={starIcon}
                                 style={{ tintColor: "#3F95EC" }}
                             />
-                            <Text>{place?.rating}</Text>
+                            <Text>{place?.likes}</Text>
                         </View>
                     </View>
-                    <Text className="text-basic">{place?.name}</Text>
+                    <Text className="text-basic">{place?.address}</Text>
                 </View>
             </View>
         )
@@ -310,9 +319,9 @@ const Maps = ({ route, navigation }) => {
             <View
                 style={{
                     position: 'absolute',
-                    bottom: 50,
-                    left: 0,
-                    right: 0,
+                    bottom: 15,
+                    left: 5,
+                    right: 5,
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}
@@ -327,15 +336,6 @@ const Maps = ({ route, navigation }) => {
                     }}
                 >
                     {renderPlace(place)}
-                    <ScrollView 
-                        horizontal 
-                        showsHorizontalScrollIndicator={false}
-                        className="my-2 flex-row overflow-x-scroll"
-                    >
-                        {/* {nearList.map(place => (
-                            renderPlace(place)
-                        ))} */}
-                    </ScrollView>
                     <View className="flex-row mt-4 justify-between">
                         <TouchableOpacity className="flex-1 h-12 mr-3 bg-slate-200 items-center justify-center rounded-xl"
                             onPress={() => navigation.navigate("Discover")}

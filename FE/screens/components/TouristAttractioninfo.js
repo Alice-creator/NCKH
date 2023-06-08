@@ -1,13 +1,12 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import like from "../../assets/like.png"
 import location from "../../assets/location.png"
 import { REACT_NATIVE_BASE_URL } from '../../contains'
-import LoginModal from './LoginModal'
 
-const TouristAttractionInfo = ({ navigation, data }) => {
+const TouristAttractionInfo = ({ navigation, data, isTwoColumn }) => {
     
     const handleDetail = (data) => {
         navigation.navigate("Details", { data })
@@ -58,8 +57,7 @@ const TouristAttractionInfo = ({ navigation, data }) => {
   return (
     <TouchableOpacity 
         onPress={() => handleDetail(data)}
-        className="w-[165px] h-[250px] my-2 mr-2 shadow"
-        key={`${Math.random()}`}
+        className={`w-[${isTwoColumn ? '48%' : '170px' }] h-[250px] my-2 mx-1 shadow`}
     >
         <Image source={{ uri: data.image }} className="w-full h-full object-cover rounded-2xl relative opacity-[0.8]" />
         <View className="absolute top-3 left-3 right-3 flex-row justify-between items-center">

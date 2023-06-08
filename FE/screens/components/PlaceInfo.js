@@ -40,7 +40,7 @@ const PlaceInfo = ({ navigation, data }) => {
         setModalVisible(false);
     };
   return (
-    <TouchableOpacity className="mr-4 my-2" key={`${data.name}-${data.id}`}
+    <TouchableOpacity className="mr-4 my-2" key={`${Math.random()}`}
                     onPress={() => handleDetail(data)}
     >
         <View className="w-[210px] p-[8px] bg-white shadow flex rounded-2xl">

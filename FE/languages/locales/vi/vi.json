@@ -26,8 +26,9 @@
         "hotels": "Khách sạn",
         "restaurants": "Nhà hàng",
         "attractions": "Thu hút",
-        "seeMore": "See More",
-        "hide": "Hide"
+        "seeMore": "Xem thêm",
+        "hide": "Ẩn",
+        "suggest": "Đề nghị"
     },
     "saved": {
         "title": "Kho lưu trữ",

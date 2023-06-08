@@ -165,12 +165,12 @@
         "story": "Lăng Chủ Tịch Hồ Chí Minh mang ý nghĩa về tình cảm của nhân dân Việt Nam dành cho Chủ tịch Hồ Chí Minh. Người được coi là một người cha của đất nước, người đã dành cả cuộc đời để lãnh đạo đất nước và dành cho nhân dân Việt Nam tình yêu thương và sự hy sinh không ngừng."
     },
     {
-        "name": "https://media-cdn.tripadvisor.com/media/photo-o/17/46/66/2c/pagepropertiesimage-largejpg.jpg",
+        "name": "Ho Chi Minh Mausoleum",
         "latitude": "21.036781",
         "longitude": "105.83464",
         "timezone": "Asia/Ho_Chi_Minh",
         "location_string": "Hanoi",
-        "images": "",
+        "images": "https://media-cdn.tripadvisor.com/media/photo-o/17/46/66/2c/pagepropertiesimage-largejpg.jpg",
         "address": "2 Hung Vuong, Dien Bien Ward, Ba Dinh District, Hanoi",
         "description": "A historic architecture in the capital of Hanoi. The mausoleum was built to honor and preserve the remains of President Ho Chi Minh, who led the struggle for independence, reunification, and development of Vietnam.",
         "story": "The Ho Chi Minh Mausoleum holds the significance of the Vietnamese people's affection for President Ho Chi Minh. He is considered the father of the nation, dedicating his entire life to leading the country and showering the Vietnamese people with love and endless sacrifices."

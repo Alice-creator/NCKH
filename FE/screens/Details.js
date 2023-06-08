@@ -135,7 +135,6 @@ const Details = ({ route, navigation }) => {
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         const dis= R * c; // Distance in meters
 
-        console.log('Distance:', dis, 'meters');
         setDistance(dis.toFixed(2) + ' km')
         // Lấy được vị trí hiện tại của thiết bị
         // Tiếp tục tính toán khoảng cách từ vị trí hiện tại đến vị trí đích
@@ -177,10 +176,11 @@ const Details = ({ route, navigation }) => {
         {data.suggest ?
           <View className="p-4 flex-1 rounded-t-3xl -top-10 bottom-0 bg-theme">
              <Text className="text-xl font-bold text-bold-txt tracking-wider ">{data.name}</Text>
+             <Text className="font-bold text-lg text-[#4F606D] mt-2">{t('detail.suggest')}</Text>
              <ScrollView 
                   horizontal 
                   showsHorizontalScrollIndicator={false}
-                  className="my-2 flex-row overflow-x-scroll"
+                  className="flex-row overflow-x-scroll"
               >
                   {
                       data.suggest?.map((value, index) => (
@@ -230,7 +230,7 @@ const Details = ({ route, navigation }) => {
                 </View>
               }
             
-            {type == 'desc' && data.description.length > 0 &&
+            {type == 'desc' && data.description && data.description.length > 0 &&
               <View style={{ marginVertical: 10 }}>
                 <Text className="text-base text-[#4F606D]">{data.description.length > 50 ? 
                         data.description.slice(0,textLength) + "..." : 
@@ -293,7 +293,7 @@ const Details = ({ route, navigation }) => {
             </View>
 
             <View>
-              <Text className="font-bold text-lg text-[#4F606D] mt-2 mb-1">Suggest</Text>
+              <Text className="font-bold text-lg text-[#4F606D] mt-2 mb-1">{t('detail.suggest')}</Text>
               <View className="flex-row justify-between mb-2">
                   {categoriesNearData.map((category) => (
                     renderCategory(t(`detail.${category.name}`), category.icon, category.id, category.name)

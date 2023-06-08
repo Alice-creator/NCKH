@@ -42,6 +42,7 @@ const Profile = ({ navigation }) => {
     const getLanguage = async () => {
       try {
         const value = await AsyncStorage.getItem('language');
+        console.log("lang", value)
         if (value !== null) {
           setLanguage(value)
           setIsEnabledLanguage(value == 'en' || value == null ? true : false)
@@ -55,10 +56,10 @@ const Profile = ({ navigation }) => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const toggleLanguage = async () => {
     const newLanguage = i18n.language === 'en' ? 'vi' : 'en';
-    await AsyncStorage.setItem('language', newLanguage);
-    i18n.changeLanguage(newLanguage);
     setIsEnabledLanguage(previousState => !previousState)
+    i18n.changeLanguage(newLanguage);
     setLanguage(newLanguage)
+    await AsyncStorage.setItem('language', newLanguage);
   };
   const handleFeedback = async () => {
     const token = JSON.parse(await AsyncStorage.getItem('token'));
@@ -122,7 +123,7 @@ const Profile = ({ navigation }) => {
       >
       <Image className="w-full h-full" source={arrow_back} />
       </TouchableOpacity>
-      <View className="flex flex-col items-center justify-between my-4">
+      <View className="flex flex-col items-center flex-1 justify-between my-4">
         <View className="w-full px-8">
           <Text className="text-center font-bold text-[22px] text-bold-txt tracking-wider"> {t('profile.title')} </Text>
           <View className="flex items-center my-5">
@@ -155,11 +156,8 @@ const Profile = ({ navigation }) => {
                               onPress={() => navigation.navigate("Saved")}
             >
               <Text className="font-bold text-base tracking-wide text-bold-txt">{t('profile.storage')}</Text>
-              <View className="flex-row items-center">
-                <Text className="text-basic">10</Text>
-                <View>
+              <View className="flex-row items-center">                
                   <Image source={arrow_next} />
-                </View>
               </View>
             </TouchableOpacity>
             <TouchableOpacity className="py-1 my-1 flex-row justify-between border-b-[1px] border-slate-300"

@@ -27,7 +27,8 @@
         "restaurants": "Restaurant",
         "attractions": "Attraction",
         "seeMore": "See More",
-        "hide": "Hide"
+        "hide": "Hide",
+        "suggest": "Suggest"
     },
     "saved": {
         "title": "Storage",

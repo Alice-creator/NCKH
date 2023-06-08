@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native'
+import { View, Text, Image, TextInput, ScrollView, TouchableOpacity, SafeAreaView, FlatList } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { Avatar } from '../assets'
 
@@ -6,9 +6,7 @@ import search from "../assets/search.png"
 import like from "../assets/like.png"
 import location from "../assets/location.png"
 
-import { getHotels, getPlaceSearch } from '../services/placesData';
 import { categoriesData } from '../services/categoriesData';
-import { touristAttractionData } from '../services/touristAttractionData'
 
 import { citiesData } from '../services/citiesData'
 import axios from 'axios'
@@ -22,14 +20,15 @@ import { MyContext } from '../context';
 
 const Discover = ({ navigation }) => {
     const { t } = useTranslation()
-    const { language, setLanguage } = useContext(MyContext)
+    const { language } = useContext(MyContext)
+    const [ getLanguage, setGetLanguage ] = useState('en')
     const [ touristAttraction, setTouristAttraction ] = useState({ stored: [], notStored: []})
     const [ loading, setLoading ] = useState(true)
 
     const [ searchType, setSearchType ] = useState({ stored: [], notStored: []})
     const [ seeAll, setSeeAll ] = useState(false)
     const [ keySearch, setKeySearch ]= useState('')
-    const [ category, setCategory ] = useState(language == 'en' ? 'All' : 'Tất cả')
+    const [ category, setCategory ] = useState()
     const [ searchPlaces, setSearchPlaces ] = useState([])
 
     useEffect(() => {
@@ -38,39 +37,32 @@ const Discover = ({ navigation }) => {
             const token = JSON.parse(await AsyncStorage.getItem('token'))
             const newlanguage = await AsyncStorage.getItem('language')
             // AsyncStorage.getItem('language').then(lang => {
-                setLanguage(newlanguage);
-                setCategory(newlanguage == 'en' ? 'All' : 'Tất cả');
-                
-                axios.get(`${REACT_NATIVE_BASE_URL}/${newlanguage || 'en'}/Account/SearchByType/all`,
-                {
-                  headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                  },
-                })
-                .then(response => {
-                        // const data = response.data.stored.concat(response.data.notStored);
-                        console.log(response.data)
-                        setTouristAttraction(response.data);
-                        setLoading(false);
-                    }).catch(error => {
-                        setLoading(false);
-                        console.log(error); 
-                    });
-            // }).catch(error => {
-            //     console.log(error);
-            // });        
+            setGetLanguage(newlanguage)
+            axios.get(`${REACT_NATIVE_BASE_URL}/${newlanguage || 'en'}/Account/SearchByType/all`,
+            {
+                headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+                },
+            })
+            .then(response => {
+                    // const data = response.data.stored.concat(response.data.notStored);
+                    setTouristAttraction(response.data);
+                    setLoading(false);
+                }).catch(error => {
+                    setLoading(false);
+                    console.log(error); 
+                });
         }
         getAllPlaces()
-    }, [])
+    }, [language])
     const handleKeySearch = (e) => {
         setKeySearch(e)
     }
     const handleSearch = async () => {
         setLoading(true)
         const token = JSON.parse(await AsyncStorage.getItem('token'));
-        const language = await AsyncStorage.getItem('language');
-        axios.get(`${REACT_NATIVE_BASE_URL}/${language}/Account/Searchapi/${keySearch}`,
+        axios.get(`${REACT_NATIVE_BASE_URL}/${getLanguage}/Account/Searchapi/${keySearch}`,
         {
             headers: {
                 'Content-Type': 'application/json',
@@ -197,7 +189,7 @@ const Discover = ({ navigation }) => {
         setCategory(name)
         setSearchPlaces([])
         const token = JSON.parse(await AsyncStorage.getItem('token'))
-        axios.get(`${REACT_NATIVE_BASE_URL}/${language}/Account/SearchByType/${type}`,
+        axios.get(`${REACT_NATIVE_BASE_URL}/${getLanguage}/Account/SearchByType/${type}`,
         {
             headers: {
                 'Content-Type': 'application/json',
@@ -205,7 +197,6 @@ const Discover = ({ navigation }) => {
             },
         })
         .then(response => {
-            console.log(response.data)
             setSearchType(response.data)
             setLoading(false)
         }).catch(error => {
@@ -217,7 +208,7 @@ const Discover = ({ navigation }) => {
     const renderCategory = (name, icon, id, type) => {
         return (
             <TouchableOpacity
-                key={`${type}-${id}`}
+                key={`${Math.random()}`}
                 onPress={() => handleTouchCategory(name, type)}
             >
                 <View className={name == category ? "mr-4 flex-row items-center rounded-3xl px-4 py-[5px] bg-primary" : "mr-4 flex-row items-center rounded-3xl px-4 py-[5px] bg-secondary"}>
@@ -227,15 +218,8 @@ const Discover = ({ navigation }) => {
             </TouchableOpacity>
         )
     }
-    const handleSeeAll = (type) => {
-        setSeeAll({ boolean: !seeAll.boolean , type })
-    }
-  
   return (
     <SafeAreaView className="flex-1 bg-theme ">
-        <ScrollView
-            // onScroll={(e) => handleScroll(e)}
-        >
             <View className="flex-row mx-5 justify-between mt-6 items-center">
                 <View className="flex-row flex justify-between items-center flex-wrap w-full">
                     
@@ -283,120 +267,68 @@ const Discover = ({ navigation }) => {
                 /> */}
             </View>
             {loading ? <Loading /> : searchPlaces.length > 0 ?
-                <View className="mx-5 pb-16">
+                <View className="mx-5 pb-72">
                     <Text className="text-xl font-semibold text-bold-txt">Tìm kiếm tương tự</Text>
-                    <View className="flex-row flex-wrap justify-between">
-                        { searchPlaces.map((value, index) => 
-                            <TouchableOpacity className="" key={`searchPlace-${index}`}
-                                onPress={() => handleClick(value.name, value.address ? value.address : '' , value.photo, value.description ? value.description : '', value.rating, value.latitude, value.longitude)}
-                            >
-                                <View className="w-[175px] p-[5px] bg-white flex rounded-2xl ">
-                                    <Image source={{ uri: value.photo }} className="w-full h-[150px] object-contain rounded-2xl relative opacity-[0.85]" />
-                                    <View className="absolute top-3 left-3 right-3 flex-row justify-between items-center">
-                                        {value.rating != 'None' &&
-                                            <View className="bg-white opacity-80 px-3 py-1 rounded-2xl">
-                                                <Text className="">⭐ {value.rating}</Text>
-                                            </View>
-                                        }
-                                        <View className="bg-white opacity-80 p-2 flex items-center justify-center rounded-full">
-                                            <Image source={like} className="z-50 w-5 h-5" />
-                                        </View>
-                                    </View>
-                                    <Text className="text-[17px] font-semibold mx-1 mt-1 text-bold-txt">{value.name.length > 20 ? value.name.slice(0,20) + "..." : value.name}</Text>
-                                    <View className="flex-row items-center">
-                                            <Image source={location} className="w-5 h-5" />
-                                            <Text className="text-sm text-basic" > {value.location_string.length > 15 ? value.location_string.slice(0,15) + "..." : value.location_string} </Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>)
-                       }
-                    </View>
-                    {/* <Text className="font-bold text-lg" >Nhà hàng gần đó</Text>
-                    <View className="flex-row flex-wrap justify-between">
-                    { searchPlaces && searchPlaces?.restaurants.slice(0,8).map((value, index) => 
-                        value.photo && value.name && (
-                            <TouchableOpacity className="" key={value.location_id}
-                            onPress={() => handleClick(value)}
-                        >
-                            <View className="w-[175px] p-[5px] bg-white flex rounded-2xl ">
-                                <Image source={{ uri: value.photo.images?.original.url}} className="w-full h-[150px] object-contain rounded-2xl relative opacity-[0.85]" />
-                                <View className="absolute top-3 left-3 right-3 flex-row justify-between items-center">
-                                    <View className="bg-white opacity-80 px-3 py-1 rounded-2xl">
-                                        <Text className="">⭐ {value.rating}</Text>
-                                    </View>
-                                    <View className="bg-white opacity-80 p-2 flex items-center justify-center rounded-full">
-                                        <Image source={like} className="z-50 w-5 h-5" />
-                                    </View>
-                                </View>
-                                <Text className="text-[17px] font-semibold mx-1 mt-1 text-bold-txt">{value.name.length > 20 ? value.name.slice(0,20) + "..." : value.name}</Text>
-                                <View className="flex-row items-center">
-                                        <Image source={location} className="w-5 h-5" />
-                                        <Text className="text-sm text-basic" > {value.location_string.length > 15 ? value.location_string.slice(0,15) + "..." : value.location_string} </Text>
-                                </View>
-                            </View>
-                            </TouchableOpacity>
-                        )
-                    )}
-                    </View>
-                    <Text classNam="font-bold text-lg">Khách sạn gần đó</Text>
-                    <View className="flex-row flex-wrap justify-between">
-                        { searchPlaces && searchPlaces?.hotels.map((value, index) => 
-                            value.result_object.photo && value.result_object.name && (
-                                <TouchableOpacity className="" key={value.result_object.location_id}
-                                onPress={() => handleClick(value)}
-                            >
-                                <View className="w-[175px] p-[5px] bg-white flex rounded-2xl ">
-                                    <Image source={{ uri: value.result_object.photo.images?.original.url}} className="w-full h-[150px] object-contain rounded-2xl relative opacity-[0.85]" />
-                                    <View className="absolute top-3 left-3 right-3 flex-row justify-between items-center">
-                                        <View className="bg-white opacity-80 px-3 py-1 rounded-2xl">
-                                            <Text className="">⭐ {value.result_object.rating}</Text>
-                                        </View>
-                                        <View className="bg-white opacity-80 p-2 flex items-center justify-center rounded-full">
-                                            <Image source={like} className="z-50 w-5 h-5" />
-                                        </View>
-                                    </View>
-                                    <Text className="text-[17px] font-semibold mx-1 mt-1 text-bold-txt">{value.result_object.name.length > 20 ? value.result_object.name.slice(0,20) + "..." : value.result_object.name}</Text>
-                                    <View className="flex-row items-center">
-                                            <Image source={location} className="w-5 h-5" />
-                                            <Text className="text-sm text-basic" > {value.result_object.location_string.length > 15 ? value.result_object.location_string.slice(0,15) + "..." : value.result_object.location_string} </Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                            )
+                    <FlatList 
+                        data={searchPlaces}
+                        numColumns={2}
+                        renderItem={({ item }) => (
+                            <TouristAttractionInfo
+                                navigation={navigation}
+                                data={{
+                                    id: item.TID,
+                                    name: item.name,
+                                    latitude: item.latitude,
+                                    longitude: item.longitude,
+                                    location_string: item.location_string,
+                                    image: item.photo,
+                                    address: item.address,
+                                    description: item.description,
+                                    story: item.story,
+                                    type: item.type,
+                                    likes: item.rating,
+                                    isStorage: item.Stored,
+                                    noExistStorage: true
+                                }}
+                                isTwoColumn
+                            />
                         )}
-                    </View> */}
-    
+                        keyExtractor={(item, index) => index.toString()}
+                    />
                 </View>
                 :
             loading ? <Loading /> : searchType.length > 0 ? 
-                <View className="mx-5 my-2 pb-16">
-                    <View className="flex-row flex-wrap justify-between">
-                            {searchType.length > 0 && searchType.map((value, index) => ( 
-                                <TouristAttractionInfo navigation={navigation} 
-                                        data = {{
-                                            id: value.TID,
-                                            name: value.name,
-                                            latitude: value.latitude,
-                                            longitude: value.longitude,
-                                            location_string: value.location_string,
-                                            image: value.images,
-                                            address: value.address,
-                                            description: value.description,
-                                            story: value.story,
-                                            type: value.type,
-                                            likes: value.likes,
-                                            isStorage: value.Stored
-                                        }}
-                                    />                     
-                                ))
-                            }
-                    </View>
+                <View className="px-5 my-2 mb-72 w-full">
+                    <FlatList 
+                        data={searchType}
+                        numColumns={2}
+                        renderItem={({ item }) => (
+                            <TouristAttractionInfo
+                                navigation={navigation}
+                                data={{
+                                    id: item.TID,
+                                    name: item.name,
+                                    latitude: item.latitude,
+                                    longitude: item.longitude,
+                                    location_string: item.location_string,
+                                    image: item.images,
+                                    address: item.address,
+                                    description: item.description,
+                                    story: item.story,
+                                    type: item.type,
+                                    likes: item.likes,
+                                    isStorage: item.Stored,
+                                }}
+                                isTwoColumn
+                            />
+                        )}
+                        keyExtractor={(item, index) => index.toString()}
+                    />
                 </View>
                 :
                 loading ? <Loading /> : <View className="mx-5 pb-8">
                     <View className="flex-row justify-between">
                         <Text className="font-semibold text-bold-txt text-lg" >{t('discover.exploreCity')}</Text>
-                        {/* <Text className="text-basic">{t('discover.seeAll')}</Text> */}
                     </View>
                     <ScrollView 
                         horizontal 
@@ -406,6 +338,7 @@ const Discover = ({ navigation }) => {
                         {
                             citiesData?.map((value, index) => (
                                 <TouristAttractionInfo 
+                                    key={`${Math.random()}`}
                                     navigation={navigation} 
                                     data = {{
                                         id: `city-${index}`,
@@ -427,9 +360,6 @@ const Discover = ({ navigation }) => {
                     
                     <View className="flex-row justify-between">
                         <Text className="font-semibold text-bold-txt text-lg" >{t('discover.popularPlace')}</Text>
-                        {/* <TouchableOpacity onPress={() => handleTouchCategory('all', 'all')}>
-                            <Text className="text-basic">{t('discover.seeAll')}</Text> 
-                        </TouchableOpacity> */}
                     </View>
                     {loading ? <Loading /> : 
                         <ScrollView 
@@ -439,6 +369,7 @@ const Discover = ({ navigation }) => {
                         >
                             {touristAttraction.length > 0 && touristAttraction.map((value, index) => ( 
                                     <PlaceInfo navigation={navigation} 
+                                                key={`${Math.random()}`}
                                                 data = {{
                                                     id: value.TID,
                                                     name: value.name,
@@ -460,7 +391,6 @@ const Discover = ({ navigation }) => {
                     }
                 </View>
             }
-        </ScrollView>
     </SafeAreaView>
   )
 }

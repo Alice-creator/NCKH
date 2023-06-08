@@ -16,7 +16,7 @@ class Storage(Resource):
         if not auth:
             return {'status' : False,
                     'message': 'you need to login first'
-                    }, 401
+                    }
         connection = database.connect_db()
         cursor = connection.cursor()
         data = extension.create_json(request.values.lists())
@@ -121,7 +121,7 @@ class Feedback(Resource):
         if not auth:
             return {'status' : False,
                     'message': 'you need to login first'
-                    }, 401
+                    }
         connection = database.connect_db()
         cursor = connection.cursor()
         try:

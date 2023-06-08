@@ -79,7 +79,7 @@ const HomePage = () => {
     }
 
   return (
-    <SafeAreaView className='flex-1 bg-theme'>
+    <SafeAreaView className='flex-1 bg-[#f5f5fd]'>
         <Animated.ScrollView
             horizontal
             pagingEnabled
@@ -107,11 +107,11 @@ const HomePage = () => {
           <View className={`w-full h-[80] `}>
             <Image className="w-full h-full" source={elipBg}/>
           </View>
-          <View className="bg-theme">
+          <View className="bg-[#f5f5fd]">
             <View className="w-full z-40 bg-transparent -top-[22]">
             { renderDots() }
             </View>
-            <View className="w-full px-3 pb-2 bg-theme -top-3">
+            <View className="w-full px-3 pb-2 bg-[#f5f5fd] -top-3">
               <Text className="text-bold-txt font-bold tracking-wider text-[25px] text-center">Explore The</Text>
               <Text className="text-bold-txt font-bold tracking-wider text-[25px] text-center leading-7">Vietnam's Beauties</Text>
               <Text className="text-center text-basic text-[15px]">If you are craving for discovering your desired tourist attractions, this application suits you best</Text>
