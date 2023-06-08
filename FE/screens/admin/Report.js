@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import NavigationBack from '../components/NavigationBack'
+import { REACT_NATIVE_BASE_URL } from '../../contains'
 
 const Report = ({ navigation }) => {
   const [ userInfo, setUserInfo ] = useState()
   useEffect(() => {
     const getUserInfo = async () => {
       const token = JSON.parse(await AsyncStorage.getItem('token'));
-      axios.get(`http://192.168.1.7:5000/Admin/UserInfo`)
+      axios.get(`${REACT_NATIVE_BASE_URL}/Admin/UserInfo`)
       .then(response => {
           setUserInfo(response.data.data)
       }).catch(error => {
@@ -19,7 +20,7 @@ const Report = ({ navigation }) => {
     getUserInfo()
   },[])
   const handleDeleteUser = (id) => {
-    axios.delete(`http://192.168.1.7:5000/Admin/UserInfo/${id}`)
+    axios.delete(`${REACT_NATIVE_BASE_URL}/Admin/UserInfo/${id}`)
       .then(response => {
         setUserInfo(response.data.data)
       }).catch(error => {

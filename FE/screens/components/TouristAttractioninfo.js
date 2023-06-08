@@ -5,59 +5,41 @@ import axios from 'axios'
 import like from "../../assets/like.png"
 import location from "../../assets/location.png"
 import { REACT_NATIVE_BASE_URL } from '../../contains'
+import LoginModal from './LoginModal'
 
-const TouristAttractionInfo = ({ navigation, data, isTwoColumn }) => {
-    
+const TouristAttractionInfo = ({ navigation, data }) => {
+    const [modalVisible, setModalVisible] = useState(false);
+
     const handleDetail = (data) => {
         navigation.navigate("Details", { data })
     }
-    const handleStorage = async (id) => {
+    const handleStorage = async (value) => {
         const token = JSON.parse(await AsyncStorage.getItem('token'));
-        
+        // const language = JSON.parse(await AsyncStorage.getItem('language'));
         AsyncStorage.getItem('language').then(language => {
-            if(data.isStorage) {
-                console.log(token)
-                axios.delete(`${REACT_NATIVE_BASE_URL}/${language}/User/storage`, { TID: id },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-                )
-                .then(response => {
-                    console.log(response.data)
-                }).catch(error => {
-                    console.log(error);
-                });
-            } else {
-                axios.post(`${REACT_NATIVE_BASE_URL}/${language}/User/storage`, { TID: id },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-                )
-                .then(response => {
-                    if(!response.data.status) {
-                        setModalVisible(true)
-                    }
-                }).catch(error => {
-                    console.log(error);
-                });
+            axios.post(`${REACT_NATIVE_BASE_URL}/${language}/User/storage`, { TID: value.id },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
             }
+            )
+            .then(response => {
+                console.log(response.data)
+                if(!response.data.status) {
+                    setModalVisible(true)
+                }
+            }).catch(error => {
+                console.log(error);
+            });
         })
     }
-    const [modalVisible, setModalVisible] = useState(false);
 
-      const closeModal = () => {
-        setModalVisible(false);
-      };
   return (
     <TouchableOpacity 
         onPress={() => handleDetail(data)}
-        className={`w-[${isTwoColumn ? '48%' : '170px' }] h-[250px] my-2 mx-1 shadow`}
+        className={`w-[170px] h-[250px] my-2 mx-1 shadow`}
     >
         <Image source={{ uri: data.image }} className="w-full h-full object-cover rounded-2xl relative opacity-[0.8]" />
         <View className="absolute top-3 left-3 right-3 flex-row justify-between items-center">
@@ -81,6 +63,7 @@ const TouristAttractionInfo = ({ navigation, data, isTwoColumn }) => {
                 <Text className="text-xs font-normal text-basic" >{data.address.length > 18 ? data.address.slice(0,20) + "..." : data.address}</Text>
             </View>
         </View>
+        <LoginModal isVisible={modalVisible} setModalVisible={setModalVisible}/>
     </TouchableOpacity>
   )
 }

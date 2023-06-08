@@ -45,6 +45,11 @@
         "help": "Help",
         "setting": "Setting"
     },
+    "changePassword": {
+        "title": "Change Password",
+        "oldPass": "Old Password",
+        "newPass": "New Password"
+    },
     "modal": {
         "requireLogin": {
             "title": "Require Login",

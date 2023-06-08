@@ -16,7 +16,6 @@ export default function Saved({ navigation }) {
   useEffect(() => {
     const getStorage = async () => {
       const token = JSON.parse(await AsyncStorage.getItem('token'));
-      console.log(token)
       const language = await AsyncStorage.getItem('language');
         axios.get(`${REACT_NATIVE_BASE_URL}/${language}/User/storage`,
         {
@@ -26,7 +25,6 @@ export default function Saved({ navigation }) {
         }
         )
         .then(response => {
-          console.log("fata" ,response.data.status)
           if(!response.data.status) {
             setRequireLogin(true)
           } else {

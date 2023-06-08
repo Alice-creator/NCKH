@@ -1,13 +1,14 @@
 import { View, Text, Button } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { REACT_NATIVE_BASE_URL } from '../../contains';
 
 const UpdatePlace = () => {
   const [ places, setPlaces ] = useState()
   useEffect(() => {
     const getUserInfo = async () => {
       const token = JSON.parse(await AsyncStorage.getItem('token'));
-      axios.post(`http://192.168.1.7:5000/Admin/UserInfo`,
+      axios.post(`${REACT_NATIVE_BASE_URL}/Admin/UserInfo`,
       {
         headers: {
           'Content-Type': 'application/json',

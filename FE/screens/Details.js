@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, Image, TouchableOpacity, SafeAreaView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import { categoriesData, categoriesNearData } from '../services/categoriesData';
+import { categoriesNearData } from '../services/categoriesData';
 
 import locationIcon from "../assets/location.png"
 import distanceIcon from "../assets/distance.png"
@@ -12,6 +12,7 @@ import Loading from './components/Loading';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Location from 'expo-location';
 import TouristAttractionInfo from './components/TouristAttractioninfo';
+import { PLACES_API } from '../contains';
 
 const Details = ({ route, navigation }) => {
     const { t } = useTranslation()
@@ -23,93 +24,63 @@ const Details = ({ route, navigation }) => {
     const [ loading, setLoading ] = useState(true)
     const [ distance, setDistance ] = useState('None')
     useEffect(() => {
-      // let street = currentLocation.streetName
-      const calculateBoundingBox = async (latitude, longitude, radius) => {
-        const earthRadius = 6371; // Bán kính Trái đất (đơn vị km)
-        const angularRadius = radius / earthRadius; // Góc đối ứng với bán kính
-
-        const latRadian = latitude * Math.PI / 180; // Chuyển đổi latitude sang radian
-        const degLatitude = radius / earthRadius * (180 / Math.PI); // Chuyển đổi bán kính sang độ latitude
-
-        // Tính toán các giá trị tọa độ của bounding box
-        const tr_latitude = latitude + degLatitude;
-        const tr_longitude = longitude + angularRadius / Math.cos(latRadian);
-
-        const bl_latitude = latitude - degLatitude;
-        const bl_longitude = longitude - angularRadius / Math.cos(latRadian);
-
-        // Trả về bounding box dưới dạng một object
-        return {
-            tr_latitude,
-            tr_longitude,
-            bl_latitude,
-            bl_longitude,
-        };
-      };
-    const updateMapRegion = async () => {
+    const getNearByLocation = async () => {
+      setLoading(true)
       const language = await AsyncStorage.getItem('language')
-      let toLoc = { "latitude": parseFloat(data.latitude), "longitude": parseFloat(data.longitude) }
-      const {
-          tr_latitude,
-          tr_longitude,
-          bl_latitude,
-          bl_longitude,
-      } = await calculateBoundingBox(toLoc.latitude, toLoc.longitude, 10)
+   
       if(data.latitude && data.longitude) {
-        const options = {
-            method: 'GET',
-            url: `https://travel-advisor.p.rapidapi.com/${category}/list-in-boundary`,
-            params: {
-                tr_longitude,
-                tr_latitude,
-                bl_longitude,
-                bl_latitude,
-                currency: 'USD',
-                limit: '10',
-                lunit: 'km',
-                lang: language
-            },
-            headers: {
-              'X-RapidAPI-Key': '92fa813160msha11f7e2d7ff032ep17db1cjsnc98c0e83ce86',
-              'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
-            }
-        };
-          
+        const location = `${data.latitude},${data.longitude}`;
+        const radius = 20000;
+        let types = []   
+        if (category == "hotels") {
+          types = [ "point_of_interest", "hotel" ];
+        } else if (category == "restaurants") {
+          types = [ "restaurant" ];
+        } else {
+          types = [ "tourist_attraction", "museum", "zoo", "natural_feature", "aquarium" ];
+        }
         try {
-            const response = await axios.request(options);
-            const limit = 10
-            let data = response.data.data.reduce((acc, value) => {
-              if (value.name && value.photo && value.location_string && value.latitude && value.longitude && (parseFloat(value.distance).toFixed(1) + " km" != '0.0 km')) {
-                const item = {
-                  name: value.name,
-                  address: value.address,
-                  location_string: value.location_string,
-                  image: value.photo.images.original.url,
-                  latitude: value.latitude,
-                  longitude: value.longitude,
-                  distance: parseFloat(value.distance).toFixed(1) + " km",
-                  rating: value.rating
+          const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location}&radius=${radius}&types=${types.join("|")}&key=${PLACES_API}&language=${language}&rankby=prominence`;
+          const { data } = await axios.request(url);
+          const results = data.results;
+          const places = [];
+  
+          // Lặp qua các kết quả và trích xuất thông tin
+          results.forEach(placeData => {
+            // Kiểm tra xem có hình ảnh trong địa điểm hay không
+            if (placeData.photos && placeData.photos.length > 0) {
+              const photoReference = placeData.photos[0].photo_reference;
+              const photoWidth = placeData.photos[0].width;
+  
+              // Tạo URL hình ảnh từ photo_reference
+              const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${photoWidth}&photoreference=${photoReference}&key=${PLACES_API}`;
+              if (photoUrl.length > 0) {
+                const place = {
+                  name: placeData.name,
+                  address: placeData.vicinity,
+                  latitude: placeData.geometry.location.lat,
+                  longitude: placeData.geometry.location.lng,
+                  rating: placeData.rating,
+                  type: placeData.types[0],
+                  image: photoUrl
                 };
-                acc.push(item);
+                places.push(place);
               }
-              return acc;
-            }, []);
-            if (data.length > limit) {
-              data = data.sort(() => Math.random() - 0.5).slice(0, limit)
             }
-            setNearList(data)
-            setLoading(false)
+          })
+          setNearList(places)
+          setLoading(false)
         } catch (error) {
-              console.error(error);
-        }    
+          // Xử lý lỗi ở đây
+          console.error(error);
+        }
       } else {
         return (
           <Text>No result</Text>
         )
       }
     };
-
-      updateMapRegion();
+    getNearByLocation();
     }, [category])
     useEffect(() => {
       const getCurrentLocation = async () => {
@@ -319,19 +290,13 @@ const Details = ({ route, navigation }) => {
                       <View style={{ flex: 1, marginLeft: 8 }}>
                           {/* Name & Rating */}
                           <View className="flex-row justify-between">
-                              <Text className="text-bold-txt font-semibold mr-1">{place?.name}</Text>
-                              <View className="flex-row">
-                                  <Image
-                                      className="h-4 w-4 mr-2"
-                                      source={distanceIcon}
-                                      style={{ tintColor: "#3F95EC" }}
-                                  />
-                              </View>
+                              <Text className="text-bold-txt font-semibold mr-1">{place.name?.length > 25 ? place?.name.slice(0,25) + '...': place?.name}</Text>
+                              <Text>⭐</Text>
                           </View>
                           <View className="flex-row justify-between">
-                              <Text className="text-basic mr-1">{place.location_string?.length > 20 ? place?.location_string.slice(0,20) + '...': place?.location_string}</Text>
+                              <Text className="text-basic mr-1">{place.address?.length > 25 ? place?.address.slice(0,25) + '...': place?.address}</Text>
                               <View className="flex-row">
-                                  <Text>{place?.distance}</Text>
+                                  <Text>{place?.rating}</Text>
                               </View>
                           </View>
                       </View>

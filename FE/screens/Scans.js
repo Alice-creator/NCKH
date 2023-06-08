@@ -28,9 +28,7 @@ export default function Scans({ navigation }) {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
-        }).then(response => {
-          console.log("result", response.data)
-          
+        }).then(response => {          
           const result = response.data.result
           let data = {}
           if(result.length > 1) {
@@ -68,10 +66,7 @@ export default function Scans({ navigation }) {
       allowsEditing: false,
       aspect: [5, 6],
       quality: 1,
-    });
-
-    // console.log(result);
-    
+    });    
     if (!result.canceled) {
       const data = new FormData();
       data.append('file', {

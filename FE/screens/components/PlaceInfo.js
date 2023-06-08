@@ -35,10 +35,6 @@ const PlaceInfo = ({ navigation, data }) => {
         })
     }
     const [modalVisible, setModalVisible] = useState(false);
-
-    const closeModal = () => {
-        setModalVisible(false);
-    };
   return (
     <TouchableOpacity className="mr-4 my-2" key={`${Math.random()}`}
                     onPress={() => handleDetail(data)}
@@ -61,7 +57,7 @@ const PlaceInfo = ({ navigation, data }) => {
                 <Text className="text-sm text-basic" > {data.location_string} </Text>
             </View>
         </View>
-        <LoginModal isVisible={modalVisible} closeModal={closeModal} />
+        <LoginModal isVisible={modalVisible} setModalVisible={setModalVisible} />
     </TouchableOpacity>  
   )
 }

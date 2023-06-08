@@ -45,6 +45,11 @@
         "help": "Giúp đỡ",
         "setting": "Cài đặt"
     },
+    "changePassword": {
+        "title": "Thay đổi mật khẩu",
+        "oldPass": "Mật khẩu cũ",
+        "newPass": "Mật khẩu mới"
+    },
     "modal": {
         "requireLogin": {
             "title": "Yêu cầu đăng nhập",

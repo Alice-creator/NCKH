@@ -13,6 +13,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { MyContext } from '../context';
+import { REACT_NATIVE_BASE_URL } from '../contains';
+import LoginModal from './components/LoginModal';
 
 const Profile = ({ navigation }) => {
   const { t, i18n } = useTranslation();
@@ -24,11 +26,11 @@ const Profile = ({ navigation }) => {
   const [ avatar, setAvatar ] = useState("")
   const [modalVisible, setModalVisible] = useState(false);
   const [ feedback, setFeedback ] = useState()
+
   useEffect( ()=>{
     const retrieveData = async () => {
       try {
         const value = JSON.parse(await AsyncStorage.getItem('user'));
-        console.log(value)
 
         if (value !== null) {
           setUser({username :" Vy hihi", gmail: "hfdjhfsj"})
@@ -42,7 +44,6 @@ const Profile = ({ navigation }) => {
     const getLanguage = async () => {
       try {
         const value = await AsyncStorage.getItem('language');
-        console.log("lang", value)
         if (value !== null) {
           setLanguage(value)
           setIsEnabledLanguage(value == 'en' || value == null ? true : false)
@@ -63,7 +64,7 @@ const Profile = ({ navigation }) => {
   };
   const handleFeedback = async () => {
     const token = JSON.parse(await AsyncStorage.getItem('token'));
-    axios.post(`http://192.168.1.7:5000/Account/feedback`, { feedback },
+    axios.post(`${REACT_NATIVE_BASE_URL}/Account/feedback`, { feedback },
     {
       headers: {
         'Content-Type': 'application/json',
@@ -72,7 +73,9 @@ const Profile = ({ navigation }) => {
     }
     )
     .then(response => {
-        console.log(response.data)
+        if(!response.status) {
+          setModalVisible(true)
+        }
     }).catch(error => {
         console.log(error);
     });
@@ -300,6 +303,7 @@ const Profile = ({ navigation }) => {
           </View>
           
         </Modal>
+        <LoginModal isVisible={modalVisible} setModalVisible={setModalVisible}/>
       </View>
     </SafeAreaView>
   )
