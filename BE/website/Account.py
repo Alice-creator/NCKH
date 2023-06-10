@@ -35,6 +35,7 @@ class Login(Resource):
     def post(self):
         connection = database.connect_db()
         cursor = connection.cursor()
+        data = request.get_json()
         # data = extension.create_json(request.values.lists())
         try:
             cursor.execute(
@@ -42,7 +43,7 @@ class Login(Resource):
                 select CID, username from account_info 
                 where gmail = %s and password = %s;
                 ''',
-                (request.json['gmail'], request.json['password'])
+                (data['gmail'], data['password'])
             )
             CID = cursor.fetchone()
             cursor.execute(
