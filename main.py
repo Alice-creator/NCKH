@@ -2,8 +2,10 @@ from flask import Flask
 from flask_restful import Api
 from BE.website import *
 from Model import classifier
+from flask_cors import CORS
 app = Flask(__name__)
 api = Api(app)
+CORS(app)
 # Attraction.insertAttraction() 
 api.add_resource(Account.SignUp, '/Account/sign-up')
 api.add_resource(Account.Login, '/Account/login')

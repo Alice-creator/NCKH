@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
 
 import HomePage from './screens/HomePage.js';
 import Details from './screens/Details.js';
@@ -18,8 +17,6 @@ import UpdatePlace from './screens/admin/UpdatePlace.js'
 import './languages/i18n.js'
 import {MyContextProvider} from './context/index.js';
 import ChangePassword from './screens/ChangePassword.js';
-
-axios.defaults.baseURL = process.env.REACT_NATIVE_BASE_URL
 
 const Stack = createNativeStackNavigator();
 function App() {
