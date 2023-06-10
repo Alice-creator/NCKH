@@ -76,7 +76,7 @@ class Login(Resource):
         except:
             return {
                 'status': False,
-                'username': None,
+                'username': 'hihihihi',
                 'token': None
             }, 401
 

@@ -26,8 +26,14 @@ const Login = ({ navigation }) => {
 
     const handleLogin = () => {
         const data = { gmail, password }
-        axios.post(`${REACT_NATIVE_BASE_URL}/Account/login`, data)
+        console.log(data)
+        axios.post(`${REACT_NATIVE_BASE_URL}/Account/login`, data,  {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
         .then(async res => {
+            console.log(res)
             if(res.data.status) {
                 setUser({ username : res.data.username, gmail, avatar: '', role: res.data.role })
                 await AsyncStorage.setItem('user', JSON.stringify({ username : res.data.username, gmail, avatar: '', role: res.data.role }));

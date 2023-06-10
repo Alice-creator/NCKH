@@ -23,6 +23,8 @@ const Profile = ({ navigation }) => {
   const [isEnabledLanguage, setIsEnabledLanguage] = useState(false);
   const [ avatar, setAvatar ] = useState("")
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleLogin, setModalVisibleLogin] = useState(false);
+
   const [ feedback, setFeedback ] = useState()
 
   useEffect( ()=>{
@@ -71,7 +73,7 @@ const Profile = ({ navigation }) => {
     )
     .then(response => {
         if(!response.status) {
-          setModalVisible(true)
+          setModalVisibleLogin(true)
         }
     }).catch(error => {
         console.log(error);
@@ -202,7 +204,7 @@ const Profile = ({ navigation }) => {
                   />
                 </View>
               </View>
-              <View className="flex-row justify-between">
+              {/* <View className="flex-row justify-between">
                 <View className="flex-row justify-center my-2 items-center">
                   <View className="rounded-xl bg-[#D5D3FB] mr-3 w-12 h-12 p-[10px]">
                     <Image 
@@ -222,7 +224,7 @@ const Profile = ({ navigation }) => {
                     value={isEnabled}
                   />
                 </View>
-              </View>
+              </View> */}
 
               <TouchableOpacity className="flex-row justify-between"
                 onPress={openModal}
@@ -303,7 +305,7 @@ const Profile = ({ navigation }) => {
           </View>
           
         </Modal>
-        <LoginModal isVisible={modalVisible} setModalVisible={setModalVisible}/>
+        <LoginModal isVisible={modalVisibleLogin} setModalVisible={setModalVisibleLogin}/>
       </View>
     </SafeAreaView>
   )
