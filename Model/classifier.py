@@ -60,7 +60,6 @@ class Classifier(Resource):
             img = Image.open(img_obj)
 
             # self.saveImg(auth, file.filename, img)
-
             pred = self.predict(img)
             result = self.getAttractionInfo(pred, language, request.headers.get('Authorization'))
             return jsonify({"result": result})
