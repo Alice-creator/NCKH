@@ -33,7 +33,7 @@ const Login = ({ navigation }) => {
             },
           })
         .then(async res => {
-            console.log(res)
+            console.log(res.data)
             if(res.data.status) {
                 setUser({ username : res.data.username, gmail, avatar: '', role: res.data.role })
                 await AsyncStorage.setItem('user', JSON.stringify({ username : res.data.username, gmail, avatar: '', role: res.data.role }));

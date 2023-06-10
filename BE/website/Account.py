@@ -78,7 +78,7 @@ class Login(Resource):
                 'status': False,
                 'username': 'hihihihi',
                 'token': None
-            }, 401
+            }
 
 class ChangeInfo(Resource):
     def put(self):
