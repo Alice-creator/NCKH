@@ -39,7 +39,6 @@ class Login(Resource):
         # print(request.get_json())
         # data = request.get_json()
         data = request.json
-        print(request.json)
         try:
             cursor.execute(
                 '''

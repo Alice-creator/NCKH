@@ -257,7 +257,7 @@ const Details = ({ route, navigation }) => {
                     <Text className="text-[13px]">{data.likes}</Text>
                   </View>
               </View>
-              <View className="flex-row">
+              {/* <View className="flex-row">
                   <View className="bg-[#D5D3FB] mr-3 rounded-lg w-12 h-12 p-3">
                     <Image className="w-full h-full" source={typeIcon} />
                   </View>
@@ -265,7 +265,7 @@ const Details = ({ route, navigation }) => {
                     <Text className="text-[14px] font-bold tracking-wide mb-1 text-[#5F3FF1]">{t('detail.type')}</Text>
                     <Text className="text-[13px]">{data.type}</Text>
                   </View>
-              </View>     
+              </View>      */}
             </View>
 
             <View>
