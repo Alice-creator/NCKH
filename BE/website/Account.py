@@ -38,14 +38,14 @@ class Login(Resource):
         cursor = connection.cursor()
         # print(request.get_json())
         # data = request.get_json()
-        data = request.json
+        data = extension.create_json(request.values.lists())
         try:
             cursor.execute(
                 '''
                 select CID, username from account_info 
                 where gmail = %s and password = %s;
                 ''',
-                (data.get('gmail'), data.get('password'))
+                (data['gmail'], data['password'])
             )
             CID = cursor.fetchone()
             cursor.execute(
@@ -76,7 +76,7 @@ class Login(Resource):
         except:
             return {
                 'status': False,
-                'username': 'hihihihi',
+                'username': None,
                 'token': None
             }
 
