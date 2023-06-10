@@ -8,7 +8,6 @@ class SignUp(Resource):
         connection = database.connect_db()
         cursor = connection.cursor()
         data = extension.create_json(request.values.lists())
-        print(request.json['gmail'], request.json['username'], request.json['password'], request.json['gmail'])
         try:
             cursor.execute(
                 '''
@@ -38,14 +37,14 @@ class Login(Resource):
         cursor = connection.cursor()
         # print(request.get_json())
         # data = request.get_json()
-        data = extension.create_json(request.values.lists())
+        # data = extension.create_json(request.values.lists())
         try:
             cursor.execute(
                 '''
                 select CID, username from account_info 
                 where gmail = %s and password = %s;
                 ''',
-                (data['gmail'], data['password'])
+                (request.json['gmail'], request.json['password'])
             )
             CID = cursor.fetchone()
             cursor.execute(
