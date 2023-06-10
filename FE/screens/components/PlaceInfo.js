@@ -57,7 +57,7 @@ const PlaceInfo = ({ navigation, data }) => {
                 <Text className="text-sm text-basic" > {data.location_string} </Text>
             </View>
         </View>
-        <LoginModal isVisible={modalVisible} setModalVisible={setModalVisible} />
+        <LoginModal navigation={navigation} isVisible={modalVisible} setModalVisible={setModalVisible} />
     </TouchableOpacity>  
   )
 }

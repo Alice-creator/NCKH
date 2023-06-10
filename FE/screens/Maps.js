@@ -19,6 +19,7 @@ import carIcon from "../assets/car.png"
 import redPinIcon from "../assets/red-pin.png"
 import pinIcon from "../assets/pin.png"
 import starIcon from "../assets/star.png"
+import { GOOGLE_MAPS_API } from "../contains";
 
 const Maps = ({ route, navigation }) => {
 
@@ -42,15 +43,11 @@ const Maps = ({ route, navigation }) => {
                   console.log('Quyền truy cập vào định vị bị từ chối');
                   return;
                 }
-          
                 // Lấy vị trí hiện tại
                 let location = await Location.getCurrentPositionAsync({});
-
-    
                 const { latitude, longitude } = location.coords;
                 
                 setFromLocation({ latitude, longitude })
-                console.log('Vị trí hiện tại:', location.coords);
                 return { latitude, longitude }
         }
         
@@ -151,6 +148,7 @@ const Maps = ({ route, navigation }) => {
                 <MapView
                     ref={mapView}
                     provider={PROVIDER_GOOGLE}
+                    apiKey={GOOGLE_MAPS_API}
                     initialRegion={region}
                     style={{ flex: 1 }}
                     onRegionChangeComplete={(region) => {

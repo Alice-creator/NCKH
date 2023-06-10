@@ -1,12 +1,20 @@
-import React, { useContext } from 'react';
-import { View, Text, TouchableOpacity, Modal, TextIn } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, TouchableOpacity, Modal, BackHandler } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-const LoginModal = ({ isVisible, setModalVisible }) => {
+const LoginModal = ({ navigation,  isVisible, setModalVisible }) => {
     const { t } = useTranslation()
     const closeModal = () => {
       setModalVisible(false);
     };
+    useEffect(() => {
+      const backAction = () => {
+        navigation.navigate("Discover");
+        return true; // Trả về true để ngăn không thoát khỏi ứng dụng
+      };
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+      return () => backHandler.remove();
+    }, [])
   return (
     <Modal visible={isVisible} animationType="slide" onRequestClose={closeModal} onBackdropPress={closeModal}
         transparent={true}    

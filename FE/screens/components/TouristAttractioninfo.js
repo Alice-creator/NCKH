@@ -63,7 +63,7 @@ const TouristAttractionInfo = ({ navigation, data }) => {
                 <Text className="text-xs font-normal text-basic" >{data.address.length > 18 ? data.address.slice(0,20) + "..." : data.address}</Text>
             </View>
         </View>
-        <LoginModal isVisible={modalVisible} setModalVisible={setModalVisible}/>
+        <LoginModal navigation={navigation} isVisible={modalVisible} setModalVisible={setModalVisible}/>
     </TouchableOpacity>
   )
 }

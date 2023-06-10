@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, TouchableOpacity, SafeAreaView } from 'react-native'
+import { View, Text, ScrollView, Image, TouchableOpacity, SafeAreaView, BackHandler } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { categoriesNearData } from '../services/categoriesData';
@@ -114,6 +114,12 @@ const Details = ({ route, navigation }) => {
         return deg * (Math.PI / 180);
       };
       getCurrentLocation()
+      const backAction = () => {
+        navigation.navigate(scan ? "Scan": "Discover");
+        return true; // Trả về true để ngăn không thoát khỏi ứng dụng
+      };
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+      return () => backHandler.remove();
     }, [])
     const handleTouchCategory = (name) => {
       setCategory(name)
@@ -145,7 +151,7 @@ const Details = ({ route, navigation }) => {
           />
         </View>   
         {data.suggest ?
-          <View className="p-4 flex-1 rounded-t-3xl -top-10 bottom-0 bg-theme">
+          <View className="p-4 flex-1 rounded-t-3xl -top-5 bottom-0 bg-theme">
              <Text className="text-xl font-bold text-bold-txt tracking-wider ">{t('detail.suggest')}</Text>
              <ScrollView 
                   horizontal 
@@ -176,7 +182,7 @@ const Details = ({ route, navigation }) => {
               </ScrollView>
           </View>
           :
-          <View className="p-4 flex-1 rounded-t-3xl -top-10 bottom-0 bg-theme">
+          <View className="p-4 flex-1 rounded-t-3xl -top-5 bottom-0 bg-theme">
             <View className="flex-row justify-between items-center ">
               <View>
                 <Text className="text-xl font-bold text-bold-txt tracking-wider ">{data.name}</Text>

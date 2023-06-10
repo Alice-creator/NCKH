@@ -152,6 +152,7 @@ const Discover = ({ navigation }) => {
                 <FlatList 
                     data={searchPlaces}
                     numColumns={2}
+                    showsVerticalScrollIndicator={false}
                     renderItem={({ item }) => (
                         <TouristAttractionInfo
                             navigation={navigation}
@@ -183,6 +184,7 @@ const Discover = ({ navigation }) => {
                 <FlatList 
                     data={searchType}
                     numColumns={2}
+                    showsVerticalScrollIndicator={false}
                     renderItem={({ item }) => (
                         <TouristAttractionInfo
                             navigation={navigation}
@@ -208,7 +210,7 @@ const Discover = ({ navigation }) => {
                 />
             </View>
             :
-            loading ? <Loading /> : <View className="mx-5 mb-48">
+            loading ? <Loading /> : <ScrollView className="mx-5 flex-1" showsVerticalScrollIndicator={false}>
                 <View className="flex-row justify-between">
                     <Text className="font-semibold text-bold-txt text-lg" >{t('discover.exploreCity')}</Text>
                 </View>
@@ -241,37 +243,37 @@ const Discover = ({ navigation }) => {
                 </ScrollView>
                 
                 <View className="flex-row justify-between">
-                    <Text className="font-semibold text-bold-txt text-lg" >{t('discover.popularPlace')}</Text>
+                    <Text className="font-semibold text-bold-txt text-lg">{t('discover.popularPlace')}</Text>
                 </View>
                 {loading ? <Loading /> : 
                     <ScrollView 
                         horizontal
                         showsHorizontalScrollIndicator={false}
-                        className="my-2 flex-row overflow-x-scroll mb-16"
+                        className="pb-20"
                     >
-                        {touristAttraction.length > 0 && touristAttraction.map((value, index) => ( 
-                                <PlaceInfo navigation={navigation} 
-                                            key={`${Math.random()}`}
-                                            data = {{
-                                                id: value.TID,
-                                                name: value.name,
-                                                latitude: value.latitude,
-                                                longitude: value.longitude,
-                                                location_string: value.location_string,
-                                                image: value.images,
-                                                address: value.address,
-                                                description: value.description,
-                                                story: value.story,
-                                                type: value.type,
-                                                likes: value.likes,
-                                                isStorage: value.Stored
-                                            }}
-                                />                     
-                            ))
-                        }
+                            {touristAttraction.length > 0 && touristAttraction.map((value, index) => ( 
+                                    <PlaceInfo navigation={navigation} 
+                                                key={`${Math.random()}`}
+                                                data = {{
+                                                    id: value.TID,
+                                                    name: value.name,
+                                                    latitude: value.latitude,
+                                                    longitude: value.longitude,
+                                                    location_string: value.location_string,
+                                                    image: value.images,
+                                                    address: value.address,
+                                                    description: value.description,
+                                                    story: value.story,
+                                                    type: value.type,
+                                                    likes: value.likes,
+                                                    isStorage: value.Stored
+                                                }}
+                                    />                     
+                                ))
+                            }
                     </ScrollView>
                 }
-            </View>
+            </ScrollView>
         }
     </SafeAreaView>
   )

@@ -14,6 +14,7 @@ import closeEyeIcon from "../assets/closeEye.png"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { REACT_NATIVE_BASE_URL } from '../contains'
 import { MyContext } from '../context';
+import axios from 'axios';
 
 
 const Login = ({ navigation }) => {
@@ -23,25 +24,16 @@ const Login = ({ navigation }) => {
 
     const [ hidden, setHidden ] = useState(true)
 
-    const handleLogin = async () => {
+    const handleLogin = () => {
         const data = { gmail, password }
-        fetch(`${REACT_NATIVE_BASE_URL}/Account/login`, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: data
-        })
-        .then((response) => response.json())
-        .then(async (data) => {
-            console.log(data)
-            if(data.status) {
-                setUser({ username : data.username, gmail, avatar: '', role: data.role })
-                await AsyncStorage.setItem('user', JSON.stringify({ username : data.username, gmail, avatar: '', role: data.role }));
-                await AsyncStorage.setItem('token', JSON.stringify(data.token));
+        axios.post(`${REACT_NATIVE_BASE_URL}/Account/login`, data)
+        .then(async res => {
+            if(res.data.status) {
+                setUser({ username : res.data.username, gmail, avatar: '', role: res.data.role })
+                await AsyncStorage.setItem('user', JSON.stringify({ username : res.data.username, gmail, avatar: '', role: res.data.role }));
+                await AsyncStorage.setItem('token', JSON.stringify(res.data.token));
 
-                if(data.role == "Admin") {
+                if(res.data.role == "Admin") {
                     navigation.navigate('AdminHome')
                 } else {
                     navigation.navigate('Profile')
@@ -50,9 +42,35 @@ const Login = ({ navigation }) => {
                 console.log('tai khoan khong ton tai')
             }
         })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+        .catch(error => console.error(error));
+        // fetch(`${REACT_NATIVE_BASE_URL}/Account/login`, {
+        //     method: 'POST',
+        //     headers: {
+        //         Accept: 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(data)
+        // })
+        // .then((response) => response.json())
+        // .then(async (data) => {
+        //     console.log(data)
+        //     if(data.status) {
+        //         setUser({ username : data.username, gmail, avatar: '', role: data.role })
+        //         await AsyncStorage.setItem('user', JSON.stringify({ username : data.username, gmail, avatar: '', role: data.role }));
+        //         await AsyncStorage.setItem('token', JSON.stringify(data.token));
+
+        //         if(data.role == "Admin") {
+        //             navigation.navigate('AdminHome')
+        //         } else {
+        //             navigation.navigate('Profile')
+        //         }
+        //     } else {
+        //         console.log('tai khoan khong ton tai')
+        //     }
+        // })
+        // .catch((error) => {
+        //     console.error('Error:', error);
+        // });
 
     }
             

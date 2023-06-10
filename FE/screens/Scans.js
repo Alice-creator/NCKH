@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Image, View, StyleSheet, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import { Image, View, Text, SafeAreaView, TouchableOpacity, BackHandler } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import { Camera, CameraType } from 'expo-camera';
@@ -74,7 +74,6 @@ export default function Scans({ navigation }) {
         type: 'image/jpeg',
         name: 'photo.jpg',
       });
-      console.log(result.assets)
       setImage(result.assets[0].uri);
       getPlace(data, result.assets[0].uri) //Add
     }
@@ -91,7 +90,12 @@ export default function Scans({ navigation }) {
       setHasCameraPermission(cameraPermission.status === "granted");
       setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
     })();
-    
+    const backAction = () => {
+      navigation.navigate("Discover");
+      return true; // Trả về true để ngăn không thoát khỏi ứng dụng
+    };
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => backHandler.remove();
   }, []);
 
   if (hasCameraPermission === undefined) {
@@ -179,18 +183,3 @@ export default function Scans({ navigation }) {
     </SafeAreaView>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonContainer: {
-    backgroundColor: '#fff',
-    alignSelf: 'flex-end'
-  },
-  preview: {
-    alignSelf: 'stretch',
-    flex: 1
-  }
-}); 

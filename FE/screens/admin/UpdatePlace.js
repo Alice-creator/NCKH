@@ -27,10 +27,6 @@ const UpdatePlace = () => {
   return (
     <View>
       <Text>Edit place</Text>
-      <Text>{t('welcome')}</Text>
-      <Text>{t('hello')}</Text>
-      <Text>{t('goodbye')}</Text>
-      <Button title="Hihi" onPress={toggleLanguage} />
     </View>
   );
 }

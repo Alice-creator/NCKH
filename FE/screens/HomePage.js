@@ -17,12 +17,14 @@ const HomePage = () => {
     const checkLogin = async () => {
       try {
         const value = JSON.parse(await AsyncStorage.getItem('user'));
+        console.log(value)
         if (value !== null) {
           if (value.role == 'Admin') {
             setIsAdmin(true)
           }
+        } else {
+          setIsAdmin(false)
         }
-        setIsAdmin(false)
       } catch (error) {
         console.log(error)
       }

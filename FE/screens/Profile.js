@@ -19,10 +19,8 @@ import LoginModal from './components/LoginModal';
 const Profile = ({ navigation }) => {
   const { t, i18n } = useTranslation();
   const { user, setUser, setLanguage } = useContext(MyContext)
-
   const [isEnabled, setIsEnabled] = useState(false);
   const [isEnabledLanguage, setIsEnabledLanguage] = useState(false);
-
   const [ avatar, setAvatar ] = useState("")
   const [modalVisible, setModalVisible] = useState(false);
   const [ feedback, setFeedback ] = useState()
@@ -31,9 +29,8 @@ const Profile = ({ navigation }) => {
     const retrieveData = async () => {
       try {
         const value = JSON.parse(await AsyncStorage.getItem('user'));
-
         if (value !== null) {
-          setUser({username :" Vy hihi", gmail: "hfdjhfsj"})
+          setUser(value)
           setAvatar(value.avatar)
         }
       } catch (error) {
@@ -85,19 +82,22 @@ const Profile = ({ navigation }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [4, 4],
       quality: 1,
     });
-    const data = {...user, avatar: result.assets[0].uri }
+    // const userLocal = await AsyncStorage.getItem('user')
+    // const data = userLocal
+    // data.avatar = result.assets[0].uri
+    // console.log(data)
     setAvatar(result.assets[0].uri)
-    if (!result.canceled) {
-      try {
-        await AsyncStorage.setItem('user', JSON.stringify(data));
-        setUser(data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    // if (!result.canceled) {
+    //   try {
+    //     await AsyncStorage.setItem('user', JSON.stringify(data));
+    //     setUser(data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
   };
   const handleLogOut = async () => {
     await AsyncStorage.removeItem('user')
@@ -146,14 +146,14 @@ const Profile = ({ navigation }) => {
               </View>
             </TouchableOpacity>
             <View className="text-center mt-1">
-              <Text className="text-center text-bold-txt font-bold text-[20px]">{user ? user.username: 'Username'}</Text>
-              <Text className="text-center italic text-basic text-base">{user ? user.gmail : 'abcdef@gmail.com'}</Text>
+              <Text className="text-center text-bold-txt font-bold text-[20px]">{user && user.username ? user.username: 'Username'}</Text>
+              <Text className="text-center italic text-basic text-base">{user && user.username ? user.gmail : 'abcdef@gmail.com'}</Text>
             </View>
           </View>
           <View className="bg-white w-full rounded-3xl px-5 py-4">
             <View className="py-1 my-1 flex-row justify-between border-b-[1px] border-slate-300">
               <Text className="font-bold text-base tracking-wide text-bold-txt">Email</Text>
-              <Text className="text-basic">{user ? (user.gmail.length > 28 ? user.gmail.slice(0,28) + "..." : user.gmail) : 'abcdef@gmail.com'}</Text>
+              <Text className="text-basic">{user && user.gmail ? (user.gmail.length > 28 ? user.gmail.slice(0,28) + "..." : user.gmail) : 'abcdef@gmail.com'}</Text>
             </View>
             <TouchableOpacity className="py-1 my-1 flex-row justify-between border-b-[1px] border-slate-300"
                               onPress={() => navigation.navigate("Saved")}
