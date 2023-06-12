@@ -35,7 +35,7 @@ class Login(Resource):
     def post(self):
         connection = database.connect_db()
         cursor = connection.cursor()
-        data = request.json
+        data = request.get_json()
         # data = extension.create_json(request.values.lists())
         try:
             cursor.execute(
