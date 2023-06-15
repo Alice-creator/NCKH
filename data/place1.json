@@ -724,5 +724,49 @@
         "address": "46 Tran Phu, Loc Tho, Nha Trang, Khanh Hoa",
         "description": "Nha Trang Beach is known for its clear water and abundant coral reefs. This creates favorable conditions for snorkeling, scuba diving, and ocean exploration. Tourists can discover the beauty of the sea floor and admire the diverse marine ecosystem with hundreds of colorful coral species and fish.",
         "story": ""
+    },
+    {
+        "name": "Biển Vũng Tàu",
+        "latitude": "12.25062",
+        "longitude": "109.1963",
+        "timezone": "Asia/Ho_Chi_Minh",
+        "location_string": "Nha Trang, Khanh Hoa Province",
+        "images": "https://photo-cms-tinnhanhchungkhoan.epicdn.me/w660/Uploaded/2023/gtnwae/2023_02_23/z-a-432.jpg",
+        "address": "46 Trần Phú, Lộc Thọ, Nha Trang, Khánh Hòa",
+        "description": "Biển Nha Trang có đặc điểm là nước biển trong suốt và có nhiều rạn san hô phong phú. Điều này tạo điều kiện thuận lợi cho việc lặn biển và khám phá đại dương. Du khách có thể khám phá vẻ đẹp đáy biển, ngắm nhìn hệ sinh thái biển đa dạng với hàng trăm loài san hô và các loài cá đa màu sắc.",
+        "story": ""
+    },
+    {
+        "name": "Vung Tau Beach",
+        "latitude": "12.25062",
+        "longitude": "109.1963",
+        "timezone": "Asia/Ho_Chi_Minh",
+        "location_string": "Nha Trang, Khanh Hoa Province",
+        "images": "https://photo-cms-tinnhanhchungkhoan.epicdn.me/w660/Uploaded/2023/gtnwae/2023_02_23/z-a-432.jpg",
+        "address": "46 Tran Phu, Loc Tho, Nha Trang, Khanh Hoa",
+        "description": "Nha Trang Beach is known for its clear water and abundant coral reefs. This creates favorable conditions for snorkeling, scuba diving, and ocean exploration. Tourists can discover the beauty of the sea floor and admire the diverse marine ecosystem with hundreds of colorful coral species and fish.",
+        "story": ""
+    },
+    {
+        "name": "Biển Mũi Né",
+        "latitude": "12.25062",
+        "longitude": "109.1963",
+        "timezone": "Asia/Ho_Chi_Minh",
+        "location_string": "Nha Trang, Khanh Hoa Province",
+        "images": "https://photo-cms-tinnhanhchungkhoan.epicdn.me/w660/Uploaded/2023/gtnwae/2023_02_23/z-a-432.jpg",
+        "address": "46 Trần Phú, Lộc Thọ, Nha Trang, Khánh Hòa",
+        "description": "Biển Nha Trang có đặc điểm là nước biển trong suốt và có nhiều rạn san hô phong phú. Điều này tạo điều kiện thuận lợi cho việc lặn biển và khám phá đại dương. Du khách có thể khám phá vẻ đẹp đáy biển, ngắm nhìn hệ sinh thái biển đa dạng với hàng trăm loài san hô và các loài cá đa màu sắc.",
+        "story": ""
+    },
+    {
+        "name": "Mui Ne Beach",
+        "latitude": "12.25062",
+        "longitude": "109.1963",
+        "timezone": "Asia/Ho_Chi_Minh",
+        "location_string": "Nha Trang, Khanh Hoa Province",
+        "images": "https://photo-cms-tinnhanhchungkhoan.epicdn.me/w660/Uploaded/2023/gtnwae/2023_02_23/z-a-432.jpg",
+        "address": "46 Tran Phu, Loc Tho, Nha Trang, Khanh Hoa",
+        "description": "Nha Trang Beach is known for its clear water and abundant coral reefs. This creates favorable conditions for snorkeling, scuba diving, and ocean exploration. Tourists can discover the beauty of the sea floor and admire the diverse marine ecosystem with hundreds of colorful coral species and fish.",
+        "story": ""
     }
 ]
