@@ -68,15 +68,16 @@ class Login(Resource):
             # Lưu token vào sesion
             return {
                 'status': True,
-                'username': CID[1],
-                'role': payload['role'],
-                'token': str(middleware.encryp(payload=payload))
+                'username': type(CID[1]),
+                'role': type(payload['role']),
+                'token': type(middleware.encryp(payload=payload))
             }, 200
         except:
             return {
                 'status': False,
                 'username': None,
-                'token': None
+                'token': None,
+                'data': data['gmail']
             }, 401
 
 class ChangeInfo(Resource):
