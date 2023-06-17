@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from flask_restful import request
 import requests
+from flask import *
 from BE.website import extension, database, middleware
 
 class SignUp(Resource):
@@ -66,12 +67,12 @@ class Login(Resource):
                     'language': 'Vietnamese'
                 }
             # Lưu token vào sesion
-            return {
+            return jsonify({
                 'status': True,
                 'username': CID[1],
                 'role': payload['role'],
-                # 'token': str(middleware.encryp(payload=payload))
-            }, 200
+                'token': middleware.encryp(payload=payload)
+            })
         except:
             return {
                 'status': False,
