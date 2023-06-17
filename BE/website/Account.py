@@ -68,9 +68,9 @@ class Login(Resource):
             # Lưu token vào sesion
             return {
                 'status': True,
-                'username': type(CID[1]),
-                'role': type(payload['role']),
-                'token': type(middleware.encryp(payload=payload))
+                'username': CID[1],
+                'role': payload['role'],
+                'token': str(middleware.encryp(payload=payload))
             }, 200
         except:
             return {
