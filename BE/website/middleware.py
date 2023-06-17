@@ -4,7 +4,7 @@ from ..website import extension, database
 
 secret = 'my-secret'
 def encryp(payload):
-    return jwt.encode(payload, secret, algorithm="HS256")
+    return (jwt.encode(payload, secret, algorithm="HS256"))
 
 def authentication(token):
     connection = database.connect_db()
