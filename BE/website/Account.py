@@ -69,7 +69,7 @@ class Login(Resource):
         # Lưu token vào sesion
         return {
             'status': True,
-            # 'username': CID[1],
+            'username': CID[1],
             # 'role': payload['role'],
             # 'token': middleware.encryp(payload=payload)
         }, 200
