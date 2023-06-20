@@ -15,7 +15,8 @@ class Storage(Resource):
         print(auth)
         if not auth:
             return {'status' : False,
-                    'message': 'you need to login first'
+                    'message': 'you need to login first',
+                    'token': token
                     }, 401
         connection = database.connect_db()
         cursor = connection.cursor()
