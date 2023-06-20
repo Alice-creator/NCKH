@@ -34,7 +34,7 @@ def authorization(token):
         return None
     
 def decryp(token):
-    token = token.encode()
+    token = token[2:-1]
     return jwt.decode(token, secret, verify=True, algorithms=["HS256"])
 
 def update_Like(TID, state):
