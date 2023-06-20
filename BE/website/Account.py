@@ -67,11 +67,12 @@ class Login(Resource):
                 'language': 'Vietnamese'
             }
         # Lưu token vào sesion
+        # print(type(CID[1]), type(middleware.encryp(payload=payload)))
         return {
             'status': True,
             'username': CID[1],
             'role': payload['role'],
-            # 'token': middleware.encryp(payload=payload)
+            'token': middleware.encryp(payload=payload)
         }, 200
         # except:
         #     return {
