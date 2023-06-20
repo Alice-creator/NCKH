@@ -72,7 +72,7 @@ class Login(Resource):
             'status': True,
             'username': CID[1],
             'role': payload['role'],
-            'token': middleware.encryp(payload=payload)
+            'token': middleware.encryp(payload=payload),
         }, 200
         # except:
         #     return {
