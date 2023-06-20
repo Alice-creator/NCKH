@@ -39,47 +39,47 @@ class Login(Resource):
         cursor = connection.cursor()
         data = request.get_json()
         # data = extension.create_json(request.values.lists())
-        try:
-            cursor.execute(
-                '''
-                select CID, username from account_info 
-                where gmail = %s and password = %s;
-                ''',
-                (data['gmail'], data['password'])
-            )
-            CID = cursor.fetchone()
-            cursor.execute(
-                '''
-                select count(CID) from user_info where CID = %s;
-                ''',
-                (CID[0],)
-            )
-            if cursor.fetchone()[0] == 1:
-                payload =  {
-                    'CID': CID[0],
-                    'role': 'User',
-                    'language': 'Vietnamese'
-                }
-            else:
-                payload = {
-                    'CID': CID[0],
-                    'role': 'Admin',
-                    'language': 'Vietnamese'
-                }
-            # Lưu token vào sesion
-            return jsonify({
-                'status': True,
-                'username': CID[1],
-                'role': payload['role'],
-                'token': middleware.encryp(payload=payload)
-            })
-        except:
-            return {
-                'status': False,
-                'username': None,
-                'token': None,
-                'data': data['gmail']
-            }, 401
+        # try:
+        cursor.execute(
+            '''
+            select CID, username from account_info 
+            where gmail = %s and password = %s;
+            ''',
+            (data['gmail'], data['password'])
+        )
+        CID = cursor.fetchone()
+        cursor.execute(
+            '''
+            select count(CID) from user_info where CID = %s;
+            ''',
+            (CID[0],)
+        )
+        if cursor.fetchone()[0] == 1:
+            payload =  {
+                'CID': CID[0],
+                'role': 'User',
+                'language': 'Vietnamese'
+            }
+        else:
+            payload = {
+                'CID': CID[0],
+                'role': 'Admin',
+                'language': 'Vietnamese'
+            }
+        # Lưu token vào sesion
+        return {
+            'status': True,
+            # 'username': CID[1],
+            # 'role': payload['role'],
+            # 'token': middleware.encryp(payload=payload)
+        }, 200
+        # except:
+        #     return {
+        #         'status': False,
+        #         'username': None,
+        #         'token': None,
+        #         'data': data['gmail']
+        #     }, 401
 
 class ChangeInfo(Resource):
     def put(self):
