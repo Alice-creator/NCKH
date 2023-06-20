@@ -70,7 +70,7 @@ class Login(Resource):
         return {
             'status': True,
             'username': CID[1],
-            # 'role': payload['role'],
+            'role': payload['role'],
             # 'token': middleware.encryp(payload=payload)
         }, 200
         # except:
