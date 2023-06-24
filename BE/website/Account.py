@@ -9,6 +9,8 @@ class SignUp(Resource):
         connection = database.connect_db()
         cursor = connection.cursor()
         data = request.get_json()
+        data['password'] = middleware.one_way_hash(data['password'])
+
         # data = extension.create_json(request.values.lists())
         try:
             cursor.execute(
@@ -17,7 +19,7 @@ class SignUp(Resource):
                 select user_info.CID from user_info, account_info 
                 where user_info.cid = account_info.cid and gmail = %s;
                 ''',
-                (request.json['gmail'], request.json['username'], request.json['password'], request.json['gmail'])
+                (data['gmail'], data['username'], data['password'], data['gmail'])
             )
             connection.commit()
             if len(cursor.fetchone()) == 1:
@@ -38,6 +40,7 @@ class Login(Resource):
         connection = database.connect_db()
         cursor = connection.cursor()
         data = request.get_json()
+        data['password'] = middleware.one_way_hash(data['password'])
         # data = extension.create_json(request.values.lists())
         try:
             cursor.execute(
@@ -94,7 +97,10 @@ class ChangeInfo(Resource):
                     }, 401
         connection = database.connect_db()
         cursor = connection.cursor()
-        data = extension.create_json(request.values.lists())
+        data = request.get_json()
+        # data = extension.create_json(request.values.lists())
+        data['password'] = middleware.one_way_hash(data['password'])
+
         cursor.execute(
             '''
             select count(CID) from account_info

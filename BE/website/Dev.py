@@ -55,23 +55,49 @@ class RootAttraction(Resource):
             intro_eng = introductions[1::2]
 
             for i in intro_vie:
-                print(i['name'])
+                print(i['name'], i['attribute'])
                 cursor.execute(
                     '''
-                    call insertintro_viet(%s, %s, %s,%s, %s, %s, %s, %s,%s);
+                    call insertintro_viet(%s, %s, %s,%s, %s, %s, %s, %s,%s,%s);
                     ''',
-                    (i['name'], i['latitude'], i['longitude'], i['timezone'], i['location_string'], i['images'], i['address'], i['description'], i['story'])
+                    (i['name'], i['latitude'], i['longitude'], i['timezone'], i['location_string'], i['images'], i['address'], i['description'], i['story'], i['attribute'])
                 )
 
             for i in intro_eng:
                 cursor.execute(
                     '''
-                    call insertintro_eng(%s, %s, %s,%s, %s, %s, %s, %s,%s);
+                    call insertintro_eng(%s, %s, %s,%s, %s, %s, %s, %s,%s,%s);
                     ''',
-                    (i['name'], i['latitude'], i['longitude'], i['timezone'], i['location_string'], i['images'], i['address'], i['description'], i['story'])
+                    (i['name'], i['latitude'], i['longitude'], i['timezone'], i['location_string'], i['images'], i['address'], i['description'], i['story'], i['attribute'])
                 )
         connection.commit()
-        return {       
+        return {
             'status': True,
             'message': 'Update completed'
+        }
+    
+class TrainingData(Resource):
+    def get():
+        connection = database.connect_db()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            '''
+            select name, username, searchs, analyse.likes from analyse_info, account_info, attractions
+            where analyse_info.cid = account_info.cid and analyse_info.tid = attractions.tid;
+            '''
+        )
+        rating = cursor.fetchall()
+
+        cursor.execute(
+            '''
+            select name, longitude, latitude, attribute from viet_introduction;
+            '''
+        )
+
+        attribute = cursor.fetchall()
+
+        return {
+            'rating' : rating,
+            'attribute' : attribute
         }

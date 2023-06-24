@@ -115,16 +115,16 @@ class Attractions(Resource):
         }
 
     def put(self):
-        # token = request.headers.get('Authorization')
-        # token = token.split(' ')[1]
-        # if not middleware.authentication(token):
-        #     return {'status' : False,
-        #             'message': 'you need to login first'
-        #             }, 401
-        # if middleware.authorization(token) != 'Admin':
-        #     return {'status' : False,
-        #             'message': "you don't have right to access this feature"
-        #             }, 403
+        token = request.headers.get('Authorization')
+        token = token.split(' ')[1]
+        if not middleware.authentication(token):
+            return {'status' : False,
+                    'message': 'you need to login first'
+                    }, 401
+        if middleware.authorization(token) != 'Admin':
+            return {'status' : False,
+                    'message': "you don't have right to access this feature"
+                    }, 403
         data = extension.create_json(request.values.lists())
         connection = database.connect_db()
         cursor = connection.cursor()

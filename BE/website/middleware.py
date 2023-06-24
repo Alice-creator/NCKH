@@ -1,6 +1,7 @@
 import jwt
 import datetime
 from ..website import extension, database
+import hashlib
 
 secret = 'my-secret'
 def encryp(payload):
@@ -78,3 +79,15 @@ def addAttribute(att, value, temp):
         temp[i][att] = value
     
     return temp
+
+def one_way_hash(data):
+    # Tạo đối tượng băm
+    hash_object = hashlib.sha256()
+
+    # Cập nhật đối tượng băm với dữ liệu cần mã hóa
+    hash_object.update(data.encode('utf-8'))
+
+    # Lấy giá trị băm
+    hashed_data = hash_object.hexdigest()
+
+    return hashed_data
