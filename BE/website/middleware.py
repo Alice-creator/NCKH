@@ -35,10 +35,11 @@ def authorization(token):
         return None
     
 def decryp(token):
-    token = token[2:-1]
+    token = token.split("'")
+    token = token[int(len(token)/2)]
     return jwt.decode(token, secret, verify=True, algorithms=["HS256"])
 
-def update_Like(TID, state):
+def update_Like(TID, CID, state):
     connection = database.connect_db()
     cursor = connection.cursor()
     cursor.execute(
@@ -49,21 +50,106 @@ def update_Like(TID, state):
         ''',
         (state, TID)
     )
+
+    cursor.execute(
+        '''
+        select TID from analyse_info
+        where TID = %s and CID = %s;
+        ''',
+        (TID, CID)
+    )
+
+    if not cursor.fetchall():
+        cursor.execute(
+        '''
+        insert into analyse_info(TID,CID,likes)
+        values(%s,%s,%s);
+        ''',
+        (TID, CID, 1)
+        )
+    else:
+        cursor.execute(
+            '''
+            UPDATE analyse_info
+            set likes = likes + %s
+            where TID = %s and CID = %s;
+            ''',
+            (state, TID, CID)
+        )
+    connection.commit()
+    
+def update_Search(TID, CID):
+    connection = database.connect_db()
+    cursor = connection.cursor()
+    cursor.execute(
+        '''
+        select TID from analyse_info
+        where TID = %s and CID = %s;
+        ''',
+        (TID, CID)
+    )
+
+    if not cursor.fetchall():
+        cursor.execute(
+            '''
+            insert into analyse_info(TID, CID, searchs)
+            values(%s,%s,2)
+            ''',
+            (TID, CID)
+        )
+    else:
+        cursor.execute(
+            '''
+            UPDATE analyse_info
+            set searchs = searchs + 2
+            where TID = %s and CID = %s
+            ''',
+            (TID, CID)
+        )
     connection.commit()
 
-    
-def update_Search(TID):
+def update_SearchByType(searchType, CID):
     connection = database.connect_db()
     cursor = connection.cursor()
     cursor.execute(
             '''
+            select analyse_info.TID from analyse_info, attractions
+            where CID = %s and attractions.type = %s;
+            ''',
+            (CID, searchType)
+        )
+    data = cursor.fetchall()
+
+    if not data:
+        cursor.execute(
+            '''
+            select TID from attractions
+            where type = %s;
+            ''',
+            (searchType,)
+        )
+        search = cursor.fetchall()
+        print(search)
+        for i in search:
+            cursor.execute(
+                '''
+                insert into analyse_info(tid, cid, searchs)
+                values(%s,%s,%s)
+                ''',
+                (i[0], CID, 1)
+            )
+    else:
+        cursor.execute(
+            '''
             UPDATE analyse_info
             set searchs = searchs + 1
-            where TID = %s;
+            where CID = %s and TID in (select TID from attractions
+            where attractions.type = %s)
             ''',
-            (TID,)
+            (CID, searchType)
         )
     connection.commit()
+
 def toDict(key, value):
     result = list()
     for i in value:

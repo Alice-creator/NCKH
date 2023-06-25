@@ -84,6 +84,7 @@ class Classifier(Resource):
     def getAttractionInfo(self, predict, language, token):
         connection = database.connect_db()
         cursor = connection.cursor()
+        auth = middleware.authentication(token)
         if int(predict['index']) in range(23, 26):
             headers = {}
             headers['Authorization'] = token
@@ -108,5 +109,5 @@ class Classifier(Resource):
             )
         result = cursor.fetchone()
         col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'TID', 'index', 'hashtag', 'type', 'likes']
-        middleware.update_Search(result[0])
+        middleware.update_Search(result[0], auth['CID'])
         return middleware.toDict(key=col_name, value=[result])

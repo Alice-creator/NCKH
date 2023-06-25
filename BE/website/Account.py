@@ -1,5 +1,4 @@
-from flask_restful import Resource
-from flask_restful import request
+from flask_restful import Resource, request
 import requests
 from flask import *
 from BE.website import extension, database, middleware
@@ -130,6 +129,7 @@ class ChangeInfo(Resource):
             return {
                 'status': False
             }, 400
+        
 class SearchByType(Resource):
     def get(self, language, searchType):
         token = request.headers.get('Authorization')
@@ -242,6 +242,7 @@ class SearchByType(Resource):
                     (searchType, auth['CID'],)
                 )
                 result['notStored'] = cursor.fetchall()
+                middleware.update_SearchByType(searchType, auth['CID'])
         col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'TID', 'index', 'hashtag', 'type', 'likes']
         
         result['notStored'] = middleware.toDict(col_name, result['notStored'])

@@ -3,20 +3,6 @@ from flask_restful import request
 from ..website import extension, database, middleware
 import copy
 import json
-
-class Analyse(Resource):
-    def get(self):
-        connection = database.connect_db()
-        cursor = connection.cursor()
-        cursor.execute(
-            '''
-            select attractions.name, likes, searchs from attractions, analyse_info
-            where attractions.tid = analyse_info.tid;
-            '''
-        )
-        return {
-            'info': cursor.fetchall()
-        }
         
 class RootAttraction(Resource):
     def post(self):
@@ -76,26 +62,27 @@ class RootAttraction(Resource):
             'message': 'Update completed'
         }
     
-class TrainingData(Resource):
-    def get():
+class Analyse(Resource):
+    def get(self):
         connection = database.connect_db()
         cursor = connection.cursor()
 
         cursor.execute(
             '''
-            select name, username, searchs, analyse.likes from analyse_info, account_info, attractions
+            select name, username, searchs, analyse_info.likes from analyse_info, account_info, attractions
             where analyse_info.cid = account_info.cid and analyse_info.tid = attractions.tid;
             '''
         )
-        rating = cursor.fetchall()
+        col_name = ['attraction name', 'username', 'searchs', 'likes']
+        rating = middleware.toDict(key=col_name, value=cursor.fetchall())
 
         cursor.execute(
             '''
             select name, longitude, latitude, attribute from viet_introduction;
             '''
         )
-
-        attribute = cursor.fetchall()
+        col_name = ['attraction name', 'longitude', 'latitude', 'attribute']
+        attribute = middleware.toDict(key=col_name, value=cursor.fetchall())
 
         return {
             'rating' : rating,
