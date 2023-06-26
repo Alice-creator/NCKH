@@ -234,6 +234,7 @@ select * from user_info;
 select * from admin_info;
 select * from user_storage;
 select * from account_info;
+select * from analyse_info;
 select * from comments;
 select * from attractions;
 select * from user_post_image;

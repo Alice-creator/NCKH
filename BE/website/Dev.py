@@ -70,16 +70,19 @@ class Analyse(Resource):
         cursor.execute(
             '''
             select name, username, searchs, analyse_info.likes from analyse_info, account_info, attractions
-            where analyse_info.cid = account_info.cid and analyse_info.tid = attractions.tid;
-            '''
+            where analyse_info.cid = account_info.cid and analyse_info.tid = attractions.tid and type != %s;
+            ''',
+            ("Unknown",)
         )
         col_name = ['attraction name', 'username', 'searchs', 'likes']
         rating = middleware.toDict(key=col_name, value=cursor.fetchall())
 
         cursor.execute(
             '''
-            select name, longitude, latitude, attribute from viet_introduction;
-            '''
+            select viet_introduction.name, longitude, latitude, attribute from viet_introduction, attractions
+            where type != %s and viet_introduction.tid = attractions.tid;
+            ''',
+            ("Unknown",)
         )
         col_name = ['attraction name', 'longitude', 'latitude', 'attribute']
         attribute = middleware.toDict(key=col_name, value=cursor.fetchall())

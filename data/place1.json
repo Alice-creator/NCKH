@@ -129,7 +129,7 @@
         "address": "01 Tràng Tiền, Phan Chu Trinh, Hoàn Kiếm, Hà Nội",
         "description": "Một trong những công trình kiến trúc nổi tiếng và quan trọng nhất của Việt Nam. Với kiến trúc pha trộn giữa phong cách cổ điển và hiện đại, tòa nhà này đã trở thành biểu tượng của thành phố Hà Nội.",
         "story": "Từ những năm đầu của thế kỷ 20, nơi đây đã trở thành trung tâm của sân khấu và âm nhạc truyền thống Việt Nam. Đến nay, Nhà Hát Lớn Hà Nội vẫn là nơi tổ chức các buổi biểu diễn văn hóa và nghệ thuật với những chương trình đa dạng, bao gồm nhạc kịch, ballet, opera, vở kịch, hội thảo, triển lãm và các sự kiện văn hóa khác. Năm 1945, Nhà hát l'Opéra de Hanoi trở thành trung tâm của sự kiện Lễ Tổng tuyển cử Quốc gia lịch sử đầu tiên của Việt Nam. Từ đó đến nay, Nhà hát Lớn Hà Nội đã trở thành một địa điểm quan trọng trong lịch sử chính trị, văn hóa và nghệ thuật của Việt Nam.",
-        "attribute" : "enttertaiment, art, information"
+        "attribute" : "entertainment, art, information"
     },
     {
         "name": "Hanoi Opera House",
@@ -141,7 +141,7 @@
         "address": "01 Trang Tien, Phan Chu Trinh, Hoan Kiem, Hanoi",
         "description": "One of the most famous and important architectural works of Vietnam. That the building features a mixture of classical and modern styles is the reason why it has become an icon of Hanoi.",
         "story": "Since the early years of the 20th century, this place has become the center of traditional theater and music in Vietnam. Until now, the Hanoi Opera House still hosts cultural and artistic performances with diverse programs including musicals, ballets, operas, dramas, conferences, exhibitions, and other cultural events. In 1945, the L'Opera De Hanoi Theatre became the center of the first historical National General Election event of Vietnam. From then until now, Hanoi Opera House has become an important landmark in the political, cultural and artistic history of Vietnam.",
-        "attribute" : "enttertaiment, art, information"
+        "attribute" : "entertainment, art, information"
     },
     {
         "name": "Dinh Độc Lập",
@@ -273,7 +273,7 @@
         "address": "đường Trần Quốc Toản, Phường 1, Thành phố Đà Lạt",
         "description": "Một địa điểm du lịch nổi tiếng với kiến trúc độc đáo và không gian xanh tươi, tạo nên một cảnh quan tráng lệ và đẹp mắt. Khu vực xung quanh quảng trường được bao quanh bởi cây cối và khu vườn hoa, mang lại không gian xanh mát và thư thái. Ngoài ra, quảng trường cũng là nơi tổ chức các hoạt động văn hóa và sự kiện, tạo điểm tập trung của văn hóa và nghệ thuật.",
         "story": "",
-        "attribute" : "entertaiment, night activity, symbolize"
+        "attribute" : "entertainment, night activity, symbolize"
     },
     {
         "name": "Lam Vien Square",
@@ -285,7 +285,7 @@
         "address": "Tran Quoc Toan Street, Ward 1, Da Lat City",
         "description": "A famous tourist destination with unique architecture and green space, creating a magnificent and beautiful landscape. The area around the square is surrounded by trees and flower gardens, providing a green and relaxing space. In addition, the square is also a place to organize cultural activities and events, creating a focal point for culture and art.",
         "story": "",
-        "attribute" : "entertaiment, night activity, symbolize"
+        "attribute" : "entertainment, night activity, symbolize"
     },
     {
         "name": "Đường Hầm Điêu Khắc",
@@ -465,7 +465,7 @@
         "address": "Núi Nhỏ, Vũng Tàu",
         "description": "Tượng chúa dang tay (hay được gọi là tượng Chúa Kito) từ lâu đã đi vào lòng du khách như một nét đặc trưng của du lịch Vũng Tàu. Đến tham quan địa điểm du lịch Vũng Tàu nổi tiếng này, du khách không chỉ có cảm giác chinh phục đỉnh núi cao mà còn cảm nhận được tinh thần sảng khoái khi đứng từ cánh tay tượng vươn tầm mắt ngắm nhìn toàn cảnh thành phố Vũng Tàu xinh đẹp.",
         "story": "Truyên thuyết kể về tình yêu giữa một chàng trai bình thường và cô con gái của vua Thủy Tề. Khi vua biết chuyện, ông đã cấm đoán công chúa gặp gỡ chàng trai. Tuy nhiên, sau khi cô con gái kêu van và van xin ông, vua Thủy Tề đã cho phép họ được gặp nhau mỗi năm một lần. Ông đã hóa phép từ đáy biển để tạo ra một dãy núi tuyệt đẹp, nơi đôi tình nhân có thể gặp nhau để giảm bớt nỗi nhớ nhung. Ở hiện tại, dãy núi đó được gọi là Núi Tao Phùng ở Vũng Tàu được đặt tên bởi một nhà nho uyên bác Thời Gia Long, nghĩa là nơi gặp gỡ của cặp tình nhân.",
-        "attribute" : "information"
+        "attribute" : "information, entertainment"
     },
     {
         "name": "Tao Phung Mountain",
@@ -477,7 +477,7 @@
         "address": "Nui Nho, Vung Tau",
         "description": "The Christ of Vung Tau, a statue of Jesus with outstretched arms, is a popular landmark and attraction in Vung Tau, a coastal city in Southern Vietnam. Visitors can enjoy stunning views of the city and a sense of peace and awe from the mountaintop.",
         "story": "The legend tells a story of love between an ordinary young man and the daughter of the Sea God. When the Sea God discovered their relationship, he banned the princess from meeting the young man. However, after the princess begged and pleaded with her father, he allowed them to meet once a year. He used his power to create a beautiful mountain range from the depths of the sea where the two lovers could meet and ease their longing for each other. Today, that mountain range is known as Tao Phung Mountain in Vung Tau, which was named by a Confucian scholar during the Gia Long period, meaning the place where the lovers met.",
-        "attribute" : "information"
+        "attribute" : "information, entertainment"
     },
     {
         "name": "Sun World Ba Na Hills",
@@ -681,7 +681,7 @@
         "address": "81 đường Nguyễn Xiển, Phường Long Bình, Quận 9, Thành phố Hồ Chí Minh",
         "description": "Chùa được xây dựng theo kiến trúc phật giáo truyền thống, với những đường nét tinh tế và các tượng Phật được thêu thủ công tỉ mỉ. Nơi đây cung cấp một môi trường thuận tiện cho việc tu tập, thiền định và học tập về triết học Phật giáo.",
         "story": "Vào năm 1958, vị vua tịch Bảo Đại đã quyết định xây dựng tượng Phật Quan Âm cao nhất Việt Nam tại chùa Bửu Long. Tượng cao 32 mét, gọi là 'Quan Âm Cứu Khổ', trở thành biểu tượng nổi tiếng của chùa. Ngoài tượng Quan Âm, chùa còn có các công trình và kiến trúc đáng chú ý khác",
-        "attribute" : "religion, information, art, sympbolize"
+        "attribute" : "religion, information, art, symbolize"
     },
     {
         "name": "Bu Long Temple",
@@ -693,7 +693,7 @@
         "address": "81 Nguyen Xien Street, Long Binh Ward, District 9, Ho Chi Minh City",
         "description": "The temple is built according to traditional Buddhist architecture, with delicate lines and meticulously embroidered Buddha statues. It provides a convenient environment for meditation, mindfulness, and learning about Buddhist philosophy.",
         "story": "In 1958, former emperor Bao Dai decided to build the tallest statue of Quan Am Buddha in Vietnam at Buu Long Temple. The 32-meter-tall statue, called 'Quan Am Cuu Kho', has become a famous symbol of the temple. In addition to the Quan Am statue, the temple also has other notable works and architectural features.",
-        "attribute" : "religion, information, art, sympbolize"
+        "attribute" : "religion, information, art, symbolize"
     },
     {
         "name": "Chùa Trấn Quốc",
@@ -729,7 +729,7 @@
         "address": "phường Phương Sơn, TP. Nha Trang",
         "description": "Chùa Long Sơn là một ngôi chùa đẹp mắt với kiến trúc độc đáo và ý nghĩa tôn giáo, lịch sử và du lịch. Kiến trúc của chùa Long Sơn kết hợp giữa phong cách Á Đông và kiến trúc Champa truyền thống. Mặt tiền của ngôi chùa được trang trí bằng những họa tiết màu sắc tinh tế, tạo nên một diện mạo rực rỡ và tráng lệ.",
         "story": "Vào thời kỳ đầu thực dân Pháp, ngôi chùa cũ ở Nha Trang bị cháy. Một nhóm tăng sĩ quyết định xây dựng một ngôi chùa mới tại đồi Ba Mụ. Trên hành trình xây dựng, họ gặp nhiều khó khăn về vật liệu và kinh phí. Tuy nhiên, nhờ sự đóng góp của người dân và tình yêu thương của những tín đồ Phật giáo, chùa Long Sơn được hoàn thành",
-        "attribute" : "religion, symnolize, europian, information, art"
+        "attribute" : "religion, symbolize, europian, information, art"
     },
     {
         "name": "Long Son Pagoda",
@@ -741,7 +741,7 @@
         "address": "Phuong Son Ward, Nha Trang",
         "description": "Long Son Pagoda is a beautiful pagoda with unique architecture and significant religious, historical, and tourism values. The architecture of Long Son Pagoda combines East Asian and traditional Champa architecture. The facade of the pagoda is decorated with delicate and colorful patterns, creating a dazzling and magnificent appearance.",
         "story": "In the early period of French colonialism, the old temple in Nha Trang was burned down. A group of monks decided to build a new temple on Ba Mu Hill. Along the way of construction, they faced many difficulties with materials and funds. However, thanks to the contributions of the people and the love of Buddhist followers, Long Son Pagoda was completed.",
-        "attribute" : "religion, symnolize, europian, information, art"
+        "attribute" : "religion, symbolize, europian, information, art"
     },
     {
         "name": "Hòn Thơm",
