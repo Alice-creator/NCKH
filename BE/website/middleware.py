@@ -113,40 +113,31 @@ def update_SearchByType(searchType, CID):
     cursor = connection.cursor()
     cursor.execute(
             '''
-            select analyse_info.TID from analyse_info, attractions
-            where CID = %s and attractions.type = %s;
-            ''',
-            (CID, searchType)
-        )
-    data = cursor.fetchall()
-
-    if not data:
-        cursor.execute(
-            '''
-            select TID from attractions
-            where type = %s;
-            ''',
-            (searchType,)
-        )
-        search = cursor.fetchall()
-        print(search)
-        for i in search:
-            cursor.execute(
-                '''
-                insert into analyse_info(tid, cid, searchs)
-                values(%s,%s,%s)
-                ''',
-                (i[0], CID, 1)
-            )
-    else:
-        cursor.execute(
-            '''
             UPDATE analyse_info
             set searchs = searchs + 1
             where CID = %s and TID in (select TID from attractions
             where attractions.type = %s)
             ''',
             (CID, searchType)
+        )
+    
+    cursor.execute(
+            '''
+            select TID from attractions 
+            where TID not in (select TID from analyse_info 
+            where CID = %s) and type = %s;
+            ''',
+            (CID, searchType)
+        )
+    data = cursor.fetchall()
+
+    for i in data:
+        cursor.execute(
+            '''
+            insert into analyse_info(tid, cid, searchs)
+            values(%s,%s,%s)
+            ''',
+            (i[0], CID, 1)
         )
     connection.commit()
 
