@@ -26,14 +26,18 @@ class Recommender(Resource):
 
     def post(self, language):
         data = requests.get('http://127.0.0.1:5000/Dev/Analyse').json()
+ 
         token = request.headers.get('Authorization')
         token = token.split(' ')[1]
         auth = middleware.authentication(token)
-        if not auth:
+        if not middleware.authentication(token):
             return {'status' : False,
-                    'message': 'you need to login first',
-                    'token': token
+                    'message': 'you need to login first'
                     }, 401
+        if middleware.authorization(token) != 'Admin':
+            return {'status' : False,
+                    'message': "you don't have right to access this feature"
+                    }, 403
         ##### get attraction name list
         att_names = list()
         for i in data['attribute']:
