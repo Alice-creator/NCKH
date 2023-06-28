@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "IMap",
-    "slug": "IMap",
+    "name": "VieTravel",
+    "slug": "VieTravel",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,18 +27,25 @@
         "backgroundColor": "#FFFFFF"
       },
       "permissions": [
+        "INTERNET",
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION"
       ],
-      "package": "com.vy_huynh214.IMap"
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBHea5QGQtJmjexK9YS2jVH4QQNA2Uq-h0"
+        }
+      },
+      "package": "com.vy_huynh214.VieTravel"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "6643898c-bb3e-4ed0-b40a-cfcb80464e46"
+        "projectId": "f221dbfa-de63-4aff-a462-9553694a4835"
       }
-    }
+    },
+    "plugins": ["onnxruntime-react-native"]
   }
 }

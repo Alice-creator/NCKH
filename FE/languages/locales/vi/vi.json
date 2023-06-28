@@ -28,7 +28,9 @@
         "attractions": "Thu hút",
         "seeMore": "Xem thêm",
         "hide": "Ẩn",
-        "suggest": "Đề nghị"
+        "suggest": "Đề nghị",
+        "about": "Thông tin",
+        "tour": "Các chuyến du lịch"
     },
     "saved": {
         "title": "Kho lưu trữ",

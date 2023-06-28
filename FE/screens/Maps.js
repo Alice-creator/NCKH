@@ -5,9 +5,7 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
-    SafeAreaView,
-    Picker
-} from "react-native";
+    SafeAreaView } from "react-native";
 // import { Picker } from '@react-native-picker/picker';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -27,11 +25,9 @@ const Maps = ({ route, navigation }) => {
     const mapView = React.useRef()
     const [place, setPlace] = React.useState(null)
     const [places, setPlaces] = React.useState(null)
-    const [placeName, setPlaceName] = React.useState("")
-    const [fromLocation, setFromLocation] = React.useState({latitude: 10.769801, longitude: 106.70902})
+    const [fromLocation, setFromLocation] = React.useState(null)
     const [toLocation, setToLocation] = React.useState(null)
     const [region, setRegion] = React.useState(null)
-    const [duration, setDuration] = React.useState(0)
     const [zoomLevel, setZoomLevel] = useState(1);
 
     React.useEffect(() => {
@@ -73,14 +69,10 @@ const Maps = ({ route, navigation }) => {
            
             mapView.current.animateToRegion(mapRegion, 100)
             setRegion(mapRegion);
-            setPlaceName(data.name);
             setToLocation(toLoc)
         };
         
         updateMapRegion();
-        
-        // setStreetName(street)
-   
     }, [])
 
     function zoomIn() {
@@ -217,7 +209,7 @@ const Maps = ({ route, navigation }) => {
                     />
 
                     <View style={{ flex: 1 }}>
-                        <Text>{placeName}</Text>
+                        <Text>{data.name}</Text>
                     </View>
                 </View>
             </View>
@@ -255,22 +247,27 @@ const Maps = ({ route, navigation }) => {
         )
     }
     function renderDeliveryInfo(value) {
-        const handleMapPress = event => {
+        const handleMapPress = val => {
+            const destination =  {latitude: val.latitude, longitude: val.longitude}
+            console.log(fromLocation, destination)
             
             const data = {
-              source: {latitude: value.latitude, longitude: value.longitude},
-              destination: fromLocation,
-              params: [
-                {
-                  key: 'travelmode',
-                  value: 'driving'
+                source: fromLocation,
+                destination: {
+                    latitude: toLocation.latitude,
+                    longitude: toLocation.longitude
                 },
-                {
-                  key: 'dir_action',
-                  value: 'navigate'
-                }
-              ]
-            };
+                params: [
+                  {
+                    key: 'travelmode',
+                    value: 'driving', // Chế độ đi lại, ví dụ: 'driving', 'walking', 'transit'
+                  },
+                  {
+                    key: 'dir_action',
+                    value: 'navigate', // Hành động khi nhấp vào chỉ đường, ví dụ: 'navigate', 'route'
+                  },
+                ],
+              };
         
             getDirections(data);
           };
@@ -295,7 +292,7 @@ const Maps = ({ route, navigation }) => {
                         </TouchableOpacity>
 
                         <TouchableOpacity className="bg-primary flex-1 h-12 items-center justify-center rounded-xl"
-                            onPress={handleMapPress}
+                            onPress={() => handleMapPress(value)}
                         >
                             <Text className="text-white">Direction</Text>
                         </TouchableOpacity>

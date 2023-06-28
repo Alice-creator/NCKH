@@ -6,34 +6,23 @@ import json
 class UserInfo(Resource):
     def get(self):
         connection = database.connect_db()
-        cursor = connection.cursor()
-        data = extension.create_json(request.values.lists())
-        
-        cursor.execute(
-            '''
-            call insertourist(%s, %s, %s);
-            ''',
-            (data['name'], data['type'], 0)
-        )
-        cursor.execute(
-            '''
-            call insertintro_viet(%s, %s, %s,%s, %s, %s, %s, %s,%s);
-            ''',
-            (data['vie_name'], data['latitude'], data['longitude'], data['timezone'], data['location_string'], data['images'], data['vie_address'], data['vie_description'], data['vie_story'])
-        )
-        cursor.execute(
-            '''
-            call insertintro_eng(%s, %s, %s,%s, %s, %s, %s, %s,%s);
-            ''',
-            (data['eng_name'], data['latitude'], data['longitude'], data['timezone'], data['location_string'], data['images'], data['eng_address'], data['eng_description'], data['eng_story'])
-        )
-        connection.commit()
-        return {       
-            'status': True,
-            'message': 'Update completed'
-        }
-
-       
+        cursor = connection.cursor() 
+        try:
+            cursor.execute(
+                '''
+                select account_info.cid, gmail, username, password from account_info, user_info
+                WHERE user_info.CID = account_info.CID;
+                '''
+            )
+            return {
+                'status': True,
+                'data': cursor.fetchall()
+            }
+        except:
+            return {
+                'status': False
+            }
+    
 class UserInfoDetail(Resource):
     def delete(self, CID):
         connection = database.connect_db()
@@ -74,6 +63,48 @@ class UserInfoDetail(Resource):
 
 class Attractions(Resource):
     def post(self):
+        token = request.headers.get('Authorization')
+        token = token.split(' ')[1]
+        if not middleware.authentication(token):
+            return {'status' : False,
+                    'message': 'you need to login first'
+                    }, 401
+        if middleware.authorization(token) != 'Admin':
+            return {'status' : False,
+                    'message': "you don't have right to access this feature"
+                    }, 403
+        data = extension.create_json(request.values.lists())
+        connection = database.connect_db()
+        cursor = connection.cursor()
+        files = request.files
+
+        cursor.execute(
+            '''
+            call insertourist(%s, %s, %s);
+            ''',
+            (data['name'], data['type'], 0,)
+        )
+        
+        cursor.execute(
+            '''
+            call insertintro_viet(%s, %s, %s, %s, %s, %s, %s, %s, %s);
+            ''',
+            (data['vie_name'], data['latitude'], data['longitude'], data['timezone'], data['location_string'], data['images'], data['vie_address'], data['vie_description'], data['vie_story'],)
+        )
+        cursor.execute(
+            '''
+            call insertintro_eng(%s, %s, %s, %s, %s, %s, %s, %s, %s);
+            ''',
+            (data['eng_name'], data['latitude'], data['longitude'], data['timezone'], data['location_string'], data['images'], data['eng_address'], data['eng_description'], data['eng_story'],)
+        )
+        connection.commit()
+        
+        return {       
+            'status': True,
+            'message': 'Update completed'
+        }
+
+    def put(self):
         # token = request.headers.get('Authorization')
         # token = token.split(' ')[1]
         # if not middleware.authentication(token):
@@ -84,47 +115,41 @@ class Attractions(Resource):
         #     return {'status' : False,
         #             'message': "you don't have right to access this feature"
         #             }, 403
+        data = extension.create_json(request.values.lists())
         connection = database.connect_db()
         cursor = connection.cursor()
-        files = request.files
+        print(request.json)
+        cursor.execute(
+            '''
+            UPDATE attractions
+            set name = %s, type = %s
+            where TID = %s;
+            ''',
+            (request.json['name'], request.json['type'], request.json['TID'],)
+        )
 
-        if 'attractions' in files:
-            attractions = files['attractions'].read().decode('utf-8')
-            attractions = json.loads(attractions)
-            for i in attractions:
-                for j in attractions[i]:
-                    for k in attractions[i][j]:
-                        # print(k, attractions[i][j][k], j, 0)
-                        cursor.execute(
-                            '''
-                            call insertourist(%s, %s, %s);
-                            ''',
-                            (attractions[i][j][k], j, 0)
-                        )
-        
-        if 'introductions' in files:
-            introductions = files['introductions'].read().decode('utf-8')
-            introductions = json.loads(introductions)
-            intro_vie = introductions[::2]
-            intro_eng = introductions[1::2]
+        cursor.execute(
+            '''
+            UPDATE viet_introduction
+            set name = %s, latitude = %s, longitude = %s, timezone = %s, location_string =%s, images = %s, address = %s, description = %s, story = %s
+            where TID = %s
+            ''',
+            (request.json['vi_name'], request.json['latitude'], request.json['longitude'], request.json['timezone'], request.json['location_string'], request.json['images'], request.json['vi_address'], request.json['vi_description'], request.json['vi_story'], request.json['TID'])
+        )
 
-            for i in intro_vie:
-                cursor.execute(
-                    '''
-                    call insertintro_viet(%s, %s, %s, %s, %s, %s, %s, %s);
-                    ''',
-                    (i['name'], i['location_string'], i['images'], i['address'], i['latitude'], i['longitude'],i['description'], i['story'])
-                )
+        cursor.execute(
+            '''
+            UPDATE eng_introduction
+            set name = %s, latitude = %s, longitude = %s, timezone = %s, location_string =%s, images = %s, address = %s, description = %s, story = %s
+            where TID = %s
+            ''',
+            (request.json['en_name'], request.json['latitude'], request.json['longitude'], request.json['timezone'], request.json['location_string'], request.json['images'], request.json['en_address'], request.json['en_description'], request.json['en_story'], request.json['TID'])
+        )
 
-            for i in intro_eng:
-                cursor.execute(
-                    '''
-                    call insertintro_eng(%s, %s, %s, %s, %s, %s, %s, %s);
-                    ''',
-                    (i['name'], i['location_string'], i['images'], i['address'], i['latitude'], i['longitude'],i['description'], i['story'])
-                )
         connection.commit()
+
         return {       
             'status': True,
             'message': 'Update completed'
         }
+    

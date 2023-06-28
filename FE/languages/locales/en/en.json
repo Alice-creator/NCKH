@@ -28,7 +28,9 @@
         "attractions": "Attraction",
         "seeMore": "See More",
         "hide": "Hide",
-        "suggest": "Suggest"
+        "suggest": "Suggest",
+        "about": "About this place",
+        "tour": "Tours"
     },
     "saved": {
         "title": "Storage",

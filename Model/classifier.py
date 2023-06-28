@@ -23,6 +23,7 @@ class Classifier(Resource):
         #     idx_to_class = json.load(jf)
         # num_classes = len(idx_to_class)
         classes, idx_to_class = get_num_class(model_class)
+        print(classes)
         # load model
         model = get_model_instance(classes)
         if os.path.isfile(model_dir):

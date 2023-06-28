@@ -33,7 +33,9 @@ export default function Saved({ navigation }) {
             setRequireLogin(false)
           }
         }).catch(error => {
-            console.log(error);
+            return (
+              <Text>Network Error</Text>
+            )
         });
       }
     getStorage()

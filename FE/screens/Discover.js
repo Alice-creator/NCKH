@@ -14,7 +14,7 @@ import { REACT_NATIVE_BASE_URL } from '../contains'
 import Loading from './components/Loading'
 import TouristAttractionInfo from './components/TouristAttractioninfo'
 import { MyContext } from '../context';
-
+import { places_vi, places_en } from '../services/places';
 const Discover = ({ navigation }) => {
     const { t } = useTranslation()
     const { language } = useContext(MyContext)
@@ -42,13 +42,14 @@ const Discover = ({ navigation }) => {
                 },
             })
             .then(response => {
-                    // const data = response.data.stored.concat(response.data.notStored);
-                    setTouristAttraction(response.data);
-                    setLoading(false);
-                }).catch(error => {
-                    setLoading(false);
-                    console.log(error); 
-                });
+                // const data = response.data.stored.concat(response.data.notStored);
+                setTouristAttraction(response.data);
+                setLoading(false);
+            }).catch(error => {
+                const data = newlanguage == 'vi' ? places_vi : places_en
+                setTouristAttraction(data)
+                setLoading(false)
+            });
         }
         getAllPlaces()
     }, [language])

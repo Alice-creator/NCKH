@@ -129,9 +129,7 @@ const HomePage = () => {
             </View>
           </View>
         </View>
-      </View>
-
-      
+      </View>     
     </SafeAreaView>
   )
 }

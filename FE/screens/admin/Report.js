@@ -12,6 +12,7 @@ const Report = ({ navigation }) => {
       const token = JSON.parse(await AsyncStorage.getItem('token'));
       axios.get(`${REACT_NATIVE_BASE_URL}/Admin/UserInfo`)
       .then(response => {
+          console.log("Hihi", response.data.data)
           setUserInfo(response.data.data)
       }).catch(error => {
           console.log(error);
