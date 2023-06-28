@@ -94,7 +94,8 @@ class Classifier(Resource):
         if language.lower().strip() in 'vi':
             cursor.execute(
                 '''
-                select * from viet_introduction, attractions
+                select viet_introduction.tid, viet_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
+                from viet_introduction, attractions
                 where viet_introduction.index = %s and viet_introduction.tid = attractions.tid;
                 ''',
                 (predict['index'],)
@@ -102,13 +103,14 @@ class Classifier(Resource):
         else:
             cursor.execute(
                 '''
-                select * from eng_introduction, attractions
+                select eng_introduction.tid, eng_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
+                from eng_introduction, attractions
                 where eng_introduction.index = %s and eng_introduction.tid = attractions.tid;
                 ''',
                 (predict['index'],)
             )
         result = cursor.fetchone()
-        col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'TID', 'index', 'hashtag', 'type', 'likes']
+        col_name = ['TID', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'likes']
         
         token = token.split(' ')[1]
         auth = middleware.authentication(token)

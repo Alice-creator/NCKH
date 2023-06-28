@@ -1,7 +1,3 @@
-from BE.website import extension, database, middleware
-from flask_restful import Resource, request
-from .Utility_matrix import TF_IDF, Utility_matrix, GetDistance
-import requests
 import numpy as np
 from sklearn.linear_model import Ridge
 
@@ -28,3 +24,4 @@ def train(Utility_matrix, rating, users_list, atts_list):
     w = np.array(w).T
     b = np.array(b)
     predict = Utility_matrix.dot(w) + b
+    return predict

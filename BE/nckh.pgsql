@@ -88,14 +88,18 @@ create table analyse_info(
 
 create table User_content_based(
     CID varchar(10),
-    weights text DEFAULT '',
-    FOREIGN KEY(CID) REFERENCES account_info(CID)
+    TID varchar(10),
+    score float,
+    FOREIGN KEY(CID) REFERENCES account_info(CID),
+    FOREIGN KEY(TID) REFERENCES attractions(TID)
 );
 
-create table Utility_matrix(
-    TID varchar(10),
-    utilities text DEFAULT '',
-    FOREIGN KEY(TID) REFERENCES attractions(TID)
+create table Colaborative_filtering(
+    TID1 varchar(10),
+    TID2 varchar(10),
+    score float,
+    FOREIGN KEY(TID1) REFERENCES attractions(TID),
+    FOREIGN KEY(TID2) REFERENCES attractions(TID)
 );
 
 CREATE OR REPLACE FUNCTION GenerateID(ID INT)
@@ -193,9 +197,6 @@ BEGIN
     tidCount = Generatetouristid();
     INSERT INTO attractions(tid, index, name, type, likes)
     VALUES(tidCount, TIndex, name, type, likes);
-
-    INSERT INTO Utility_matrix(TID)
-    VALUES(TIDCount);
 END;
 $$;
 
@@ -214,8 +215,6 @@ AS $$
         INSERT INTO user_post_image(CID)
         VALUES(CID);
 
-        INSERT INTO User_content_based(CID)
-        VALUES(CID);
     END;
 $$;
 
@@ -241,4 +240,4 @@ select * from user_post_image;
 SELECT * from viet_introduction;
 SELECT * from eng_introduction;
 SELECT * from User_content_based;
-SELECT * FROm Utility_matrix;
+SELECT * FROm Colaborative_filtering;

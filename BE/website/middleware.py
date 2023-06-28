@@ -168,3 +168,44 @@ def one_way_hash(data):
     hashed_data = hash_object.hexdigest()
 
     return hashed_data
+
+def renew_Contentbased(scores_matrix, users_list, atts_list):
+    connection = database.connect_db()
+    cursor = connection.cursor()
+    cursor.execute(
+        '''
+        delete from User_content_based;
+        '''
+    )
+    for i in range(len(users_list)):
+        for j in range(len(atts_list)):
+            cursor.execute(
+                '''
+                insert into User_content_based(CID, TID, score)
+                values(%s, %s, %s);
+                ''',
+                (users_list[i], atts_list[j], scores_matrix[j][i])
+            )
+    
+    connection.commit()
+
+def renew_Colaborative(scores_matrix, atts_list):
+    connection = database.connect_db()
+    cursor = connection.cursor()
+    cursor.execute(
+        '''
+        delete from Colaborative_filtering;
+        '''
+    )
+    for i in range(len(atts_list)):
+        for j in range(len(atts_list)):
+            if i != j:
+                cursor.execute(
+                    '''
+                    insert into Colaborative_filtering(TID1, TID2, score)
+                    values(%s, %s, %s);
+                    ''',
+                    (atts_list[i], atts_list[j], scores_matrix[j][i])
+                )
+        
+    connection.commit()

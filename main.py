@@ -20,6 +20,6 @@ api.add_resource(Account.SearchByType, '/<string:language>/Account/SearchByType/
 api.add_resource(Account.ExternalSearch, '/<string:language>/Account/Searchapi/<string:key>')
 api.add_resource(Dev.RootAttraction, '/Dev/RootAttraction')
 api.add_resource(Dev.Analyse, '/Dev/Analyse')
-api.add_resource(Recommend.Recommender, '/Recommender/<string:CID>')
+api.add_resource(Recommend.Recommender, '/<string:language>/Recommender/<string:CID>')
 if __name__ == '__main__':
     app.run(debug = True, host='0.0.0.0')

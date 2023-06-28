@@ -147,7 +147,7 @@ class SearchByType(Resource):
             if searchType.lower() == 'all':
                 cursor.execute(
                     '''
-                    SELECT *
+                    SELECT viet_introduction.tid, viet_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
                     FROM viet_introduction, attractions
                     WHERE viet_introduction.tid = attractions.tid and attractions.type != 'Unknown' and viet_introduction.tid not in ( select viet_introduction.tid from attractions, viet_introduction, user_storage
                     where attractions.tid = viet_introduction.tid and user_storage.cid = %s
@@ -160,7 +160,8 @@ class SearchByType(Resource):
 
                 cursor.execute(
                     '''
-                    select * from viet_introduction, attractions, user_storage
+                    select viet_introduction.tid, viet_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
+                    from viet_introduction, attractions, user_storage
                     where attractions.tid = viet_introduction.tid and user_storage.cid = %s
                     and user_storage.tid = viet_introduction.tid;
                     ''',
@@ -171,7 +172,8 @@ class SearchByType(Resource):
             else:
                 cursor.execute(
                     '''
-                    select * from viet_introduction, attractions, user_storage
+                    select viet_introduction.tid, viet_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes 
+                    from viet_introduction, attractions, user_storage
                     where attractions.tid = viet_introduction.tid and user_storage.cid = %s
                     and user_storage.tid = viet_introduction.tid and attractions.type = %s;
                     ''',
@@ -182,7 +184,7 @@ class SearchByType(Resource):
 
                 cursor.execute(
                     '''
-                    SELECT *
+                    SELECT viet_introduction.tid, viet_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
                     FROM viet_introduction, attractions
                     WHERE viet_introduction.tid = attractions.tid and attractions.type = %s and viet_introduction.tid not in ( select viet_introduction.tid from attractions, viet_introduction, user_storage
                     where attractions.tid = viet_introduction.tid and user_storage.cid = %s
@@ -197,7 +199,7 @@ class SearchByType(Resource):
             if searchType.lower() == 'all':
                 cursor.execute(
                     '''
-                    SELECT *
+                    SELECT eng_introduction.tid, eng_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
                     FROM eng_introduction, attractions
                     WHERE eng_introduction.tid = attractions.tid and attractions.type != 'Unknown' and eng_introduction.tid not in ( select eng_introduction.tid from attractions, eng_introduction, user_storage
                     where attractions.tid = eng_introduction.tid and user_storage.cid = %s
@@ -210,7 +212,8 @@ class SearchByType(Resource):
 
                 cursor.execute(
                     '''
-                    select * from eng_introduction, attractions, user_storage
+                    select eng_introduction.tid, eng_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
+                    from eng_introduction, attractions, user_storage
                     where attractions.tid = eng_introduction.tid and user_storage.cid = %s
                     and user_storage.tid = eng_introduction.tid;
                     ''',
@@ -221,7 +224,8 @@ class SearchByType(Resource):
             else:
                 cursor.execute(
                     '''
-                    select * from eng_introduction, attractions, user_storage
+                    select eng_introduction.tid, eng_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
+                    from eng_introduction, attractions, user_storage
                     where attractions.tid = eng_introduction.tid and user_storage.cid = %s
                     and user_storage.tid = eng_introduction.tid and attractions.type = %s;
                     ''',
@@ -232,7 +236,7 @@ class SearchByType(Resource):
 
                 cursor.execute(
                     '''
-                    SELECT *
+                    SELECT eng_introduction.tid, eng_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
                     FROM eng_introduction, attractions
                     WHERE eng_introduction.tid = attractions.tid and attractions.type = %s and eng_introduction.tid not in ( select eng_introduction.tid from attractions, eng_introduction, user_storage
                     where attractions.tid = eng_introduction.tid and user_storage.cid = %s
@@ -243,7 +247,7 @@ class SearchByType(Resource):
                 )
                 result['notStored'] = cursor.fetchall()
                 middleware.update_SearchByType(searchType, auth['CID'])
-        col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'TID', 'index', 'hashtag', 'type', 'likes']
+        col_name = ['TID', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'likes']
         
         result['notStored'] = middleware.toDict(col_name, result['notStored'])
         result['stored'] = middleware.toDict(col_name, result['stored'])
