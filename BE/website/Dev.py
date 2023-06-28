@@ -79,7 +79,7 @@ class Analyse(Resource):
 
         cursor.execute(
             '''
-            select viet_introduction.name, longitude, latitude, attribute from viet_introduction, attractions
+            select attractions.name, longitude, latitude, attribute from viet_introduction, attractions
             where type != %s and viet_introduction.tid = attractions.tid;
             ''',
             ("Unknown",)
