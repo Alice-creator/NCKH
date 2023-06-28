@@ -28,5 +28,3 @@ def train(Utility_matrix, rating, users_list, atts_list):
     w = np.array(w).T
     b = np.array(b)
     predict = Utility_matrix.dot(w) + b
-    print(predict)
-    print(atts_list)

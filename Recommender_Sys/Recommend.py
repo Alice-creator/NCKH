@@ -16,8 +16,8 @@ class Recommender(Resource):
         tfidf  = TF_IDF(matrix)
         # print(data['attribute'])
         # print(tfidf.shape)
-        distance = GetDistance((1,1), data['attribute'])
-        tfidf = np.insert(tfidf, -1, distance, axis=1)
+        # distance = GetDistance((1,1), data['attribute'])
+        # tfidf = np.insert(tfidf, -1, distance, axis=1)
         # print(tfidf.shape)
 
         ##### get user_rating and user list

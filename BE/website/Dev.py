@@ -69,7 +69,7 @@ class Analyse(Resource):
 
         cursor.execute(
             '''
-            select name, username, searchs, analyse_info.likes from analyse_info, account_info, attractions
+            select attractions.tid, account_info.cid, searchs, analyse_info.likes from analyse_info, account_info, attractions
             where analyse_info.cid = account_info.cid and analyse_info.tid = attractions.tid and type != %s;
             ''',
             ("Unknown",)
@@ -79,7 +79,7 @@ class Analyse(Resource):
 
         cursor.execute(
             '''
-            select attractions.name, longitude, latitude, attribute from viet_introduction, attractions
+            select attractions.tid, longitude, latitude, attribute from viet_introduction, attractions
             where type != %s and viet_introduction.tid = attractions.tid;
             ''',
             ("Unknown",)
