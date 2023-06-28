@@ -24,8 +24,16 @@ class Recommender(Resource):
         
         return scores
 
-    def post(self, CID, language):
+    def post(self, language):
         data = requests.get('http://127.0.0.1:5000/Dev/Analyse').json()
+        token = request.headers.get('Authorization')
+        token = token.split(' ')[1]
+        auth = middleware.authentication(token)
+        if not auth:
+            return {'status' : False,
+                    'message': 'you need to login first',
+                    'token': token
+                    }, 401
         ##### get attraction name list
         att_names = list()
         for i in data['attribute']:
@@ -57,9 +65,17 @@ class Recommender(Resource):
             'message' : 'Update successfully'
         }
     
-    def get(self, CID, language):
+    def get(self, language):
         ### Tinh user score
-        score = self.getUserScore(CID)
+        token = request.headers.get('Authorization')
+        token = token.split(' ')[1]
+        auth = middleware.authentication(token)
+        if not auth:
+            return {'status' : False,
+                    'message': 'you need to login first',
+                    'token': token
+                    }, 401
+        score = self.getUserScore(auth['CID'])
         connection = database.connect_db()
         cursor = connection.cursor()
 
@@ -93,7 +109,7 @@ class Recommender(Resource):
                 limit 5
                 );
                 ''',
-                (CID)
+                (auth['CID'])
             )
         else:
             cursor.execute(
@@ -108,7 +124,7 @@ class Recommender(Resource):
                 limit 5
                 );
                 ''',
-                (CID,)
+                (auth['CID'],)
             )
         data = cursor.fetchall()
         col_name = ['TID', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'likes']
