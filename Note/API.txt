@@ -1,0 +1,22 @@
+Account
+- SignUp : Okje
+- Login : Tối ưu lại payload
+- Change info : trả về payload mới
+- SearchByType : thêm middleware trả về dict (Okje)
+- trả về dict (Okje)
+- SearchByType : ko cần login (Okje)
+
+Dev
+- Analyse : trả về dict (Okje)
+
+User
+- Storage : trả về dict (Okje)
+- feedback : trả về dict (Okje)
+- GetImg : gắn vào classifier tạo thành vòng lặp (Cancel)
+
+Classifier
+- ko cần đăng nhập vẫn dùng được (Okje)
+- trả về dict (Okje)
+- sửa lại cấu trúc tạo thành vòng lặp (Quit)
+
+database, extension => chuyển vào middleware

@@ -3,20 +3,6 @@ from flask_restful import request
 from ..website import extension, database, middleware
 import copy
 import json
-
-class Analyse(Resource):
-    def get(self):
-        connection = database.connect_db()
-        cursor = connection.cursor()
-        cursor.execute(
-            '''
-            select attractions.name, likes, searchs from attractions, analyse_info
-            where attractions.tid = analyse_info.tid;
-            '''
-        )
-        return {
-            'info': cursor.fetchall()
-        }
         
 class RootAttraction(Resource):
     def post(self):
@@ -57,20 +43,50 @@ class RootAttraction(Resource):
             for i in intro_vie:
                 cursor.execute(
                     '''
-                    call insertintro_viet(%s, %s, %s,%s, %s, %s, %s, %s,%s);
+                    call insertintro_viet(%s, %s, %s,%s, %s, %s, %s, %s,%s,%s);
                     ''',
-                    (i['name'], i['latitude'], i['longitude'], i['timezone'], i['location_string'], i['images'], i['address'], i['description'], i['story'])
+                    (i['name'], i['latitude'], i['longitude'], i['timezone'], i['location_string'], i['images'], i['address'], i['description'], i['story'], i['attribute'])
                 )
 
             for i in intro_eng:
                 cursor.execute(
                     '''
-                    call insertintro_eng(%s, %s, %s,%s, %s, %s, %s, %s,%s);
+                    call insertintro_eng(%s, %s, %s,%s, %s, %s, %s, %s,%s,%s);
                     ''',
-                    (i['name'], i['latitude'], i['longitude'], i['timezone'], i['location_string'], i['images'], i['address'], i['description'], i['story'])
+                    (i['name'], i['latitude'], i['longitude'], i['timezone'], i['location_string'], i['images'], i['address'], i['description'], i['story'], i['attribute'])
                 )
         connection.commit()
-        return {       
+        return {
             'status': True,
             'message': 'Update completed'
+        }
+    
+class Analyse(Resource):
+    def get(self):
+        connection = database.connect_db()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            '''
+            select attractions.tid, account_info.cid, searchs, analyse_info.likes from analyse_info, account_info, attractions
+            where analyse_info.cid = account_info.cid and analyse_info.tid = attractions.tid and type != %s;
+            ''',
+            ("Unknown",)
+        )
+        col_name = ['attraction name', 'username', 'searchs', 'likes']
+        rating = middleware.toDict(key=col_name, value=cursor.fetchall())
+
+        cursor.execute(
+            '''
+            select attractions.tid, longitude, latitude, attribute from viet_introduction, attractions
+            where type != %s and viet_introduction.tid = attractions.tid;
+            ''',
+            ("Unknown",)
+        )
+        col_name = ['attraction name', 'longitude', 'latitude', 'attribute']
+        attribute = middleware.toDict(key=col_name, value=cursor.fetchall())
+
+        return {
+            'rating' : rating,
+            'attribute' : attribute
         }

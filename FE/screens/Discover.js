@@ -19,10 +19,11 @@ const Discover = ({ navigation }) => {
     const { t } = useTranslation()
     const { language } = useContext(MyContext)
     const [ getLanguage, setGetLanguage ] = useState('en')
-    const [ touristAttraction, setTouristAttraction ] = useState({ stored: [], notStored: []})
+    const [ touristAttraction, setTouristAttraction ] = useState()
+    const [ recommends, setRecommends ]  = useState([])
     const [ loading, setLoading ] = useState(true)
 
-    const [ searchType, setSearchType ] = useState({ stored: [], notStored: []})
+    const [ searchType, setSearchType ] = useState()
     const [ keySearch, setKeySearch ]= useState('')
     const [ category, setCategory ] = useState()
     const [ searchPlaces, setSearchPlaces ] = useState([])
@@ -52,6 +53,29 @@ const Discover = ({ navigation }) => {
             });
         }
         getAllPlaces()
+        const getRecommends = async () => {
+            setLoading(true)
+            const token = JSON.parse(await AsyncStorage.getItem('token'))
+            const newlanguage = await AsyncStorage.getItem('language')
+            // AsyncStorage.getItem('language').then(lang => {
+            setGetLanguage(newlanguage)
+            axios.get(`${REACT_NATIVE_BASE_URL}/${newlanguage || 'en'}/Recommender`,
+            {
+                headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+                },
+            })
+            .then(response => {
+                setRecommends(response.data)
+                // const data = response.data.stored.concat(response.data.notStored);
+                // setTouristAttraction(response.data);
+                setLoading(false);
+            }).catch(error => {
+                setRecommends([])
+            });
+        }
+        getRecommends()
     }, [language])
     const handleKeySearch = (e) => {
         if(e.length > 0) setKeySearch(e)
@@ -180,7 +204,7 @@ const Discover = ({ navigation }) => {
                 />
             </View>
             :
-        loading ? <Loading /> : searchType.length > 0 ? 
+        loading ? <Loading /> : searchType?.length > 0 ? 
             <View className="px-5 my-2 mb-72 w-full">
                 <FlatList 
                     data={searchType}
@@ -212,6 +236,41 @@ const Discover = ({ navigation }) => {
             </View>
             :
             loading ? <Loading /> : <ScrollView className="mx-5 flex-1" showsVerticalScrollIndicator={false}>
+                {recommends.length > 0 &&
+                <>
+                    <View className="flex-row justify-between">
+                        <Text className="font-semibold text-bold-txt text-lg" >{t('discover.forYou')}</Text>
+                    </View>
+                    <ScrollView 
+                        horizontal 
+                        showsHorizontalScrollIndicator={false}
+                        className="my-2 flex-row overflow-x-scroll"
+                    >
+                        {
+                            recommends?.map((value, index) => (
+                                <TouristAttractionInfo 
+                                    key={`${Math.random()}`}
+                                    navigation={navigation} 
+                                    data = {{
+                                        id: `forYou-${index}`,
+                                        name: value.name,
+                                        latitude: value.latitude,
+                                        longitude: value.longitude,
+                                        location_string: value.location_string,
+                                        image: value.images,
+                                        address: value.address,
+                                        description: value.description,
+                                        story: value.story,
+                                        type: value.type,
+                                        likes: value.likes,
+                                        isStorage: value.Stored
+                                    }}
+                                />
+                            ))
+                        }
+                    </ScrollView>
+                </>
+                }
                 <View className="flex-row justify-between">
                     <Text className="font-semibold text-bold-txt text-lg" >{t('discover.exploreCity')}</Text>
                 </View>
@@ -252,7 +311,7 @@ const Discover = ({ navigation }) => {
                         showsHorizontalScrollIndicator={false}
                         className="pb-20"
                     >
-                            {touristAttraction.length > 0 && touristAttraction.map((value, index) => ( 
+                            {touristAttraction?.length > 0 && touristAttraction.map((value, index) => ( 
                                     <PlaceInfo navigation={navigation} 
                                                 key={`${Math.random()}`}
                                                 data = {{

@@ -1,0 +1,18 @@
+6/2/2023
+- lưu ảnh từ mấy link về server
+- search tu may cai unkonwn tra ve may dia diem (api du doan)
+
+******Search Type
+GET trả về các địa điểm theo key mỗi địa điểm cần kèm theo các thuộc tính:  địa điểm đó đã lưu storage chưa (isStorage), số lượng Storage   
+******STORAGE
+GET 
+- Input: id user
+- Ouput: list danh sach các nơi user đa lưu
+POST: lưu storage
+- Input: id place
+POST: gỡ storage
+- Input: id place
+********Admin
+PUT cập nhật địa điểm theo id địa điểm
+POST thêm địa điễm mới nói có thêm class vào model
+GET xem feedback, ảnh (nếu ng dùng biết ảnh đó nhận diện sai, ng dùng sẻ báo cáo ảnh đó đang nhận diện sai) của user gửi lên

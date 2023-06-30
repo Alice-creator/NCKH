@@ -2,7 +2,7 @@ create table account_info(
     CID varchar(10),
     gmail varchar(25) UNIQUE,
     username varchar(25),
-    password varchar(25),
+    password varchar(100),
     primary key (CID)
 );
 
@@ -36,14 +36,15 @@ create table viet_introduction(
     TID varchar(10),
     index int,
     name varchar(100) DEFAULT NULL,
-    latitude varchar(30) DEFAULT NULL,
-    longitude varchar(30) DEFAULT NULL,
+    latitude varchar(100) DEFAULT NULL,
+    longitude varchar(100) DEFAULT NULL,
     timezone varchar(100) DEFAULT NULL,
     location_string varchar(100) DEFAULT NULL,
     images varchar(200) DEFAULT NULL,
     address varchar(100) DEFAULT NULL,
     description text DEFAULT NULL,
     story text DEFAULT NULL,
+    attribute text DEFAULT NULL,
     foreign key(TID) REFERENCES attractions(TID)
 );
 
@@ -59,6 +60,7 @@ create table eng_introduction(
     address varchar(100) DEFAULT NULL,
     description text DEFAULT NULL,
     story text DEFAULT NULL,
+    attribute text DEFAULT NULL,
     foreign key(TID) REFERENCES attractions(TID)
 );
 
@@ -77,9 +79,27 @@ create table comments(
 
 create table analyse_info(
     TID varchar(10),
-    name varchar(100),
+    CID varchar(10),
     searchs int DEFAULT 0,
-    FOREIGN key(TID) REFERENCES attractions(TID)
+    likes int DEFAULT 0,
+    FOREIGN key(TID) REFERENCES attractions(TID),
+    FOREIGN key(CID) REFERENCES account_info(CID)
+);
+
+create table User_content_based(
+    CID varchar(10),
+    TID varchar(10),
+    score float,
+    FOREIGN KEY(CID) REFERENCES account_info(CID),
+    FOREIGN KEY(TID) REFERENCES attractions(TID)
+);
+
+create table Colaborative_filtering(
+    TID1 varchar(10),
+    TID2 varchar(10),
+    score float,
+    FOREIGN KEY(TID1) REFERENCES attractions(TID),
+    FOREIGN KEY(TID2) REFERENCES attractions(TID)
 );
 
 CREATE OR REPLACE FUNCTION GenerateID(ID INT)
@@ -132,27 +152,27 @@ BEGIN
 END
 $ID$LANGUAGE plpgsql; 
 
-CREATE OR REPLACE PROCEDURE insertIntro_Viet(name varchar, latitude varchar, longitude varchar, timezone varchar, location_string varchar, img varchar, address varchar, description text, story text)
+CREATE OR REPLACE PROCEDURE insertIntro_Viet(name varchar, latitude varchar, longitude varchar, timezone varchar, location_string varchar, img varchar, address varchar, description text, story text, attribute text)
 LANGUAGE plpgsql
 AS $$
     DECLARE tidCount INT;
     DECLARE TIndex INT;
 BEGIN
     SELECT COUNT(*) INTO TIndex FROM viet_introduction;
-    INSERT INTO viet_introduction(tid, index, name, latitude, longitude, timezone, location_string, images, address, description, story)
-    VALUES(GenerateIntroIDViet(), TIndex, name, latitude, longitude, timezone, location_string, img, address, description, story);
+    INSERT INTO viet_introduction(tid, index, name, latitude, longitude, timezone, location_string, images, address, description, story, attribute)
+    VALUES(GenerateIntroIDViet(), TIndex, name, latitude, longitude, timezone, location_string, img, address, description, story, attribute);
 END;
 $$;
 
-CREATE OR REPLACE PROCEDURE insertIntro_Eng(name varchar, latitude varchar, longitude varchar, timezone varchar, location_string varchar, img varchar, address varchar, description text, story text)
+CREATE OR REPLACE PROCEDURE insertIntro_Eng(name varchar, latitude varchar, longitude varchar, timezone varchar, location_string varchar, img varchar, address varchar, description text, story text, attribute text)
 LANGUAGE plpgsql
 AS $$
     DECLARE tidCount INT;
     DECLARE TIndex INT;
 BEGIN
     SELECT COUNT(*) INTO TIndex FROM eng_introduction;
-    INSERT INTO eng_introduction(tid, index, name, latitude, longitude, timezone, location_string, images, address, description, story)
-    VALUES(GenerateIntroIDEng(), TIndex, name, latitude, longitude, timezone, location_string, img, address, description, story);
+    INSERT INTO eng_introduction(tid, index, name, latitude, longitude, timezone, location_string, images, address, description, story, attribute)
+    VALUES(GenerateIntroIDEng(), TIndex, name, latitude, longitude, timezone, location_string, img, address, description, story, attribute);
 END;
 $$;
 
@@ -177,9 +197,6 @@ BEGIN
     tidCount = Generatetouristid();
     INSERT INTO attractions(tid, index, name, type, likes)
     VALUES(tidCount, TIndex, name, type, likes);
-
-    INSERT INTO analyse_info(tid, name)
-    values(tidCount, name);
 END;
 $$;
 
@@ -197,26 +214,30 @@ AS $$
 
         INSERT INTO user_post_image(CID)
         VALUES(CID);
+
     END;
 $$;
 
 insert into account_info(cid, gmail, username, password)
-values('CID001','admin@gmail.com', 'admin', '12345678910');
+values('CID001','admin@gmail.com', 'admin', '63640264849a87c90356129d99ea165e37aa5fabc1fea46906df1a7ca50db492');
 
 insert into admin_info(cid)
 values('CID001');
 
-call insertaccount('user1@gmail.com', 'Anna', '12345');
-call insertaccount('', '', '');
-call insertaccount('user2@gmail.com', 'An', '1234567');
-call insertaccount('user3@gmail.com', 'Thanh', '12345678');
+-- call insertaccount('user1@gmail.com', 'Anna', '12345');
+-- call insertaccount('', '', '');
+-- call insertaccount('user2@gmail.com', 'An', '1234567');
+-- call insertaccount('user3@gmail.com', 'Thanh', '12345678');
 
 select * from user_info;
 select * from admin_info;
 select * from user_storage;
 select * from account_info;
+select * from analyse_info;
 select * from comments;
 select * from attractions;
 select * from user_post_image;
 SELECT * from viet_introduction;
 SELECT * from eng_introduction;
+SELECT * from User_content_based;
+SELECT * FROm Colaborative_filtering;

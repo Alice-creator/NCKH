@@ -105,27 +105,27 @@ class Attractions(Resource):
         }
 
     def put(self):
-        # token = request.headers.get('Authorization')
-        # token = token.split(' ')[1]
-        # if not middleware.authentication(token):
-        #     return {'status' : False,
-        #             'message': 'you need to login first'
-        #             }, 401
-        # if middleware.authorization(token) != 'Admin':
-        #     return {'status' : False,
-        #             'message': "you don't have right to access this feature"
-        #             }, 403
+        token = request.headers.get('Authorization')
+        token = token.split(' ')[1]
+        if not middleware.authentication(token):
+            return {'status' : False,
+                    'message': 'you need to login first'
+                    }, 401
+        if middleware.authorization(token) != 'Admin':
+            return {'status' : False,
+                    'message': "you don't have right to access this feature"
+                    }, 403
         data = extension.create_json(request.values.lists())
         connection = database.connect_db()
         cursor = connection.cursor()
-        print(request.json)
+
         cursor.execute(
             '''
             UPDATE attractions
             set name = %s, type = %s
             where TID = %s;
             ''',
-            (request.json['name'], request.json['type'], request.json['TID'],)
+            (data['name'], data['type'], data['TID'],)
         )
 
         cursor.execute(
@@ -134,7 +134,7 @@ class Attractions(Resource):
             set name = %s, latitude = %s, longitude = %s, timezone = %s, location_string =%s, images = %s, address = %s, description = %s, story = %s
             where TID = %s
             ''',
-            (request.json['vi_name'], request.json['latitude'], request.json['longitude'], request.json['timezone'], request.json['location_string'], request.json['images'], request.json['vi_address'], request.json['vi_description'], request.json['vi_story'], request.json['TID'])
+            (data['vie_name'], data['latitude'], data['longitude'], data['timezone'], data['location_string'], data['images'], data['vie_address'], data['vie_description'], data['vie_story'], data['TID'])
         )
 
         cursor.execute(
@@ -143,7 +143,7 @@ class Attractions(Resource):
             set name = %s, latitude = %s, longitude = %s, timezone = %s, location_string =%s, images = %s, address = %s, description = %s, story = %s
             where TID = %s
             ''',
-            (request.json['en_name'], request.json['latitude'], request.json['longitude'], request.json['timezone'], request.json['location_string'], request.json['images'], request.json['en_address'], request.json['en_description'], request.json['en_story'], request.json['TID'])
+            (data['eng_name'], data['latitude'], data['longitude'], data['timezone'], data['location_string'], data['images'], data['eng_address'], data['eng_description'], data['eng_story'], data['TID'])
         )
 
         connection.commit()

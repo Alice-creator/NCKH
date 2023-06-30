@@ -25,13 +25,14 @@ export default function Saved({ navigation }) {
         }
         )
         .then(response => {
+          console.log(response.data)
           if(!response.data.status) {
             setRequireLogin(true)
-          } else {
+          } 
             setStorages(response.data.info)
             setLoading(false)
             setRequireLogin(false)
-          }
+          
         }).catch(error => {
             return (
               <Text>Network Error</Text>
@@ -59,7 +60,7 @@ export default function Saved({ navigation }) {
         <View className="mx-3">
           <View className="flex-row flex-wrap justify-between">
             {storages.length > 0 && storages?.map((value, index) => (
-              <TouristAttractionInfo navigation={navigation} 
+              <TouristAttractionInfo navigation={navigation}  key={index}
                     data = {{
                       id: value.TID,
                       name: value.name,

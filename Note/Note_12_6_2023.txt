@@ -1,0 +1,10 @@
+api tìm kiếm địa điểm xung quanh
+- Cần thu thập data có dạng giống như trong
+file place.json (quang trọng là tọa độ địa điểm)
+thu thập tất cả địa điểm (nhà hàng, khách sạn, khu
+vui chơi giải trí,...) càng tốt(viết code crawl
+cho nhanh đừng làm tay)
+
+api tra cứu thông tin như của google
+- dựa vào các thông tin như trong file place.json.
+đây có thể là 1 con AI

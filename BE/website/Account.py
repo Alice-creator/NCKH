@@ -1,13 +1,16 @@
-from flask_restful import Resource
-from flask_restful import request
+from flask_restful import Resource, request
 import requests
+from flask import *
 from BE.website import extension, database, middleware
 
 class SignUp(Resource):
     def post(self):
         connection = database.connect_db()
         cursor = connection.cursor()
-        data = extension.create_json(request.values.lists())
+        data = request.get_json()
+        data['password'] = middleware.one_way_hash(data['password'])
+        print(data['gmail'])
+        # data = extension.create_json(request.values.lists())
         try:
             cursor.execute(
                 '''
@@ -15,7 +18,7 @@ class SignUp(Resource):
                 select user_info.CID from user_info, account_info 
                 where user_info.cid = account_info.cid and gmail = %s;
                 ''',
-                (request.json['gmail'], request.json['username'], request.json['password'], request.json['gmail'])
+                (data['gmail'], data['username'], data['password'], data['gmail'])
             )
             connection.commit()
             if len(cursor.fetchone()) == 1:
@@ -35,8 +38,8 @@ class Login(Resource):
     def post(self):
         connection = database.connect_db()
         cursor = connection.cursor()
-        # print(request.get_json())
-        # data = request.get_json()
+        data = request.get_json()
+        data['password'] = middleware.one_way_hash(data['password'])
         # data = extension.create_json(request.values.lists())
         try:
             cursor.execute(
@@ -44,7 +47,7 @@ class Login(Resource):
                 select CID, username from account_info 
                 where gmail = %s and password = %s;
                 ''',
-                (request.json['gmail'], request.json['password'])
+                (data['gmail'], data['password'])
             )
             CID = cursor.fetchone()
             cursor.execute(
@@ -66,18 +69,21 @@ class Login(Resource):
                     'language': 'Vietnamese'
                 }
             # Lưu token vào sesion
+            # print(type(CID[1]), type(middleware.encryp(payload=payload)))
+            token = middleware.encryp(payload=payload)
             return {
                 'status': True,
                 'username': CID[1],
                 'role': payload['role'],
-                'token': middleware.encryp(payload=payload)
+                'token': token,
             }, 200
         except:
             return {
                 'status': False,
                 'username': None,
-                'token': None
-            }
+                'token': None,
+                'data': data['gmail']
+            }, 401
 
 class ChangeInfo(Resource):
     def put(self):
@@ -87,10 +93,13 @@ class ChangeInfo(Resource):
         if not auth:
             return {'status' : False,
                     'message': 'you need to login first'
-                    }
+                    }, 401
         connection = database.connect_db()
         cursor = connection.cursor()
-        data = extension.create_json(request.values.lists())
+        data = request.get_json()
+        # data = extension.create_json(request.values.lists())
+        data['password'] = middleware.one_way_hash(data['password'])
+
         cursor.execute(
             '''
             select count(CID) from account_info
@@ -108,7 +117,7 @@ class ChangeInfo(Resource):
                     set gmail = %s, username = %s, password = %s
                     where CID = %s;   
                     ''',
-                    (request.json['gmail'], request.json['username'], request.json['password'], auth['CID'],)
+                    (data['gmail'], data['username'], data['password'], auth['CID'],)
                 )
                 connection.commit()
                 data['status'] = True
@@ -120,6 +129,7 @@ class ChangeInfo(Resource):
             return {
                 'status': False
             }, 400
+        
 class SearchByType(Resource):
     def get(self, language, searchType):
         token = request.headers.get('Authorization')
@@ -137,7 +147,7 @@ class SearchByType(Resource):
             if searchType.lower() == 'all':
                 cursor.execute(
                     '''
-                    SELECT *
+                    SELECT viet_introduction.tid, viet_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
                     FROM viet_introduction, attractions
                     WHERE viet_introduction.tid = attractions.tid and attractions.type != 'Unknown' and viet_introduction.tid not in ( select viet_introduction.tid from attractions, viet_introduction, user_storage
                     where attractions.tid = viet_introduction.tid and user_storage.cid = %s
@@ -150,7 +160,8 @@ class SearchByType(Resource):
 
                 cursor.execute(
                     '''
-                    select * from viet_introduction, attractions, user_storage
+                    select viet_introduction.tid, viet_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
+                    from viet_introduction, attractions, user_storage
                     where attractions.tid = viet_introduction.tid and user_storage.cid = %s
                     and user_storage.tid = viet_introduction.tid;
                     ''',
@@ -161,7 +172,8 @@ class SearchByType(Resource):
             else:
                 cursor.execute(
                     '''
-                    select * from viet_introduction, attractions, user_storage
+                    select viet_introduction.tid, viet_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes 
+                    from viet_introduction, attractions, user_storage
                     where attractions.tid = viet_introduction.tid and user_storage.cid = %s
                     and user_storage.tid = viet_introduction.tid and attractions.type = %s;
                     ''',
@@ -172,7 +184,7 @@ class SearchByType(Resource):
 
                 cursor.execute(
                     '''
-                    SELECT *
+                    SELECT viet_introduction.tid, viet_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
                     FROM viet_introduction, attractions
                     WHERE viet_introduction.tid = attractions.tid and attractions.type = %s and viet_introduction.tid not in ( select viet_introduction.tid from attractions, viet_introduction, user_storage
                     where attractions.tid = viet_introduction.tid and user_storage.cid = %s
@@ -187,7 +199,7 @@ class SearchByType(Resource):
             if searchType.lower() == 'all':
                 cursor.execute(
                     '''
-                    SELECT *
+                    SELECT eng_introduction.tid, eng_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
                     FROM eng_introduction, attractions
                     WHERE eng_introduction.tid = attractions.tid and attractions.type != 'Unknown' and eng_introduction.tid not in ( select eng_introduction.tid from attractions, eng_introduction, user_storage
                     where attractions.tid = eng_introduction.tid and user_storage.cid = %s
@@ -200,7 +212,8 @@ class SearchByType(Resource):
 
                 cursor.execute(
                     '''
-                    select * from eng_introduction, attractions, user_storage
+                    select eng_introduction.tid, eng_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
+                    from eng_introduction, attractions, user_storage
                     where attractions.tid = eng_introduction.tid and user_storage.cid = %s
                     and user_storage.tid = eng_introduction.tid;
                     ''',
@@ -211,7 +224,8 @@ class SearchByType(Resource):
             else:
                 cursor.execute(
                     '''
-                    select * from eng_introduction, attractions, user_storage
+                    select eng_introduction.tid, eng_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
+                    from eng_introduction, attractions, user_storage
                     where attractions.tid = eng_introduction.tid and user_storage.cid = %s
                     and user_storage.tid = eng_introduction.tid and attractions.type = %s;
                     ''',
@@ -222,7 +236,7 @@ class SearchByType(Resource):
 
                 cursor.execute(
                     '''
-                    SELECT *
+                    SELECT eng_introduction.tid, eng_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
                     FROM eng_introduction, attractions
                     WHERE eng_introduction.tid = attractions.tid and attractions.type = %s and eng_introduction.tid not in ( select eng_introduction.tid from attractions, eng_introduction, user_storage
                     where attractions.tid = eng_introduction.tid and user_storage.cid = %s
@@ -232,7 +246,8 @@ class SearchByType(Resource):
                     (searchType, auth['CID'],)
                 )
                 result['notStored'] = cursor.fetchall()
-        col_name = ['TID', 'index', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'TID', 'index', 'hashtag', 'type', 'likes']
+                middleware.update_SearchByType(searchType, auth['CID'])
+        col_name = ['TID', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'likes']
         
         result['notStored'] = middleware.toDict(col_name, result['notStored'])
         result['stored'] = middleware.toDict(col_name, result['stored'])

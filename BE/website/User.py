@@ -12,21 +12,20 @@ class Storage(Resource):
         token = request.headers.get('Authorization')
         token = token.split(' ')[1]
         auth = middleware.authentication(token)
-        print(auth)
         if not auth:
             return {'status' : False,
                     'message': 'you need to login first'
                     }
         connection = database.connect_db()
         cursor = connection.cursor()
-        data = extension.create_json(request.values.lists())
-        
+        # data = extension.create_json(request.values.lists())
+        data = request.get_json()
         cursor.execute(
             '''
             select count(TID) from user_storage
             where CID = %s and TID = %s;
             ''',
-            (auth['CID'], request.json['TID'],)
+            (auth['CID'], data['TID'],)
         )
         try:
             temp = cursor.fetchone()[0]
@@ -36,10 +35,10 @@ class Storage(Resource):
                     insert into user_storage(CID, TID)
                     values(%s, %s);
                     ''',
-                    (auth['CID'], request.json['TID'])
+                    (auth['CID'], data['TID'])
                 )
                 connection.commit()
-                middleware.update_Like(request.json['TID'], 1)
+                middleware.update_Like(data['TID'],  auth['CID'], 1)
                 return {
                     'status': True,
                     'message': 'Success'
@@ -57,6 +56,7 @@ class Storage(Resource):
     def get(self, language):
         token = request.headers.get('Authorization')
         token = token.split(' ')[1]
+        print(token)
         auth = middleware.authentication(token)
         if not auth:
             return {'status' : False,
@@ -81,7 +81,7 @@ class Storage(Resource):
                 (auth['CID'],)
             )
         col_name = ['TID', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'likes']
-        print(middleware.toDict(key=col_name, value=cursor.fetchall()))
+        # print(middleware.toDict(key=col_name, value=cursor.fetchall()))
         return {'info': middleware.toDict(key=col_name, value=cursor.fetchall())}
     
     def delete(self, language):

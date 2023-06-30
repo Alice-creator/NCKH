@@ -1,0 +1,1 @@
+api tra vebên người dùng minh có chức năng lưu địa điểm. thì bên admin mình sẽ làm đc thống kê địa điểm nào đc yêu thích (lưu) nhiều. còn tìm kiếm chắc là lưu vao db rồi query
