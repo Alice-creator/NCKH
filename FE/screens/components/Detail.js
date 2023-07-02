@@ -82,6 +82,37 @@ const Detail = ({ data, scan, navigation }) => {
     };
     getNearByLocation();
     }, [category])
+    const haversine_distance = (lat1, lon1, lat2, lon2) => {
+      const R = 6371; // Earth's radius in kilometers
+      const dLat = deg2rad(lat2 - lat1);
+      const dLon = deg2rad(lon2 - lon1);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const dis= R * c; // Distance in meters
+      return dis
+    }
+    const deg2rad = (deg) => {
+      return deg * (Math.PI / 180);
+    };
+    const closest_destination = (current_lat, current_lon, destinations) => {
+      let min_distance = Infinity
+      let closest_point = undefined
+      for (let point of destinations) {
+        let dest_lat = point.latitude
+        let dest_lon = point.longitude
+        let dist = haversine_distance(current_lat, current_lon, dest_lat, dest_lon)
+        if (dist < min_distance) {
+          min_distance = dist 
+          closest_point = point
+        }
+      }
+      return closest_point
+    }
+
+    return closest_point
     useEffect(() => {
       const getCurrentLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -95,24 +126,13 @@ const Detail = ({ data, scan, navigation }) => {
         const { latitude: lat1, longitude: lon1 } = location.coords;
         const lat2 = data.latitude
         const lon2 = data.longitude
-
-        const R = 6371; // Earth's radius in kilometers
-        const dLat = deg2rad(lat2 - lat1);
-        const dLon = deg2rad(lon2 - lon1);
-        const a =
-          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-          Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const dis= R * c; // Distance in meters
-
+  
+        const dis = haversine_distance(lat1, lon1, lat2, lon2)
         setDistance(dis.toFixed(2) + ' km')
         // Lấy được vị trí hiện tại của thiết bị
         // Tiếp tục tính toán khoảng cách từ vị trí hiện tại đến vị trí đích
       }
-      const deg2rad = (deg) => {
-        return deg * (Math.PI / 180);
-      };
+      
       getCurrentLocation()
       const backAction = () => {
         navigation.navigate(scan ? "Scan": "Discover");
@@ -138,7 +158,7 @@ const Detail = ({ data, scan, navigation }) => {
       )
     }
   return (
-    <ScrollView className="bg-theme relative">
+  <ScrollView className="bg-theme relative">
     <NavigationBack navigation={navigation} to={scan ? "Scan" : "Discover"}/>
     <NavigationPanorama navigation={navigation}/>
     <View className="flex-1 flex justify-between bg-theme">

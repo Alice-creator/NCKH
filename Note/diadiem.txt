@@ -9,3 +9,6 @@ night activity
 art
 information
 beaches
+mountain
+hotel
+museum

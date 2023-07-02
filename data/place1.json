@@ -858,11 +858,6 @@
         "attribute" : "shopping, entertainment, night activity, beach",
         "type": "Bien"
     },
-
-
-
-
-
     {
         "name": "Đỉnh núi Phan Xi Pan",
         "latitude": "22.3033326",
@@ -873,7 +868,7 @@
         "address": "Tam Đường, Lai Châu, Việt Nam",
         "description": "Núi Phanxipan thuộc dãy Hoàng Liên Sơn, nằm trên địa phận tỉnh Lào Cai, cao 3.143m, là đỉnh núi cao nhất Đông Dương, được ví như “nóc nhà Đông Dương”.  Lên đến gần 3.000m, có một mốc ghi dấu năm 1905, người Pháp đã đặt chân đến đây. Điểm cao nhất của đỉnh núi có một khối chóp bằng inox cao 70cm là di vật của các vận động viên người Nga.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "mountain",
         "type": "Nui"
     },
     {
@@ -886,7 +881,7 @@
         "address": "Tam Duong, Lai Chau, Viet Nam",
         "description": "Mount Fansipan in the Hoang Lien Son range, located in Lao Cai province, is 3,143 m high, is the highest mountain in Indochina, is likened to the 'roof of Indochina'. Up to nearly 3,000m, there is a milestone in 1905, the French have set foot here. The highest point of the mountain has a 70cm high stainless steel burial block that is the object of the Russian athlete.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "mountain",
         "type": "Nui"
     },
     {
@@ -899,7 +894,7 @@
         "address": "Thiên Lộc, Can Lộc, Hà Tĩnh, Việt Nam",
         "description": "Núi Hồng Lĩnh là dãy núi có tất cả 99 ngọn thuộc tỉnh Hà Tỉnh. Núi Hồng Lĩnh vẫn đứng đó sừng sững với thiên nhiên hoang sơ, hùng vĩ và mang trong mình di tích, danh thắng. Trên núi Lĩnh có tới hàng trăm chùa, đền, miếu. Cùng với sông Lam, núi Hồng Lĩnh được xem là biểu trưng cho tỉnh Hà Tĩnh.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "mountain",
         "type": "Nui"
     },
     {
@@ -912,7 +907,7 @@
         "address": "Thien Loc, Can Loc, Ha Tinh Province",
         "description": "Hong Linh Mountain is a mountain range with all 99 peaks in Ha Tinh province. Hong Linh Mountain is still standing there with wild, majestic nature and carrying in it relics and landscapes. On Linh mountain, there are hundreds of pagodas, temples and shrines. Along with Lam river, Hong Linh mountain is considered a symbol of Ha Tinh province.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "mountain",
         "type": "Nui"
     },
     {
@@ -925,7 +920,7 @@
         "address": "Phú Lộc, Thừa Thiên Huế, Việt Nam",
         "description": "Núi Bạch Mã cách Huế 60 km về phía Nam, ở độ cao 1.444m so với mực nước biển, là nơi nghỉ mát nổi tiếng ở Việt Nam. Không chỉ đắm chìm trong sắc xanh của núi rừng, đến với núi Bạch Mã Huế, du khách còn được lắng nghe tiếng suối chảy róc rách, ngắm nhìn ngọn thác đổ hùng vĩ, nên thơ trữ tình.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "mountain",
         "type": "Nui"
     },
     {
@@ -938,7 +933,7 @@
         "address": "Phu Loc, Thua Thien, Hue, Viet Nam",
         "description": "Bach Ma Mountain, 60 km south of Hue, at an altitude of 1,444m above sea level, is a famous resort in Vietnam. Not only immersed in the green of the mountains and forests, coming to Bach Ma Mountain in Hue, visitors can also listen to the murmuring stream, watch the majestic and poetic waterfall.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "mountain",
         "type": "Nui"
     },
     {
@@ -951,7 +946,7 @@
         "address": "Thạnh Tân, Tây Ninh, Việt Nam",
         "description": "Được mệnh danh là “nóc nhà của miền Đông Nam Bộ”, núi Bà Đen có chiều cao lên đến 986m và chỉ nằm cách Sài Gòn khoảng 3 tiếng chạy xe máy nên thường được nhiều hội bạn lựa chọn để chinh phục. Nhìn từ xa, ngọn núi sừng sững như một chiếc nón úp giữa đồng bằng, nửa như muốn thách thức, nửa như muốn quyến rũ những đôi chân ưa khám phá.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "mountain, region",
         "type": "Nui"
     },
     {
@@ -964,7 +959,7 @@
         "address": "Thach Tan, Tay Ninh Province",
         "description": "Dubbed the 'roof of the Southeast', Ba Den mountain has a height of up to 986m and is only about 3 hours from Saigon by motorbike, so it is often chosen by many friends to conquer. Seen from afar, the mountain stands tall like a conical hat in the middle of the plain, half as if it wants to challenge, half as if it wants to seduce those who love to explore.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "mountain, region",
         "type": "Nui"
     },
     {
@@ -977,7 +972,7 @@
         "address": "81 Huyền Trân Công Chúa, Hoà Hải, Ngũ Hành Sơn, Đà Nẵng",
         "description": "Ngũ Hành Sơn là tên gọi khác của núi Non Nước –  tên chung của 6 ngọn đá vôi nhô lên trên bãi cát ven biển Đà Nẵng. Xứ sở của những danh lam thắng cảnh đẹp tựa chốn “bồng lai”. Nếu đã có cơ hội ghé thăm Đà Nẵng nhất định bạn nên đến Ngũ Hành Sơn để cảm nhận được rõ nhất vẻ đẹp của miền đất này.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "mountain, region",
         "type": "Nui"
     },
     {
@@ -990,7 +985,7 @@
         "address": "81 Huyen Tran Cong Chua, Hoa Hai, Ngu Hanh Son, Da Nang Province",
         "description": "Ngu Hanh Son is another name for Non Nuoc mountain - the common name of 6 limestone mountains rising on the sandy beach of Da Nang. The land of beautiful landscapes is like a 'pong Lai' place. If you have the opportunity to visit Da Nang, you should definitely come to Ngu Hanh Son to feel the most beauty of this land. ",
         "story": "",
-        "attribute" : "",
+        "attribute" : "mountain, region",
         "type": "Nui"
     },
     {
@@ -1003,7 +998,7 @@
         "address": "Thành phố Hạ Long, Quảng Ninh, Việt Nam",
         "description": "Vịnh Hạ Long được biết đến với làn nước màu ngọc lục bảo và hàng ngàn hòn đảo đá vôi cao chót vót được bao phủ bởi rừng nhiệt đới. Các chuyến tham quan bằng thuyền nhỏ và thám hiểm bằng thuyền kayak trên biển đưa du khách đi qua những hòn đảo được đặt tên theo hình dạng của chúng, trong đó có hòn Chó Đá và hòn Ấm Trà. Khu vực này nổi tiếng với hoạt động lặn biển, leo núi và đi bộ đường dài, đặc biệt là ở Vườn Quốc gia miền núi Cát Bà.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "heritage, beach, art, symbolize",
         "type": "Bien"
     },
     {
@@ -1016,7 +1011,7 @@
         "address": "Ha Long City, Quang Ninh Province",
         "description": "Hạ Long Bay is known for its emerald waters and thousands of towering limestone islands topped by rainforests. Junk boat tours and sea kayak expeditions take visitors past islands named for their shapes, including Stone Dog and Teapot islets. The region is popular for scuba diving, rock climbing and hiking, particularly in mountainous Cát Bà National Park. ",
         "story": "",
-        "attribute" : "",
+        "attribute" : "heritage, beach, art, symbolize",
         "type": "Bien"
     },
     {
@@ -1029,7 +1024,7 @@
         "address": "Đường Thùy Vân, Tp. Vũng Tàu, Việt Nam.",
         "description": "Bãi Sau là bãi biển dài nhất của Vũng Tàu khi sở hữu đường bồ biển dài đến 8km. Trước mặt là biển Đông, Với những đồi cát trải dài, những rừng phi lao cổ thụ xanh mát, rừng dương ngút ngàn, hàng dừa rợp bóng, và làn nước biển trong vắt. Với khung cảnh đơn sơ giản dị, thanh lịch của những ngôi nhà gỗ hòa quyện với quang cảnh xung quanh tạo nên bức tranh hữu tình, thơ mộng.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, beach",
         "type": "Bien"
     },
     {
@@ -1042,7 +1037,7 @@
         "address": "Thuy Van Street, Vung Tau City",
         "description": "Back Beach is Vung Tau's longest beach with a coastline of up to 8km. In front is the East Sea, With stretching sandy beaches, ancient green casuarina forests, unspoiled poplar forests, coconut trees hugging shadows, and sea water in Saigon. With the simple, elegant scenery of wooden houses blending with the surrounding landscape, creating a charming and poetic picture.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, beach",
         "type": "Bien"
     },
     {
@@ -1055,7 +1050,7 @@
         "address": "Đ. Xuân Thủy, Hàm Thuận Bắc, Phan thiết, Bình Thuận",
         "description": "Mũi Né là một thị trấn nghỉ mát ven biển ở Đông Nam Việt Nam. Với dải cát dài rợp bóng cọ, điều kiện gió ổn định (vào mùa khô) khiến nơi đây trở thành điểm đến hàng đầu để lướt ván buồm, lướt ván diều, chèo thuyền và các môn thể thao dưới nước khác. Đây cũng là một nơi nghỉ ngơi cuối tuần nổi tiếng với một dãy khách sạn, nhà hàng và cửa hàng sầm uất.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, beach",
         "type": "Bien"
     },
     {
@@ -1068,7 +1063,7 @@
         "address": "Xuan Thuy Street, Phan Thiet City, Binh Thuan Province",
         "description": "Mũi Né is a beach resort town along the sea in Southeast Vietnam. With a long, palm-lined stretch of sand, it has steady wind conditions (in the dry season) that make it a top destination for windsurfing, kitesurfing, sailing and other water sports. It’s also a popular weekend getaway with a busy strip of hotels, restaurants and shops.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, beach",
         "type": "Bien"
     },
     {
@@ -1081,7 +1076,7 @@
         "address": "Ấp Bãi Sao, thị trấn An Thới, huyện Phú Quốc, tỉnh Kiên Giang",
         "description": "Bãi sao Phú Quốc là một trong những bãi biển đẹp và thu hút khách nhất của du lịch Phú Quốc. Bờ cát trắng muốt trải dài ôm trọn lấy mặt biển trong xanh uốn lượn cùng những hàng dừa xanh cao vút chắc chắn sẽ là điểm dừng chân lý tưởng mà bạn không thể bỏ qua khi đến đảo Ngọc.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, beach",
         "type": "Bien"
     },
     {
@@ -1094,7 +1089,7 @@
         "address": "Bai Sao Hamlet, An Thoi Town, Phu Quoc District, Kien Giang Province",
         "description": "Phu Quoc star beach is one of the most beautiful and attractive beaches of Phu Quoc tourism. The long stretch of white sandy beach embracing the clear blue sea and soaring green coconut trees will definitely be an ideal stopover that you cannot ignore when coming to Ngoc Island.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, beach",
         "type": "Bien"
     },
     {
@@ -1107,7 +1102,7 @@
         "address": "Võ Nguyên Giáp, Ngũ Hành Sơn, Đà Nẵng",
         "description": "Bãi biển Mỹ Khê là một trong những bãi biển đẹp nhất của thành phố Đà Nẵng. Nhiều tổ chức quốc tế và cơ quan truyền thông, bao gồm The Sunday Herald Sun của Úc, Forbes, và trang web du lịch TripAdvisor, đã gọi nó là một trong những bãi biển đẹp nhất thế giới.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, beach",
         "type": "Bien"
     },
     {
@@ -1120,7 +1115,7 @@
         "address": "Ngu Hanh Son, Da Nang Province",
         "description": "My Khe beach is one of Da Nang City's most beautiful beaches. Many international organizations and media outlets, including The Sunday Herald Sun of Australia, Forbes, and travel website TripAdvisor, have named it as one of the world's most beautiful beaches.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, beach",
         "type": "Bien"
     },
     {
@@ -1133,7 +1128,7 @@
         "address": "An Hải Tây, Sơn Trà, Đà Nẵng",
         "description": "Cầu Rồng là cây cầu qua sông Hàn, nằm ở trung tâm thành phố và là biểu tượng của thành phố đáng sống. Thiết kế ấn tượng nhất của cây cầu chính là một con rồng dài 568m ở giữa của cây cầu. Đây cũng chính là lý do vì sao cây cầu này không chỉ là tuyến đường giao thông mà còn là điểm tham quan du lịch hấp dẫn.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "symbolize, art, information",
         "type": "Cau"
     },
     {
@@ -1146,7 +1141,7 @@
         "address": "An Hai Tay, Son Tra, Da Nang Province",
         "description": "Dragon Bridge is a bridge across the Han River, located in the city center and is a symbol of the city worth living. The most impressive design of the bridge is a 568m long dragon in the middle of the bridge. This is also the reason why this bridge is not only a traffic route but also an attractive tourist attraction.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "symbolize, art, information",
         "type": "Cau"
     },
     {
@@ -1159,7 +1154,7 @@
         "address": "Ngọc Thụy, Hoàn Kiếm, Hà Nội",
         "description": "Cầu Long Biên là cây cầu bắc qua sông Hồng nối hai quận Hoàn Kiếm và Long Biên của thành phố Hà Nội, Việt Nam. Ban đầu nó được gọi là cầu Paul Doumer.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "lake, information",
         "type": "Cau"
     },
     {
@@ -1172,7 +1167,7 @@
         "address": "Ngoc Thuy, Hoan Kiem, Ha Noi",
         "description": "Long Biên Bridge is a historic cantilever bridge across the Red River that connects two districts, Hoàn Kiếm and Long Biên of the city of Hanoi, Vietnam. It was originally called Paul Doumer Bridge.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "lake, information",
         "type": "Cau"
     },
     {
@@ -1185,7 +1180,7 @@
         "address": "Trương Định, Phường Bến Thành, Quận 1, Thành phố Hồ Chí Minh",
         "description": "Công viên Tao Đàn không chỉ có không gian tươi mát rợp bóng cây xanh mà nơi đây còn lưu giữ nhiều dấu tích lịch sử nổi tiếng. Được gọi với danh xưng 'lá phổi xanh' của Sài Gòn, công viên Tao Đàn là điểm đến với không gian thư giãn trong lành và xua đi những mệt mỏi, áp lực của cuộc sống thường ngày.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, night activity",
         "type": "Cong_Vien"
     },
     {
@@ -1198,7 +1193,7 @@
         "address": "Truong Dinh, Ben Thanh Ward, District 1, Ho Chi Minh City, Vietnam",
         "description": "Tao Dan Park not only has a fresh green space, but it also preserves many famous historical vestiges. Called the 'green lung' of Saigon, Tao Dan Park is a destination for fresh relaxation and dispelling the fatigue and pressure of daily life.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, night activity",
         "type": "Cong_Vien"
     },
     {
@@ -1211,7 +1206,7 @@
         "address": "875 Đ. Cách Mạng Tháng 8, Phường 15, Quận 10, Hồ Chí Minh",
         "description": "Công viên Lê Thị Riêng quận 10 thu hút người dân thành phố và du khách thập phương bởi không gian xanh mát và hệ thống trò chơi hấp dẫn. Đây luôn là lựa chọn hàng đầu của bậc phụ huynh mỗi khi cần tìm địa chỉ vui chơi cho con em vừa thú vị vừa lành mạnh.",
         "story": "Trước năm 1975 khu vực xây dựng công việc là nghĩa trang liệt sĩ Thành Đô, nơi yên nghỉ của những người lính vô danh. Sau khi chiến tranh kết thúc thành phố quy hoạch lại không gian thì nghĩa trang được di dời vào năm 1983, khu vực này được chuyển đổi mục đích xây dựng thành công viên Lê Thị Riêng, trong công viên vẫn có đài tưởng niệm để ghi nhớ công ơn của những người lính đã anh dũng hy sinh cho độc lập dân tộc.",
-        "attribute" : "",
+        "attribute" : "entertainment, night activity",
         "type": "Cong_Vien"
     },
     {
@@ -1224,7 +1219,7 @@
         "address": "875 CMT8 Street, Ward 15, Distict 10",
         "description": "Le Thi Rieng Park in District 10 attracts city people and tourists from all over the world by its green space and attractive game system. This is always the first choice of parents when they need to find a place to play for their children that is both interesting and healthy.",
         "story": "Before 1975 the area where the work was built was the Chengdu Martyrs Cemetery, the resting place of unknown soldiers. After the war ended, the city re-planned the space, the cemetery was relocated in 1983, this area was converted for construction purposes into Le Thi Rieng park, in the park there is still a memorial to commemorate remember the gratitude of the soldiers who heroically sacrificed for national independence.",
-        "attribute" : "",
+        "attribute" : "entertainment, night activity",
         "type": "Cong_Vien"
     },
     {
@@ -1237,7 +1232,7 @@
         "address": "208 Nguyễn Hữu Cảnh, Phường 22, Quận Bình Thạnh",
         "description": "Công viên Vinhomes Central Park là một trong những công viên xanh có khuôn viên rộng rãi và được đầu tư lớn nhất nhì Sài Gòn. Nổi bật với khuôn viên rộng 14ha cùng những thảm cỏ xanh mướt, nhiều góc sống ảo tuyệt đẹp, nơi đây trở thành điểm check-in lý tưởng",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, night activity, symbolize",
         "type": "Cong_Vien"
     },
     {
@@ -1250,7 +1245,7 @@
         "address": "208 Nguyen Huu Canh, Ward 22, Binh Thanh District",
         "description": "Vinhomes Central Park is one of the green parks with a spacious campus and the second largest investment in Saigon. Featuring a 14-hectare campus with green lawns, many beautiful virtual living corners, this place becomes an ideal check-in point.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, night activity, symbolize",
         "type": "Cong_Vien"
     },
     {
@@ -1263,7 +1258,7 @@
         "address": "Phường Phạm Ngũ Lão, Quận 1, Thành phố Hồ Chí Minh",
         "description": "Công viên 23 Tháng 9 là một công viên nằm tại trung tâm Thành phố Hồ Chí Minh, Việt Nam, thuộc địa phận Quận 1. Công viên nằm giữa hai con đường Lê Lai và Phạm Ngũ Lão, trải dài từ công trường Quách Thị Trang đến đường Nguyễn Trãi. Công viên gồm 3 khu và bị ngăn cách nhau bởi đường Nguyễn Thị Nghĩa.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, night activity",
         "type": "Cong_Vien"
     },
     {
@@ -1276,7 +1271,7 @@
         "address": "Pham Ngu Lao Ward, District 1, Ho Chi Minh City",
         "description": "September 23 Park is a park located in the center of Ho Chi Minh City, Vietnam, in District 1. The park is located between Le Lai and Pham Ngu Lao streets, stretching from Quach Thi Trang square. to Nguyen Trai Street. The park consists of 3 zones and is separated by Nguyen Thi Nghia street.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, night activity",
         "type": "Cong_Vien"
     },
     {
@@ -1289,7 +1284,7 @@
         "address": "2 Nguyễn Bỉnh Khiêm, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh",
         "description": "Thảo Cầm Viên Sài Gòn là công viên bảo tồn động vật - thực vật ở Thành phố Hồ Chí Minh, Việt Nam. Đây là vườn thú lâu đời đứng hàng thứ tám trên thế giới. Đây là khu bảo tồn 'siêu khủng' với 590 đầu thú thuộc 125 loài, còn về hệ thực vật có 1.800 cây gỗ thuộc 260 loài.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, information, symbolize",
         "type": "Cong_Vien"
     },
     {
@@ -1302,7 +1297,7 @@
         "address": "2 Nguyen Binh Khiem Street, Ben Nghe Ward, District 1, Ho Ci Minh City",
         "description": "Saigon Zoo and Botanical Garden is an animal and plant conservation park in Ho Chi Minh City, Vietnam. This is the eighth oldest zoo in the world. This is a 'super-terrible' reserve with 590 gargoyles belonging to 125 species, while the flora has 1,800 trees of 260 species.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, information, symbolize",
         "type": "Cong_Vien"
     },
     {
@@ -1315,7 +1310,7 @@
         "address": "Đồng Xuân, Hoàn Kiếm, Hà Nội, Việt Nam",
         "description": "Chợ Đồng Xuân được biết là ngôi chợ lớn và xưa nhất ở Hà Nội, nằm trong khu phố cổ, và có lịch sử tồn tại hàng trăm năm từ thời phong kiến nhà Nguyễn. Chợ gắn liền với sự thăng trầm của mảnh đất Thăng Long ngàn năm văn hiến, là điểm giao hòa và chứng kiến bao đổi thay của thành phố Hà Nội",
         "story": "",
-        "attribute" : "",
+        "attribute" : "shopping, night activity, information",
         "type": "Cho"
     },
     {
@@ -1328,7 +1323,7 @@
         "address": "Dong Xuan, Hoan Kiem, Ha Noi",
         "description": "Dong Xuan Market is known as the largest and oldest market in Hanoi, located in the Old Quarter, and has a history of hundreds of years from the feudal period of the Nguyen Dynasty. The market is associated with the ups and downs of the land of Thang Long with thousands of years of civilization, a point of reconciliation and witnessing many changes of Hanoi city.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "shopping, night activity, information",
         "type": "Cho"
     },
     {
@@ -1354,7 +1349,7 @@
         "address": "28 Dien Hong Street, Ward 1, Binh Thanh District, Ho Chi Minh",
         "description": "Ba Chieu Market is a large market located in the central area of Binh Thanh District, Ho Chi Minh City. This place sells all kinds of products from housewares, clothes, shoes, conical hats to daily necessities and especially clothes. Ba Chieu Market is one of the oldest markets in Saigon",
         "story": "",
-        "attribute" : "",
+        "attribute" : "shopping, night activity, information",
         "type": "Cho"
     },
     {
@@ -1367,7 +1362,7 @@
         "address": "Đại Thành, Ngã Bảy, Hậu Giang",
         "description": "Chợ Ngã Bảy còn gọi là chợ nổi Phụng Hiệp là một chợ nổi thuộc thành phố Ngã Bảy, tỉnh Hậu Giang, được hình thành từ năm 1915. Đây là chợ nổi nổi tiếng của tỉnh Hậu Giang và Đồng bằng sông Cửu Long, là nơi diễn ra các hoạt động mua bán, trao đổi hàng hóa của cư dân miền sông nước đồng bằng sông Cửu Long.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "shopping, night activity, information",
         "type": "Cho"
     },
     {
@@ -1380,7 +1375,7 @@
         "address": "Nga Bay City, Hau Giang Province",
         "description": "Nga Bay Market, also known as Phung Hiep floating market, is a floating market in Nga Bay city, Hau Giang province, established in 1915. This is a famous floating market of Hau Giang province and the Mekong Delta, where activities of buying, selling and exchanging goods of residents in the Mekong Delta.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "shopping, night activity, information",
         "type": "Cho"
     },
     {
@@ -1393,7 +1388,7 @@
         "address": "2A-4A Đ. Tôn Đức Thắng, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh",
         "description": "Khách sạn cao tầng hạng sang nhìn ra sông Sài Gòn, nằm cách chợ Bến Thành 2 km và chỉ mất 10 phút đi bộ là đến Nhà hát Thành phố Hồ Chí Minh, một nhà hát opera tráng lệ được xây từ thời Pháp thuộc.",
         "story": "",
-        "attribute" : "hotel, shopping",
+        "attribute" : "hotel, shopping, art, information, symbolize, europian, night activity",
         "type": "Toa_Nha"
     },
     {
@@ -1406,7 +1401,7 @@
         "address": "2A-4A Ton Duc Thang Street, Ben Nghe Street, District 1, Ho Chi Minh City",
         "description": "Luxury high-rise hotel overlooking the Saigon River, located 2 km from Ben Thanh Market and only a 10-minute walk to the Opera House of Ho Chi Minh City, a magnificent opera house built in the colonial period. Belong France.",
         "story": "",
-        "attribute" : "hotel, shopping",
+        "attribute" : "hotel, shopping, art, information, symbolize, europian, night activity",
         "type": "Toa_Nha"
     },
     {
@@ -1419,7 +1414,7 @@
         "address": "17 Đ. Tôn Đức Thắng, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh, Việt Nam",
         "description": "Phòng ốc sang trọng có Wi-Fi miễn phí, TV màn hình phẳng, tủ lạnh nhỏ, bàn làm việc, dụng cụ pha trà và cà phê. Phòng hạng cao hơn hướng ra sông. Phòng club và phòng suite được quyền sử dụng phòng chờ cao cấp với các dịch vụ văn phòng và khung giờ vàng. Phòng suite còn có khu tiếp khách riêng.",
         "story": "",
-        "attribute" : "hotel",
+        "attribute" : "hotel, information, night activity",
         "type": "Toa_Nha"
     },
     {
@@ -1432,7 +1427,7 @@
         "address": "17 Ton Duc Thang Street, Ben Nghe Street, District 1, Ho Chi Minh City",
         "description": "Luxurious rooms feature free Wi-Fi, flat-screen TVs, mini-fridges, work desks, tea and coffee making facilities. Superior room facing the river. Club rooms and suites have access to a premium lounge with office services and prime time slots. The suite also has its own sitting area.",
         "story": "",
-        "attribute" : "hotel",
+        "attribute" : "hotel, information, night activity",
         "type": "Toa_Nha"
     },
     {
@@ -1445,7 +1440,7 @@
         "address": "141 Đ. Nguyễn Huệ, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh",
         "description": "Nằm trên Phố đi bộ Nguyễn Huệ, Rex Hotel cung cấp các phòng nghỉ ấm cúng tại trung tâm thành phố Hồ Chí Minh nhộn nhịp. Khách sạn có 2 địa điểm ăn uống ngay trong khuôn viên, bể bơi trên sân thượng và sân tennis với đèn chiếu sáng. Quý khách có thể truy cập Wi-Fi miễn phí trong tất cả các khu vực.",
         "story": "",
-        "attribute" : "hotel",
+        "attribute" : "hotel, shopping, europian, information, symbolize, night activity",
         "type": "Toa_Nha"
     },
     {
@@ -1458,7 +1453,7 @@
         "address": "141 Nguyen Hue Street, Ben Nghe Ward, District 1, Ho Chi Minh City",
         "description": "Located on Nguyen Hue Walking Street, Rex Hotel offers cozy rooms in the heart of bustling Ho Chi Minh City. The hotel features 2 on-site dining options, a rooftop swimming pool and a tennis court with lights. Free Wi-Fi access is available in all areas.",
         "story": "",
-        "attribute" : "hotel",
+        "attribute" : "hotel, shopping, europian, information, symbolize, night activity",
         "type": "Toa_Nha"
     },
     {
@@ -1471,7 +1466,7 @@
         "address": "235 Đ. Nguyễn Văn Cừ, Phường Nguyễn Cư Trinh, Quận 1, Thành phố Hồ Chí Minh",
         "description": "Khách sạn Nikko là sự tổng hợp của những giá trị lý tưởng, sự thoải mái và thuận tiện như khung cảnh sang trọng cùng với những tiện nghi được thiết kế cho những du khách như bạn.",
         "story": "",
-        "attribute" : "hotel",
+        "attribute" : "hotel, information, night activity",
         "type": "Toa_Nha"
     },
     {
@@ -1484,7 +1479,7 @@
         "address": "235 Nguyen Van Cu Street, Nguyen Cu Trinh Ward, District 1, Ho Chi Minh City",
         "description": "Hotel Nikko is a combination of ideal values, comfort and convenience as luxurious setting along with amenities designed for travelers like you.",
         "story": "",
-        "attribute" : "hotel",
+        "attribute" : "hotel, information, night activity",
         "type": "Toa_Nha"
     },
     {
@@ -1497,7 +1492,7 @@
         "address": "Số 86 Đ. Lê Thánh Tôn, Bến Nghé, Quận 1, Tp Hồ Chí Minh",
         "description": "Trụ sở do kiến ​​trúc sư Femand Gardès thiết kế theo kiểu lầu chuông miền Bắc nước Pháp, được xây dựng năm 1898 và khánh thành năm 1909. Tòa nhà được đánh giá là một trong những công trình kiến ​​trúc cổ đẹp nhất Thành phố. Trụ sở UBND TP đối diện tượng đài Chủ tịch Hồ Chí Minh nhìn về Quảng trường Nguyễn Huệ – tuyến phố đi bộ được đưa vào phục vụ từ năm 2015 với chiều dài 640m. Toàn bộ khu phức hợp hướng ra bến Bạch Đằng và bờ sông Sài Gòn",
         "story": "",
-        "attribute" : "",
+        "attribute" : "symbolize, art, europian, information",
         "type": "Toa_Nha"
     },
     {
@@ -1510,7 +1505,7 @@
         "address": "86 Le Thanh Ton Street, Ben Nghe Ward, District 1",
         "description": "The Head Office was designed by the architect Femand Gardès in the style of a bell tower of Northern France, built in 1898 and inaugurated in 1909. The building is considered as one of the most beautiful ancient architecture of the City. Head Office of City People’s Committee faces a monument to President Ho Chi Minh which looks at Nguyen Hue Square – a walking street that has been in service since 2015 with a length of 640m. The whole complex faces the Bach Dang Harbour and the bank of Saigon River",
         "story": "",
-        "attribute" : "",
+        "attribute" : "symbolize, art, europian, information",
         "type": "Toa_Nha"
     }, 
     {
@@ -1523,7 +1518,7 @@
         "address": "101 Tôn Dật Tiên, Tân Phú, Quận 7",
         "description": "Officially launched in late 2011, Crescent Mall is one of the first commercial centers in Vietnam with international standards. With a unique arc design and facilities similar to the famous shopping centers in Hong Kong, Singapore and many other Asian countries, Crescent Mall offers more than 134 retail stores all over the five modern and large floors, along with two basements for parking and a spacious outdoor parking space.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "shopping, entertainment, night activity, symbolize, information",
         "type": "Toa_Nha"
     },  
     {
@@ -1536,7 +1531,7 @@
         "address": "101 Ton Dat Tien Street, Tan Phu Ward, District 7",
         "description": "Officially launched in late 2011, Crescent Mall is one of the first commercial centers in Vietnam with international standards. With a unique arc design and facilities similar to the famous shopping centers in Hong Kong, Singapore and many other Asian countries, Crescent Mall offers more than 134 retail stores all over the five modern and large floors, along with two basements for parking and a spacious outdoor parking space.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "shopping, entertainment, night activity, symbolize, information",
         "type": "Toa_Nha"
     },  
     {
@@ -1549,7 +1544,7 @@
         "address": "34 Đ. Lê Duẩn, Bến Nghé, Quận 1",
         "description": "Là một trung tâm mua sắm lớn tại Thành phố Hồ Chí Minh, Diamond Plaza là nơi bạn có thể tìm thấy nhiều mặt hàng ngoại nhập như mỹ phẩm, nước hoa, quần áo thời trang và trang sức. Khai trương vào năm 1999, nơi đây đã trở thành một trung tâm mua sắm lý tưởng cho cả người Việt Nam và du khách nước ngoài.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "shopping, entertainment, night activity",
         "type": "Toa_Nha"
     },  
     {
@@ -1562,7 +1557,7 @@
         "address": "34 Le Duan Street, Ben Nghe Ward, District 1",
         "description": "As a major shopping center in Ho Chi Minh City, Diamond Plaza is where you can find a variety of imported items as cosmetics, perfumes, fashion clothes, and jewelry. Opened in 1999, this place has become an ideal shopping center for both Vietnamese and foreign visitors.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "shopping, entertainment, night activity",
         "type": "Toa_Nha"
     },  
     {
@@ -1575,7 +1570,7 @@
         "address": "339 Đ. Nam Kỳ Khởi Nghĩa, Phường 7, Quận 3",
         "description": "Chùa Vĩnh Nghiêm là một trong những ngôi chùa danh tiếng nhất Việt Nam và là một trong những công trình tiêu biểu cho kiến trúc Phật giáo Việt Nam thế kỷ 20. Chùa mang nét kiến trúc phương Đông: cổng tam quan, chánh điện hai tầng, tháp cao 40m. Vào ngày mùng một và rằm hàng tháng, các phật tử thường đến đây thắp hương và thả chim trời (một nghi lễ được tổ chức để cầu bình an, thịnh vượng và hạnh phúc)",
         "story": "",
-        "attribute" : "",
+        "attribute" : "religion, information",
         "type": "Chua"
     },  
     {
@@ -1588,7 +1583,7 @@
         "address": "339 Nam Ky Khoi Nghia Street, Ward 7, District 3",
         "description": "Vinh Nghiem Pagoda is one of the most reputed pagodas in Vietnam and one of the works that exemplify Buddhist architecture in Vietnam in the 20th century. The pagoda features the Eastern architecture: a three-door gate, a two-story main hall, and a 40m tower. On the first and fifteenth day of every lunar month, Buddhists often come here to burn incense sticks and release birds to the sky (a ritual held to pray for peace, prosperity, and happiness).",
         "story": "",
-        "attribute" : "",
+        "attribute" : "religion, information",
         "type": "Chua"
     },  
     {
@@ -1601,7 +1596,7 @@
         "address": "289 Hai Bà Trưng, Phường 8, Quận 3",
         "description": "Nhà thờ Tân Định, nổi tiếng với kiến trúc theo phong cách Gothic, trang trí theo phong cách Roman và Baroque và tác phẩm điêu khắc kỳ công, là một trong những nhà thờ tráng lệ nhất tại Thành phố Hồ Chí Minh.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "religion",
         "type": "Chua"
     },  
     {
@@ -1614,7 +1609,7 @@
         "address": "289 Hai Ba Trung Street, Ward 8, District 3 ",
         "description": "Tan Dinh Church, famous for its Gothic style architecture, Roman and Baroquestyle decorations and marvelous sculpture, is one of the most magnificent churches in Ho Chi Minh City.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "religion",
         "type": "Chua"
     },  
     {
@@ -1627,7 +1622,7 @@
         "address": "Phường Võ Thị Sáu, Quận 3",
         "description": "Hồ Con Rùa nằm ngay trung tâm Quảng trường Quốc tế. Nơi đây tập trung hơn 20 quán cà phê với phong cách đa dạng: từ sang trọng tinh tế đến phong cách giản dị, bình dị; đó là một trong những biểu tượng của thành phố. Nhiều bạn trẻ, doanh nhân và khách du lịch đến đây mỗi ngày. Ở đây có một số quán cà phê nổi tiếng như Napoli, The Coffee House, Highlands, Phúc Long, Papa,…",
         "story": "",
-        "attribute" : "",
+        "attribute" : "symbolize, entertainment, lake, information",
         "type": "Cong_Vien"
     },  
     {
@@ -1640,7 +1635,7 @@
         "address": "Vo Thi Sau Ward, District 3",
         "description": "Turtle Lake is located in the heart of International Square. It concentrates more than 20 coffee houses with diverse styles: from a sophisticated elegance to a simple, idyllic style; which is one of the city symbols. Many young people, businessmen, and tourists visit here every day. There are some famous coffee houses here as Napoli, The Coffee House, Highlands, Phuc Long, Papa, ...",
         "story": "",
-        "attribute" : "",
+        "attribute" : "symbolize, entertainment, lake, information",
         "type": "Cong_Vien"
     },  
     {
@@ -1653,7 +1648,7 @@
         "address": "97A P. Đức Chính, Phường Nguyễn Thái Bình, Quận 1",
         "description": "Bảo tàng trước đây là một dinh thự được xây dựng vào năm 1920 theo phong cách phương Tây. Ngày nay, Bảo tàng 4 tầng là một trong những bảo tàng mỹ thuật lớn nhất Việt Nam với hơn 20.000 hiện vật, khu trưng bày trong nhà rộng 2.892m2 và ngoài trời rộng 1.623m2. Tầng đầu tiên dành cho các tác phẩm nghệ thuật của các nghệ sĩ trong và ngoài nước. Tầng 2 bao gồm phòng trưng bày các tác phẩm nghệ thuật có giá trị về điêu khắc và hội họa. Tầng thứ ba trưng bày bộ sưu tập các tác phẩm nghệ thuật được tạo ra từ thế kỷ thứ 7 đến thế kỷ thứ 10 bao gồm các di tích Chămpa và Óc Eo, đồ cổ Việt Nam, đồ thủ công mỹ nghệ và phần còn lại của các bộ sưu tập nghệ thuật châu Âu tại Việt Nam trong thế kỷ 18 - 20.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "museum, europian, information, art",
         "type": "Di_Tich"
     },  
     {
@@ -1666,7 +1661,7 @@
         "address": "97A Pho Duc Chinh Street, District 1",
         "description": "The Museum previously was a mansion built in 1920 in Western style. Today, the 4-storey Museum is one of the largest fine art museums in Vietnam with more than 20.000 artifacts, an indoor exhibition area of 2.892m2 inside and outdoor area of 1.623m2. The first floor is devoted to artworks of local and foreign artists. The second floor includes a gallery of valuable art works in sculpture and painting. The third floor features a collection of artworks created from the 7th to the 10th century including Champ and Óc Eo relics, Vietnamese antiques, handicrafts and the remainder of European art collections in Vietnam during the 18th – 20th century.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "museum, europian, information, art",
         "type": "Di_Tich"
     },  
     {
@@ -1679,7 +1674,7 @@
         "address": "65 Lý Tự Trọng, Bến Nghé, Quận 1",
         "description": "Được xây dựng vào năm 1890 theo phong cách Phục hưng của kiến trúc sư người Pháp Foulhoux, Bảo tàng là sự kết hợp giữa nét phương Tây và châu Á. Hai bức tượng Nữ thần Thương mại và Nữ thần Công nghiệp được đặt ở hai bên lối vào chính của bảo tàng, thể hiện mục tiêu ban đầu tại sao bảo tàng được xây dựng: trở thành Bảo tàng Thương mại và Công nghiệp trưng bày các mặt hàng nội địa. Bảo tàng hiện có các hiện vật phác thảo lịch sử của Thành phố và trở thành địa điểm chụp ảnh yêu thích của giới trẻ.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "museum, information",
         "type": "Di_Tich"
     },  
     {
@@ -1692,7 +1687,7 @@
         "address": "65 Ly Tu Trong, District 1",
         "description": "Being built in 1890 in the Renaissance style of French architect Foulhoux, the Museum is the combination of Western and Asian features. Two statues of the Goddess of Commerce and the Goddess of Industry are placed on either side of the main entrance of the museum, demonstrating the original goal why the museum was constructed: to become the Museum of Commerce and Industry that displays domestic items. The Museum currently features artifacts that outline the City’s history and becomes the young’s favorite photography spot.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "museum, information",
         "type": "Di_Tich"
     },  
     {
@@ -1705,7 +1700,7 @@
         "address": "28 Võ Văn Tần, Phường 6, Quận 3",
         "description": "Bảo tàng là bảo tàng chuyên ngành nhằm nghiên cứu, sưu tầm, lưu giữ, bảo quản và trưng bày tài liệu, hình ảnh, hiện vật về hậu quả tàn khốc mà chiến tranh gây ra cho Việt Nam. Kể từ khi mở cửa cho công chúng tham quan vào năm 1975, Bảo tàng đã lưu giữ hơn 20.000 tài liệu, hiện vật và video làm bằng chứng lên án cuộc chiến tranh phi nghĩa. Tham quan Bảo tàng có thể coi là một cách để chia sẻ những đau thương, mất mát mà các nạn nhân chiến tranh đang phải gánh chịu, đồng thời thể hiện khát vọng hòa bình của nhân dân Việt Nam và nhân dân thế giới.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "museum, information",
         "type": "Di_Tich"
     },  
     {
@@ -1718,7 +1713,7 @@
         "address": "28 Vo Van Tan, Ward 6, District 3",
         "description": "The Museum is a specialized museum aiming to research, collect, store, preserve and display documents, images and exhibits on the devastating consequences that wars inflicted on Vietnam. Since being open to the public in 1975, the Museum has kept more than 20.000 documents, exhibits and videos which serve as pieces of evidence to condemn an unjust war. Visiting the Museum can be seen as a way to share the pain and loss that the victims of the war are suffering from, and express the desire for peace to Vietnamese people and the people of the world.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "museum, information",
         "type": "Di_Tich"
     },  
     {
@@ -1731,7 +1726,7 @@
         "address": "206/19/30 Long Thuận, Long Phước, Quận 9",
         "description": "Bảo tàng Áo dài được họa sĩ – nhà thiết kế thời trang Sỹ Hoàng xây dựng sau 12 năm nghiên cứu và sưu tầm hiện vật. Chi nhánh đầu tiên của Bảo tàng Áo dài có diện tích 2.000m2 tự hào với kiến trúc bằng gỗ cổ, trong đó gỗ được tìm thấy ở tỉnh Quảng Nam. Những tư liệu, hình ảnh, hiện vật về áo dài Việt Nam tại đây đã được các nghệ nhân đến từ làng mộc Kim Bồng nghiên cứu, sưu tầm, trưng bày và lưu giữ. Đến thăm Bảo tàng, du khách sẽ được chứng kiến sự thay đổi của áo dài Việt Nam trong suốt chiều dài lịch sử. Bảo tàng còn trưng bày hình ảnh người phụ nữ Việt Nam trên nhiều lĩnh vực như quân sự, ngoại giao, xã hội, văn hóa, giáo dục, thương mại và nghệ thuật.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "museum, information",
         "type": "Di_Tich"
     },  
     {
@@ -1744,7 +1739,7 @@
         "address": "206/19/30 Long Thuan Street, Long Phuoc Ward, District 9",
         "description": "Ao Dai Museum was built by the painter – fashion designer Sy Hoang after his 12 years of researching and collecting artifacts. The first branch of Ao Dai Museum covers an area of 2.000m2 that boasts old wooden architecture in which the wood was traced to Quang Nam province. The documents, images and artifacts of Vietnamese Ao Dai here has been researched, collected, showcased and preserved by the masters coming from Kim Bong carpentry village. Paying the Museum a visit, the visitors will witness the change of Vietnamese Ao Dai throughout history. The Museum also features the image of Vietnamese women in various fields including military, diplomacy, society, culture, education, commerce and art.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "museum, information",
         "type": "Di_Tich"
     },  
     {
@@ -1757,7 +1752,7 @@
         "address": "Đường Nguyễn Phúc Nguyên, thành phố Huế, tỉnh Thừa Thiên Huế.",
         "description": "Chùa Thiên Mụ huyền thoại nằm trên khúc quanh của sông Hương. Tháp bát giác bảy tầng của nó đã trở thành một biểu tượng của Huế và cội nguồn tâm linh của nó. Đi bộ qua quần thể chùa để chiêm ngưỡng các khu vườn và nhà thờ, và để xem các di tích của lịch sử Phật giáo Việt Nam như chiếc chuông đồng khổng lồ thế kỷ 18.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "religion, information, art, symbolize",
         "type": "Chua"
     },  
     {
@@ -1770,7 +1765,7 @@
         "address": "Nguyen Phuc Nguyen Street, Hue City, Thua Thien Hue Province",
         "description": "Legendary Thien Mu Pagoda is set on a bend of the Perfume River. Its seven-story octagonal tower has become a symbol of Hue and its spiritual roots. Take a walk through the pagoda complex to admire the gardens and worship houses, and to view relics of Vietnamese Buddhist history such as an enormous 18th-century bronze bell.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "religion, information, art, symbolize",
         "type": "Chua"
     },  
     {
@@ -1783,7 +1778,7 @@
         "address": "41 Hoàng Dư Khương, Phường 12, Quận 10",
         "description": "Bảo tàng cung cấp thông tin chi tiết về nguồn gốc và lịch sử của y học truyền thống Việt Nam, bao gồm các phương pháp chữa bệnh, tri thức về y học dân tộc và vai trò của các nhà thầy thuốc truyền thống trong xã hội. Bảo tàng Y học Cổ truyền VN thường trưng bày một bộ sưu tập đa dạng của các đồ cổ truyền, sách và tư liệu liên quan đến y học truyền thống. Bạn có thể tìm thấy các loại cây thuốc, thảo dược, những bộ xương, các dụng cụ y tế truyền thống và những bộ quần áo truyền thống được sử dụng trong y học cổ truyền. Các hiện vật này được trình bày một cách tinh tế và mô phỏng lại không gian y học cổ truyền, mang đến cho khách tham quan một trải nghiệm sống động và chân thực.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "museum, information",
         "type": "Di_Tich"
     },  
     {
@@ -1796,7 +1791,7 @@
         "address": "41 Hoang Du Khuong, Ward 12, District 10",
         "description": "The museum provides detailed information on the origin and history of traditional Vietnamese medicine, including healing methods, knowledge of traditional medicine and the role of traditional physicians in society. . The Vietnam Museum of Traditional Medicine often displays a diverse collection of traditional medicine, books and documents related to traditional medicine. You can find medicinal plants, herbs, skeletons, traditional medical tools and traditional clothes used in traditional medicine. These artifacts are delicately presented and simulate the traditional medicine space, giving visitors a vivid and authentic experience.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "museum, information",
         "type": "Di_Tich"
     },  
     {
@@ -1809,7 +1804,7 @@
         "address": " 2 Đ. Tôn Đức Thắng, Bến Nghé, Quận 1",
         "description": "Cầu Ba Son là cây cầu dây lãng bắc qua sông Sài Gòn, nối Quận 1 với thành phố Thủ Đức tại Thành phố Hồ Chí Minh, Việt Nam. Cầu được khởi động xây dựng vào đầu năm 2015, tuy nhiên đến tháng 4 năm 2022 mới hoàn thành đưa vào sử dụng.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, lake, art",
         "type": "Cau"
     },     
     {
@@ -1822,7 +1817,7 @@
         "address": "2 Ton Duc Thang Street, Ben Nghe Ward, District 1",
         "description": "Ba Son Bridge is a rope bridge spanning the Saigon River, connecting District 1 with Thu Duc City in Ho Chi Minh City, Vietnam. The bridge was started construction in early 2015, but it will not be completed and put into use until April 2022.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, lake, art",
         "type": "Cau"
     },  
     {
@@ -1835,7 +1830,7 @@
         "address": "Khu đô thị Him Lam, P.Tân Hưng Thuận, Quận 7",
         "description": "Cầu Phú Mỹ không chỉ là một công trình trọng điểm của Việt Nam, mà còn là công trình cầu dây văng hiện đại bậc nhất thế giới về phần kỹ thuật dây văng bắc qua sông Sài Gòn nối Quận 2 và Quận 7, thuộc đường vành đai ngoài.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, lake, art, symbolize",
         "type": "Cau"
     },  
     {
@@ -1848,7 +1843,7 @@
         "address": "Him Lam, Tan Hung Thuan Ward, District 7",
         "description": "Phu My Bridge is not only a key project of Vietnam, but also the most modern cable-stayed bridge in the world in terms of cable-stayed technology across the Saigon River connecting District 2 and District 7, belonging to the ring road. outer belt.",
         "story": "",
-        "attribute" : "",
+        "attribute" : "entertainment, lake, art, symbolize",
         "type": "Cau"
     }
 ]
