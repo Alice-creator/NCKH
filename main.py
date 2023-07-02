@@ -2,11 +2,11 @@ from flask import Flask
 from flask_restful import Api
 from BE.website import *
 from Model import classifier
-from flask_cors import CORS
+# from flask_cors import CORS
 from Recommender_Sys import Recommend
 app = Flask(__name__)
 api = Api(app)
-CORS(app)
+# CORS(app)
 # Attraction.insertAttraction() 
 api.add_resource(Account.SignUp, '/Account/sign-up')
 api.add_resource(Account.Login, '/Account/login')
@@ -23,5 +23,6 @@ api.add_resource(Account.ExternalSearch, '/<string:language>/Account/Searchapi/<
 api.add_resource(Dev.RootAttraction, '/Dev/RootAttraction')
 api.add_resource(Dev.Analyse, '/Dev/Analyse')
 api.add_resource(Recommend.Recommender, '/<string:language>/Recommender')
+api.add_resource(Recommend.TourSuggestion, '/<string:language>/Tour/<float:latitude>/<float:longitude>')
 if __name__ == '__main__':
     app.run(debug = True, host='0.0.0.0')

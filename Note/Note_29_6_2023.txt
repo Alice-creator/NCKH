@@ -1,0 +1,22 @@
+Tour recommender :
+- cho gps của user (x,y), bán kính r, số ngày k 
+tạo thành tour du lịch cho khách tham quan các địa
+điểm trong bán kính r (bao gồm ăn uống nghỉ ngơi
+và các hoạt động giải trí).
+- 1 ngày du lịch cơ bản gồm:
++ Ăn sáng 
++ Tham quan 
++ Ăn trưa
++ Tham quan 
++ Ăn tối (ưu tiên nhà hàng)
++ Nghỉ ngơi (khách sạn)
+
+- Các nhà hàng khách sạn có thể lặp lại
+
+
+- tạo ngẫu nhiên 10 cặp bố mẹ
+- đánh giá điểm số
+- loại đi 5 cặp
+- lai chéo (tạo ra 10 cặp mới)
+- đột biến theo tỉ lệ phần trăm
+- lặp lại
