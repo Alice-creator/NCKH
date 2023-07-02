@@ -187,11 +187,78 @@ class TourSuggestion(Resource):
         distance, name = self.getInfo(data['attribute'])
         index = [i for i in range(len(name))]
         path = self.createPath(distance, index)
-        # genetic = Genetic(stuffList=distance, stuffName=index)
-        
+
+        connection = database.connect_db()
+        cursor = connection.cursor()
+        cursor.execute(
+            '''
+            delete from tour;
+            '''
+        )
+        for i in range(len(path)):
+            cursor.execute(
+                '''
+                insert into Tour(TID, travelOrder)
+                values(%s, %s);
+                ''',
+                (name[path[i]], i)
+            )
+        connection.commit()
         return  {
-            'data' : path
+            'data': path,
+            'message' : 'update sucessfully'
         }
     
     def get(self, latitude, longitude, language):
-        return None
+        connection = database.connect_db()
+        cursor = connection.cursor()
+        cursor.execute(
+            '''
+            select travelorder from viet_introduction, tour
+            where viet_introduction.tid = tour.tid and
+            (longitude / %s >= 0.85 and longitude / %s <= 1.15
+            and latitude / %s >= 0.85 and latitude / %s <= 1.15) LIMIT 1;
+            ''',
+            (longitude, longitude, latitude, latitude)
+        )
+        try:
+            GPS = str(cursor.fetchone()[0])
+        except:
+            return {
+                'message': "you are out of range"
+            }, 200
+        
+        cursor.execute(
+            '''
+            select sum(score) from User_content_based, Tour
+            where User_content_based.tid = Tour.tid
+            and travelOrder < %s;
+            ''',
+            (GPS)
+        )
+        up = cursor.fetchone()[0]
+
+        cursor.execute(
+            '''
+            select sum(score) from User_content_based, Tour
+            where User_content_based.tid = Tour.tid
+            and travelOrder > %s;
+            ''',
+            (GPS)
+        )
+        down = cursor.fetchone()[0]
+        
+        if up == None:
+            direction = True
+        elif down == None:
+            direction = False
+        elif up > down:
+            direction = False
+        else:
+            direction = True
+
+        return {
+            'GPS': GPS,
+            'up': up,
+            'down': down
+        }
