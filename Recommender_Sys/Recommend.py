@@ -3,8 +3,10 @@ from flask_restful import Resource, request
 from .Utility_matrix import TF_IDF, Utility_matrix, GetDistance
 from .Content_based import train
 from .Colaborative import train_col
+from .Genetic import Genetic
 import requests
 import numpy as np
+import copy
 class Recommender(Resource):
 
     def getUserScore(self, CID):
@@ -133,3 +135,64 @@ class Recommender(Resource):
         data = cursor.fetchall()
         col_name = ['TID', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'likes']
         return middleware.toDict(key=col_name, value=data)
+
+class TourSuggestion(Resource):
+    
+    def getInfo(self, atts_List):
+        distance = list()
+        name = list()
+        for i in atts_List:
+            temp = list()
+            for j in atts_List:
+                temp.append(round((float(i['latitude']) - float(j['latitude']))**2 + (float(i['longitude']) - float(j['longitude']))**2, 4))
+            distance.append(temp)
+            name.append(i['attraction name'])
+        return distance, name
+
+    def addPath(self, addedAtt, pointMatrix):
+        state = addedAtt[-1]
+        indexs = list()
+        for i in pointMatrix[state][::-1]:
+            if pointMatrix[state].index(i) in addedAtt:
+                pointMatrix[state].remove(i)
+            else:
+                indexs.append(pointMatrix[state].index(i))
+        indexs.reverse()
+        addedAtt.append(indexs[pointMatrix[state].index(min(pointMatrix[state]))])
+
+        return addedAtt
+    def createPath(self, pointMatrix, nameList):
+        bestMinPoint = None
+        bestConfig = None
+        # print(pointArray)
+        for i in nameList:
+            state = list([i])
+            point = 0
+            while len(state) < len(nameList):
+                temp = copy.deepcopy(pointMatrix)
+                state = self.addPath(state, temp)
+                point += pointMatrix[state[-2]][state[-1]]
+
+                if bestConfig != None and bestMinPoint <= point:
+                    break
+
+            if bestConfig == None or bestMinPoint > point:
+                bestConfig = state
+                bestMinPoint = point
+
+            return bestConfig
+
+
+    def post(self, latitude, longitude, language):
+        data = requests.get('http://127.0.0.1:5000/Dev/Analyse').json()
+        distance, name = self.getInfo(data['attribute'])
+        index = [i for i in range(len(name))]
+        path = self.createPath(distance, index)
+        # genetic = Genetic(stuffList=distance, stuffName=index)
+        
+        return  {
+            'data' : path
+        }
+    
+    def get(self, latitude, longitude, language):
+        return None

@@ -21,5 +21,6 @@ api.add_resource(Account.ExternalSearch, '/<string:language>/Account/Searchapi/<
 api.add_resource(Dev.RootAttraction, '/Dev/RootAttraction')
 api.add_resource(Dev.Analyse, '/Dev/Analyse')
 api.add_resource(Recommend.Recommender, '/<string:language>/Recommender')
+api.add_resource(Recommend.TourSuggestion, '/<string:language>/Tour/<float:latitude>/<float:longitude>')
 if __name__ == '__main__':
     app.run(debug = True, host='0.0.0.0')
