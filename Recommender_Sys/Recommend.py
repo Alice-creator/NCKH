@@ -28,18 +28,18 @@ class Recommender(Resource):
 
     def post(self, language):
         data = requests.get('http://127.0.0.1:5000/Dev/Analyse').json()
- 
-        token = request.headers.get('Authorization')
-        token = token.split(' ')[1]
-        auth = middleware.authentication(token)
-        if not middleware.authentication(token):
-            return {'status' : False,
-                    'message': 'you need to login first'
-                    }, 401
-        if middleware.authorization(token) != 'Admin':
-            return {'status' : False,
-                    'message': "you don't have right to access this feature"
-                    }, 403
+
+        # token = request.headers.get('Authorization')
+        # token = token.split(' ')[1]
+        # auth = middleware.authentication(token)
+        # if not middleware.authentication(token):
+        #     return {'status' : False,
+        #             'message': 'you need to login first'
+        #             }, 401
+        # if middleware.authorization(token) != 'Admin':
+        #     return {'status' : False,
+        #             'message': "you don't have right to access this feature"
+        #             }, 403
         ##### get attraction name list
         att_names = list()
         for i in data['attribute']:
@@ -84,13 +84,12 @@ class Recommender(Resource):
         score = self.getUserScore(auth['CID'])
         connection = database.connect_db()
         cursor = connection.cursor()
-
         if score <= 10:
             cursor.execute(
                 '''
                 select viet_introduction.tid, viet_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
                 from viet_introduction, attractions
-                where attractions.tid = viet_introduction.tid and tid in (
+                where attractions.tid = viet_introduction.tid and attractions.tid in (
                 select tid 
                 from analyse_info
                 order by (searchs + likes*3) DESC
@@ -99,12 +98,12 @@ class Recommender(Resource):
                 '''
             )
             data = cursor.fetchall()
-        if score <= 20:
+        elif score > 10 and score <= 20:
             cursor.execute(
                 '''
                 select viet_introduction.tid, viet_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
                 from viet_introduction , attractions
-                where viet_introduction.tid = attractions.tid and tid in (
+                where viet_introduction.tid = attractions.tid and attractions.tid in (
                 select tid2 from Colaborative_filtering
                 where tid1 = (
                 select tid from analyse_info

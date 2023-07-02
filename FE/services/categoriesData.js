@@ -9,7 +9,7 @@ import beach from "../assets/beach.png"
 import mountain from "../assets/mountain.png"
 
 import hotel from "../assets/hotels.png"
-import restaurant from "../assets/attraction.png"
+import restaurant from "../assets/restaurant.png"
 import attraction from "../assets/places.png"
 
 export const categoriesData = [
@@ -77,12 +77,12 @@ export const categoriesNearData = [
     },
     {
         id: 2,
-        name: "restaurants",
-        icon: restaurant
+        name: "hotels",
+        icon: hotel
     },
     {
         id: 3,
-        name: "hotels",
-        icon: hotel
+        name: "restaurants",
+        icon: restaurant
     },
 ]

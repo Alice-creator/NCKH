@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
 
 import HomePage from './screens/HomePage.js';
 import Details from './screens/Details.js';
@@ -18,8 +17,8 @@ import UpdatePlace from './screens/admin/UpdatePlace.js'
 import './languages/i18n.js'
 import {MyContextProvider} from './context/index.js';
 import ChangePassword from './screens/ChangePassword.js';
-
-axios.defaults.baseURL = process.env.REACT_NATIVE_BASE_URL
+import Panorama from './screens/components/Panorama.js';
+import UpdatePlaceForm from './screens/admin/UpdatePlaceForm.js';
 
 const Stack = createNativeStackNavigator();
 function App() {
@@ -50,15 +49,15 @@ function App() {
           <Stack.Screen name="Maps" component={Maps} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Signup" component={Signup} />
+          <Stack.Screen name="Panorama" component={Panorama} />
           <Stack.Screen name="ChangePassword" component={ChangePassword} />
 
           {/* Admin */}
           <Stack.Screen name="AdminHome" component={AdminHome} />
           <Stack.Screen name="AddPlace" component={AddPlace} />
           <Stack.Screen name="UpdatePlace" component={UpdatePlace} />
-
+          <Stack.Screen name="UpdatePlaceForm" component={UpdatePlaceForm} />
           <Stack.Screen name="Report" component={Report} />
-
         </Stack.Navigator>
       </NavigationContainer>
     </MyContextProvider>

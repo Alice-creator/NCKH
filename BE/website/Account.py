@@ -9,7 +9,7 @@ class SignUp(Resource):
         cursor = connection.cursor()
         data = request.get_json()
         data['password'] = middleware.one_way_hash(data['password'])
-
+        print(data['gmail'])
         # data = extension.create_json(request.values.lists())
         try:
             cursor.execute(

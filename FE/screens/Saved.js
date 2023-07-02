@@ -16,7 +16,6 @@ export default function Saved({ navigation }) {
   useEffect(() => {
     const getStorage = async () => {
       const token = JSON.parse(await AsyncStorage.getItem('token'));
-      console.log(token)
       const language = await AsyncStorage.getItem('language');
         axios.get(`${REACT_NATIVE_BASE_URL}/${language}/User/storage`,
         {
@@ -26,16 +25,18 @@ export default function Saved({ navigation }) {
         }
         )
         .then(response => {
-          console.log("fata" ,response.data.status)
+          console.log(response.data)
           if(!response.data.status) {
             setRequireLogin(true)
-          } else {
+          } 
             setStorages(response.data.info)
             setLoading(false)
             setRequireLogin(false)
-          }
+          
         }).catch(error => {
-            console.log(error);
+            return (
+              <Text>Network Error</Text>
+            )
         });
       }
     getStorage()
@@ -59,7 +60,7 @@ export default function Saved({ navigation }) {
         <View className="mx-3">
           <View className="flex-row flex-wrap justify-between">
             {storages.length > 0 && storages?.map((value, index) => (
-              <TouristAttractionInfo navigation={navigation} 
+              <TouristAttractionInfo navigation={navigation}  key={index}
                     data = {{
                       id: value.TID,
                       name: value.name,

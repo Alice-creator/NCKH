@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "IMap",
-    "slug": "IMap",
+    "name": "VieTravel",
+    "slug": "VieTravel",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,22 +18,34 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "y"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.vy_huynh214.TravelAIApp"
+      "permissions": [
+        "INTERNET",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBHea5QGQtJmjexK9YS2jVH4QQNA2Uq-h0"
+        }
+      },
+      "package": "com.vy_huynh214.VieTravel"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "4ba6b808-4f7e-47a2-8d9d-6aaec34ce5dd"
+        "projectId": "f221dbfa-de63-4aff-a462-9553694a4835"
       }
-    }
+    },
+    "plugins": ["onnxruntime-react-native"]
   }
 }

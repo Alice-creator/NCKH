@@ -4,7 +4,7 @@
         "search": "Khám phá một nơi",
         "exploreCity": "Khám phá thành phố",
         "popularPlace": "Nơi phổ biến",
-        "forYou": "Phù hợp với bạn",
+        "forYou": "Đề xuất cho bạn",
         "all": "Tất cả",
         "monuments": "Di tích",
         "pagoda": "Chùa",
@@ -26,8 +26,11 @@
         "hotels": "Khách sạn",
         "restaurants": "Nhà hàng",
         "attractions": "Thu hút",
-        "seeMore": "See More",
-        "hide": "Hide"
+        "seeMore": "Xem thêm",
+        "hide": "Ẩn",
+        "suggest": "Đề nghị",
+        "about": "Thông tin",
+        "tour": "Các chuyến du lịch"
     },
     "saved": {
         "title": "Kho lưu trữ",
@@ -43,6 +46,11 @@
         "report": "Góp ý",
         "help": "Giúp đỡ",
         "setting": "Cài đặt"
+    },
+    "changePassword": {
+        "title": "Thay đổi mật khẩu",
+        "oldPass": "Mật khẩu cũ",
+        "newPass": "Mật khẩu mới"
     },
     "modal": {
         "requireLogin": {

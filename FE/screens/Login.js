@@ -14,6 +14,7 @@ import closeEyeIcon from "../assets/closeEye.png"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { REACT_NATIVE_BASE_URL } from '../contains'
 import { MyContext } from '../context';
+import axios from 'axios';
 
 
 const Login = ({ navigation }) => {
@@ -23,13 +24,36 @@ const Login = ({ navigation }) => {
 
     const [ hidden, setHidden ] = useState(true)
 
-    const handleLogin = async () => {
+    const handleLogin = () => {
         const data = { gmail, password }
+        console.log(data)
+        // axios.post(`${REACT_NATIVE_BASE_URL}/Account/login`, data,  {
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //     },
+        //   })
+        // .then(async res => {
+        //     console.log(res.data)
+        //     if(res.data.status) {
+        //         setUser({ username : res.data.username, gmail, avatar: '', role: res.data.role })
+        //         await AsyncStorage.setItem('user', JSON.stringify({ username : res.data.username, gmail, avatar: '', role: res.data.role }));
+        //         await AsyncStorage.setItem('token', JSON.stringify(res.data.token));
+
+        //         if(res.data.role == "Admin") {
+        //             navigation.navigate('AdminHome')
+        //         } else {
+        //             navigation.navigate('Profile')
+        //         }
+        //     } else {
+        //         console.log('tai khoan khong ton tai')
+        //     }
+        // })
+        // .catch(error => console.error(error));
         fetch(`${REACT_NATIVE_BASE_URL}/Account/login`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         })
@@ -57,7 +81,7 @@ const Login = ({ navigation }) => {
     }
             
   return (
-    <SafeAreaView className="flex-1 relative">
+    <SafeAreaView className="flex-1 relative bg-theme">
         <View style={{ height: height * 0.8, width: width }}>
             <Image 
                 source={bgHomepage[1]}
@@ -65,7 +89,7 @@ const Login = ({ navigation }) => {
                 className={`h-full object-cover w-full flex-1`}
             />
         </View>
-        <View className="absolute bottom-0 bg-theme rounded-t-2xl w-full py-5 px-7">
+        <View className="absolute bottom-0 pb-10 bg-theme rounded-t-2xl w-full py-5 px-7">
             <View className="mb-2">
                 <Text className="text-center text-[26px] font-bold text-bold-txt tracking-wider">Hello Again!</Text>
                 <Text className="text-center text-basic">Welcome back you've been missed</Text>
@@ -110,11 +134,11 @@ const Login = ({ navigation }) => {
             >
                 <Text className="text-center text-white font-bold text-lg">Log in</Text>
             </TouchableOpacity>
-            <Text className="text-center text-basic">Or, login with...</Text>
+            {/* <Text className="text-center text-basic">Or, login with...</Text>
             <TouchableOpacity className="flex-row items-center justify-center border-[2px] border-[#A8AFB5] rounded-xl py-3 my-2">
                 <Image source={googleIcon} />
                 <Text className="text-center text-basic font-bold text-lg ml-2">Google</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <View className="flex-row items-center justify-center mb-6">
                 <Text className="text-basic mr-2">Not a memner?</Text>
                 <Text className="font-bold text-primary tracking-wider"

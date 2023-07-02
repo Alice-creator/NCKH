@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Image, View, StyleSheet, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import { Image, View, Text, SafeAreaView, TouchableOpacity, BackHandler } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import { Camera, CameraType } from 'expo-camera';
@@ -14,6 +14,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { REACT_NATIVE_BASE_URL } from '../contains';
 import Loading from './components/Loading';
 
+// import * as ort from 'onnxruntime-react-native';
+import { Asset } from 'expo-asset';
+import { InferenceSession } from 'onnxruntime-react-native';
+
 export default function Scans({ navigation }) {
   const [ image, setImage ] = useState(null);
   const [ type, setType ] = useState(CameraType.back)
@@ -23,43 +27,50 @@ export default function Scans({ navigation }) {
     setLoading(true)
     const token = JSON.parse(await AsyncStorage.getItem('token'));
     const language = await AsyncStorage.getItem('language');
-        axios.post(`${REACT_NATIVE_BASE_URL}/${language}/FindingPlace`, data, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`,
-          },
-        }).then(response => {
-          console.log("result", response.data)
-          
-          const result = response.data.result
-          let data = {}
-          if(result.length > 1) {
-            data = {
-              suggest: result,
-              image: image,
-              name: result[0].type
-            }
-          } else {
-            data = {
-              id: result[0].TID,
-              name: result[0].name,
-              latitude: result[0].latitude,
-              longitude: result[0].longitude,
-              location_string: result[0].location_string,
-              image: image,
-              address: result[0].address,
-              description: result[0].description,
-              story: result[0].story,
-              type: result[0].type,
-              likes: result[0].likes,
-              isStorage: result[0].Stored
-            }
-          }
-          navigation.navigate("Details", { data, scan: true })
-          setLoading(false)
-        }).catch(error => {
-          console.log(error);
-        });  
+    axios.post(`${REACT_NATIVE_BASE_URL}/${language}/FindingPlace`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(response => {          
+      const result = response.data.result
+      let data = {}
+      if(result.length > 1) {
+        data = {
+          suggest: result,
+          image: image,
+          name: result[0].type
+        }
+      } else {
+        data = {
+          id: result[0].TID,
+          name: result[0].name,
+          latitude: result[0].latitude,
+          longitude: result[0].longitude,
+          location_string: result[0].location_string,
+          image: image,
+          address: result[0].address,
+          description: result[0].description,
+          story: result[0].story,
+          type: result[0].type,
+          likes: result[0].likes,
+          isStorage: result[0].Stored
+        }
+      }
+      navigation.navigate("Details", { data, scan: true })
+      setLoading(false)
+    }).catch(error => {
+      console.log(error);
+    });  
+    // let myModel = ort.InferenceSession;
+    // const modelPath = '../model/best.onnx'
+    // const path = require('../assets/best.onnx')
+    // const assets = await Asset.loadAsync(path);
+    // const modelUri = assets[0].localUri;
+    // console.log("modelUri", modelUri)
+    // let myModel = await InferenceSession.create(modelUri);
+    // console.log("myModel", myModel)
+
   }
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -68,10 +79,7 @@ export default function Scans({ navigation }) {
       allowsEditing: false,
       aspect: [5, 6],
       quality: 1,
-    });
-
-    // console.log(result);
-    
+    });    
     if (!result.canceled) {
       const data = new FormData();
       data.append('file', {
@@ -79,7 +87,6 @@ export default function Scans({ navigation }) {
         type: 'image/jpeg',
         name: 'photo.jpg',
       });
-      console.log(result.assets)
       setImage(result.assets[0].uri);
       getPlace(data, result.assets[0].uri) //Add
     }
@@ -96,7 +103,12 @@ export default function Scans({ navigation }) {
       setHasCameraPermission(cameraPermission.status === "granted");
       setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
     })();
-    
+    const backAction = () => {
+      navigation.navigate("Discover");
+      return true; // Trả về true để ngăn không thoát khỏi ứng dụng
+    };
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => backHandler.remove();
   }, []);
 
   if (hasCameraPermission === undefined) {
@@ -184,18 +196,3 @@ export default function Scans({ navigation }) {
     </SafeAreaView>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonContainer: {
-    backgroundColor: '#fff',
-    alignSelf: 'flex-end'
-  },
-  preview: {
-    alignSelf: 'stretch',
-    flex: 1
-  }
-}); 

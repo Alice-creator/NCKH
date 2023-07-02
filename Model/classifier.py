@@ -8,7 +8,7 @@ from .utils import *
 import numpy as np
 from BE.website import extension, database, middleware
 import requests
-model_dir = os.path.join(os.getcwd(), 'Model\\best.pt')
+model_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'best.pt')
 
 class Classifier(Resource):
     def predict(self, img):
@@ -16,13 +16,14 @@ class Classifier(Resource):
         img_tf = tf(img, 'test')
         img = img_tf[None]
         # get num class
-        model_class = os.path.join(os.getcwd(), 'Model\model_class.json')
+        model_class = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_class.json')
         # if not os.path.isfile(model_class)
         #     return None
         # with open(model_class, 'r') as jf:
         #     idx_to_class = json.load(jf)
         # num_classes = len(idx_to_class)
         classes, idx_to_class = get_num_class(model_class)
+        print(classes)
         # load model
         model = get_model_instance(classes)
         if os.path.isfile(model_dir):

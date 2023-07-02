@@ -8,9 +8,11 @@ import Scan from '../screens/Scans.js'
 import scan from "../assets/scan.png"
 import home from "../assets/home.png"
 import user from "../assets/user.png"
+import tour from "../assets/tour.png"
 import like from "../assets/like.png"
 import Profile from '../screens/Profile.js'
 import Saved from '../screens/Saved.js'
+import Tours from '../screens/Tours.js'
 
 
 
@@ -20,7 +22,7 @@ function MyTabBar({ state, descriptors, navigation }) {
   return (
     <View 
       style={state.index == 1 ? { flexDirection: 'row', justifyContent: 'space-around', alignContent: 'center', alignItems: 'center',
-              height: 60, bottom: 15, right: 20, left: 20, position: 'absolute', backgroundColor: 'rgba(255, 255, 255, 0.9)' ,borderRadius: 13}
+              height: 60, bottom: 15, right: 20, left: 20, position: 'absolute', backgroundColor: 'rgba(255, 255, 255, 255)' ,borderRadius: 13}
               : { display : 'none'}
             }>
       
@@ -63,6 +65,8 @@ function MyTabBar({ state, descriptors, navigation }) {
           icon = like
         } else if (label == 'Profile') {
           icon = user
+        } else {
+          icon = tour
         }
         return (
           <TouchableOpacity
@@ -106,6 +110,8 @@ const Tabs = () => {
           }}
         />
         <Tab.Screen name='Discover' component={Discover} options={{tabBarStyle: {display: "none"}}} />
+        <Tab.Screen name='Tour' component={Tours} options={{tabBarStyle: {display: "none"}}} />
+
         <Tab.Screen name='Saved' component={Saved} options={{tabBarStyle: {display: "none"}}}/>
         <Tab.Screen name='Profile' component={Profile} />
       </Tab.Navigator>

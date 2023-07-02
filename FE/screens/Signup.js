@@ -24,17 +24,16 @@ const Signup = ({ navigation }) => {
     const handleSignup = async () => {
         const data = { username, gmail, password }
         console.log(data)
-
         fetch(`${REACT_NATIVE_BASE_URL}/Account/sign-up`, {
             method: 'POST',
             headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(data)
         })
         .then((response) => response.json())
         .then((data) => {
+            console.log(data)
             if(data.status) {
                 navigation.navigate('Login')
             }
@@ -44,9 +43,6 @@ const Signup = ({ navigation }) => {
         });
 
     }
-
-    console.log(username)
-    
   return (
     <SafeAreaView className="flex-1 relative">
         <View style={{ height: height * 0.8, width: width }}>

@@ -8,7 +8,7 @@ module.exports = {
         basic : "#4F606D",
         primary: "#3F95EC",
         secondary: "#9DC6FB",
-        theme: "#e5f5ff",
+        theme: "#f2faff",
         bold: "#4F606D"
       }
     },

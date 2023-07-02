@@ -27,7 +27,10 @@
         "restaurants": "Restaurant",
         "attractions": "Attraction",
         "seeMore": "See More",
-        "hide": "Hide"
+        "hide": "Hide",
+        "suggest": "Suggest",
+        "about": "About this place",
+        "tour": "Tours"
     },
     "saved": {
         "title": "Storage",
@@ -43,6 +46,11 @@
         "report": "Feedback",
         "help": "Help",
         "setting": "Setting"
+    },
+    "changePassword": {
+        "title": "Change Password",
+        "oldPass": "Old Password",
+        "newPass": "New Password"
     },
     "modal": {
         "requireLogin": {

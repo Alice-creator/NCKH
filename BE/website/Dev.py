@@ -41,7 +41,6 @@ class RootAttraction(Resource):
             intro_eng = introductions[1::2]
 
             for i in intro_vie:
-                print(i['name'], i['attribute'])
                 cursor.execute(
                     '''
                     call insertintro_viet(%s, %s, %s,%s, %s, %s, %s, %s,%s,%s);

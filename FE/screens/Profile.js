@@ -13,25 +13,26 @@ import * as ImagePicker from 'expo-image-picker';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { MyContext } from '../context';
+import { REACT_NATIVE_BASE_URL } from '../contains';
+import LoginModal from './components/LoginModal';
 
 const Profile = ({ navigation }) => {
   const { t, i18n } = useTranslation();
   const { user, setUser, setLanguage } = useContext(MyContext)
-
   const [isEnabled, setIsEnabled] = useState(false);
   const [isEnabledLanguage, setIsEnabledLanguage] = useState(false);
-
   const [ avatar, setAvatar ] = useState("")
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleLogin, setModalVisibleLogin] = useState(false);
+
   const [ feedback, setFeedback ] = useState()
+
   useEffect( ()=>{
     const retrieveData = async () => {
       try {
         const value = JSON.parse(await AsyncStorage.getItem('user'));
-        console.log(value)
-
         if (value !== null) {
-          setUser({username :" Vy hihi", gmail: "hfdjhfsj"})
+          setUser(value)
           setAvatar(value.avatar)
         }
       } catch (error) {
@@ -55,14 +56,14 @@ const Profile = ({ navigation }) => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const toggleLanguage = async () => {
     const newLanguage = i18n.language === 'en' ? 'vi' : 'en';
-    await AsyncStorage.setItem('language', newLanguage);
-    i18n.changeLanguage(newLanguage);
     setIsEnabledLanguage(previousState => !previousState)
+    i18n.changeLanguage(newLanguage);
     setLanguage(newLanguage)
+    await AsyncStorage.setItem('language', newLanguage);
   };
   const handleFeedback = async () => {
     const token = JSON.parse(await AsyncStorage.getItem('token'));
-    axios.post(`http://192.168.1.7:5000/Account/feedback`, { feedback },
+    axios.post(`${REACT_NATIVE_BASE_URL}/Account/feedback`, { feedback },
     {
       headers: {
         'Content-Type': 'application/json',
@@ -71,7 +72,9 @@ const Profile = ({ navigation }) => {
     }
     )
     .then(response => {
-        console.log(response.data)
+        if(!response.status) {
+          setModalVisibleLogin(true)
+        }
     }).catch(error => {
         console.log(error);
     });
@@ -81,19 +84,22 @@ const Profile = ({ navigation }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [4, 4],
       quality: 1,
     });
-    const data = {...user, avatar: result.assets[0].uri }
+    // const userLocal = await AsyncStorage.getItem('user')
+    // const data = userLocal
+    // data.avatar = result.assets[0].uri
+    // console.log(data)
     setAvatar(result.assets[0].uri)
-    if (!result.canceled) {
-      try {
-        await AsyncStorage.setItem('user', JSON.stringify(data));
-        setUser(data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    // if (!result.canceled) {
+    //   try {
+    //     await AsyncStorage.setItem('user', JSON.stringify(data));
+    //     setUser(data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
   };
   const handleLogOut = async () => {
     await AsyncStorage.removeItem('user')
@@ -122,7 +128,7 @@ const Profile = ({ navigation }) => {
       >
       <Image className="w-full h-full" source={arrow_back} />
       </TouchableOpacity>
-      <View className="flex flex-col items-center justify-between my-4">
+      <View className="flex flex-col items-center flex-1 justify-between my-4">
         <View className="w-full px-8">
           <Text className="text-center font-bold text-[22px] text-bold-txt tracking-wider"> {t('profile.title')} </Text>
           <View className="flex items-center my-5">
@@ -142,24 +148,21 @@ const Profile = ({ navigation }) => {
               </View>
             </TouchableOpacity>
             <View className="text-center mt-1">
-              <Text className="text-center text-bold-txt font-bold text-[20px]">{user ? user.username: 'Username'}</Text>
-              <Text className="text-center italic text-basic text-base">{user ? user.gmail : 'abcdef@gmail.com'}</Text>
+              <Text className="text-center text-bold-txt font-bold text-[20px]">{user && user.username ? user.username: 'Username'}</Text>
+              <Text className="text-center italic text-basic text-base">{user && user.username ? user.gmail : 'abcdef@gmail.com'}</Text>
             </View>
           </View>
           <View className="bg-white w-full rounded-3xl px-5 py-4">
             <View className="py-1 my-1 flex-row justify-between border-b-[1px] border-slate-300">
               <Text className="font-bold text-base tracking-wide text-bold-txt">Email</Text>
-              <Text className="text-basic">{user ? (user.gmail.length > 28 ? user.gmail.slice(0,28) + "..." : user.gmail) : 'abcdef@gmail.com'}</Text>
+              <Text className="text-basic">{user && user.gmail ? (user.gmail.length > 28 ? user.gmail.slice(0,28) + "..." : user.gmail) : 'abcdef@gmail.com'}</Text>
             </View>
             <TouchableOpacity className="py-1 my-1 flex-row justify-between border-b-[1px] border-slate-300"
                               onPress={() => navigation.navigate("Saved")}
             >
               <Text className="font-bold text-base tracking-wide text-bold-txt">{t('profile.storage')}</Text>
-              <View className="flex-row items-center">
-                <Text className="text-basic">10</Text>
-                <View>
+              <View className="flex-row items-center">                
                   <Image source={arrow_next} />
-                </View>
               </View>
             </TouchableOpacity>
             <TouchableOpacity className="py-1 my-1 flex-row justify-between border-b-[1px] border-slate-300"
@@ -201,7 +204,7 @@ const Profile = ({ navigation }) => {
                   />
                 </View>
               </View>
-              <View className="flex-row justify-between">
+              {/* <View className="flex-row justify-between">
                 <View className="flex-row justify-center my-2 items-center">
                   <View className="rounded-xl bg-[#D5D3FB] mr-3 w-12 h-12 p-[10px]">
                     <Image 
@@ -221,7 +224,7 @@ const Profile = ({ navigation }) => {
                     value={isEnabled}
                   />
                 </View>
-              </View>
+              </View> */}
 
               <TouchableOpacity className="flex-row justify-between"
                 onPress={openModal}
@@ -302,6 +305,7 @@ const Profile = ({ navigation }) => {
           </View>
           
         </Modal>
+        <LoginModal isVisible={modalVisibleLogin} setModalVisible={setModalVisibleLogin}/>
       </View>
     </SafeAreaView>
   )

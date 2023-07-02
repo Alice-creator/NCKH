@@ -12,12 +12,10 @@ class Storage(Resource):
         token = request.headers.get('Authorization')
         token = token.split(' ')[1]
         auth = middleware.authentication(token)
-        print(auth)
         if not auth:
             return {'status' : False,
-                    'message': 'you need to login first',
-                    'token': token
-                    }, 401
+                    'message': 'you need to login first'
+                    }
         connection = database.connect_db()
         cursor = connection.cursor()
         # data = extension.create_json(request.values.lists())
@@ -58,6 +56,7 @@ class Storage(Resource):
     def get(self, language):
         token = request.headers.get('Authorization')
         token = token.split(' ')[1]
+        print(token)
         auth = middleware.authentication(token)
         if not auth:
             return {'status' : False,
@@ -122,7 +121,7 @@ class Feedback(Resource):
         if not auth:
             return {'status' : False,
                     'message': 'you need to login first'
-                    }, 401
+                    }
         connection = database.connect_db()
         cursor = connection.cursor()
         try:
