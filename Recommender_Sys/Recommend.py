@@ -262,7 +262,7 @@ class TourSuggestion(Resource):
             where Tour.tid = User_content_based.tid and Tour.tid = viet_introduction.tid and CID = %s and travelOrder > %s
             LIMIT %s;
             ''',
-            (auth['CID'], GPS, time*5)
+            (auth['CID'], GPS, time*4)
             )
         else:
             cursor.execute(
@@ -271,7 +271,7 @@ class TourSuggestion(Resource):
             where Tour.tid = User_content_based.tid and Tour.tid = viet_introduction.tid and CID = %s and travelOrder < %s
             LIMIT %s;
             ''',
-            (auth['CID'], GPS, time*5)
+            (auth['CID'], GPS, time*4)
             )
         
         tour = cursor.fetchall()
