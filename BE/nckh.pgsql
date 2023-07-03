@@ -36,8 +36,8 @@ create table viet_introduction(
     TID varchar(10),
     index int,
     name varchar(100) DEFAULT NULL,
-    latitude varchar(100) DEFAULT NULL,
-    longitude varchar(100) DEFAULT NULL,
+    latitude float DEFAULT NULL,
+    longitude float DEFAULT NULL,
     timezone varchar(100) DEFAULT NULL,
     location_string varchar(100) DEFAULT NULL,
     images varchar(200) DEFAULT NULL,
@@ -52,8 +52,8 @@ create table eng_introduction(
     TID varchar(10),
     index int,
     name varchar(100) DEFAULT NULL,
-    latitude varchar(100) DEFAULT NULL,
-    longitude varchar(100) DEFAULT NULL,
+    latitude float DEFAULT NULL,
+    longitude float DEFAULT NULL,
     timezone varchar(100) DEFAULT NULL,
     location_string varchar(100) DEFAULT NULL,
     images varchar(200) DEFAULT NULL,
@@ -100,6 +100,12 @@ create table Colaborative_filtering(
     score float,
     FOREIGN KEY(TID1) REFERENCES attractions(TID),
     FOREIGN KEY(TID2) REFERENCES attractions(TID)
+);
+
+create table Tour(
+    TID varchar(10),
+    travelOrder int,
+    FOREIGN KEY(TID) REFERENCES attractions(TID)
 );
 
 CREATE OR REPLACE FUNCTION GenerateID(ID INT)
@@ -152,7 +158,7 @@ BEGIN
 END
 $ID$LANGUAGE plpgsql; 
 
-CREATE OR REPLACE PROCEDURE insertIntro_Viet(name varchar, latitude varchar, longitude varchar, timezone varchar, location_string varchar, img varchar, address varchar, description text, story text, attribute text)
+CREATE OR REPLACE PROCEDURE insertIntro_Viet(name varchar, latitude float, longitude float, timezone varchar, location_string varchar, img varchar, address varchar, description text, story text, attribute text)
 LANGUAGE plpgsql
 AS $$
     DECLARE tidCount INT;
@@ -164,7 +170,7 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE PROCEDURE insertIntro_Eng(name varchar, latitude varchar, longitude varchar, timezone varchar, location_string varchar, img varchar, address varchar, description text, story text, attribute text)
+CREATE OR REPLACE PROCEDURE insertIntro_Eng(name varchar, latitude float, longitude float, timezone varchar, location_string varchar, img varchar, address varchar, description text, story text, attribute text)
 LANGUAGE plpgsql
 AS $$
     DECLARE tidCount INT;
@@ -241,3 +247,4 @@ SELECT * from viet_introduction;
 SELECT * from eng_introduction;
 SELECT * from User_content_based;
 SELECT * FROm Colaborative_filtering;
+select * from Tour;

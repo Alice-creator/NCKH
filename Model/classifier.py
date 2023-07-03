@@ -16,12 +16,7 @@ class Classifier(Resource):
         img_tf = tf(img, 'test')
         img = img_tf[None]
         # get num class
-        model_class = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_class.json')
-        # if not os.path.isfile(model_class)
-        #     return None
-        # with open(model_class, 'r') as jf:
-        #     idx_to_class = json.load(jf)
-        # num_classes = len(idx_to_class)
+        model_class = os.path.join(os.getcwd(), 'Model\model_class.json')
         classes, idx_to_class = get_num_class(model_class)
         print(classes)
         # load model
@@ -32,15 +27,30 @@ class Classifier(Resource):
         else:
             return None
         # predict
+        # _, pred = model(img.to(device))
+        # arg = np.argmax(pred.to(device).detach().numpy())
+        # softmax = nn.Softmax(dim=1)
+        # prob = round(torch.max(softmax(pred)).item(),2)
         _, pred = model(img.to(device))
-        arg = np.argmax(pred.to(device).detach().numpy())
+        pred_np = np.array(pred.to('cpu').detach().numpy()[0])
         softmax = nn.Softmax(dim=1)
-        prob = round(torch.max(softmax(pred)).item(),2)
-        return {
-            'name' : idx_to_class[str(arg)],
-            'index': str(arg),
-            'prob': str(prob)
-        }
+        pred_sm = np.array(softmax(pred).to('cpu').detach().numpy()[0])
+        args = pred_np.argsort()[-5:][::-1]
+        result = [
+            {
+                'idx': idx_to_class[args[0]],
+                'prob': pred_sm[args[0]]
+            },
+        ]
+        for arg in args[1:]:
+            if pred_sm[arg] >= 0.7:
+                obj = {
+                    'idx': idx_to_class[arg],
+                    'prob': pred_sm[arg]
+                }
+                result.append(obj)
+        
+        return result
 
     def post(self, language):
         token = request.headers.get('Authorization')

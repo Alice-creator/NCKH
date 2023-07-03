@@ -182,16 +182,124 @@ class TourSuggestion(Resource):
             return bestConfig
 
 
-    def post(self, latitude, longitude, language):
+    def post(self, latitude, longitude, language, time):
         data = requests.get('http://127.0.0.1:5000/Dev/Analyse').json()
         distance, name = self.getInfo(data['attribute'])
         index = [i for i in range(len(name))]
         path = self.createPath(distance, index)
-        # genetic = Genetic(stuffList=distance, stuffName=index)
-        
+
+        connection = database.connect_db()
+        cursor = connection.cursor()
+        cursor.execute(
+            '''
+            delete from tour;
+            '''
+        )
+        for i in range(len(path)):
+            cursor.execute(
+                '''
+                insert into Tour(TID, travelOrder)
+                values(%s, %s);
+                ''',
+                (name[path[i]], i)
+            )
+        connection.commit()
         return  {
-            'data' : path
+            'data': path,
+            'message' : 'update sucessfully'
         }
     
-    def get(self, latitude, longitude, language):
-        return None
+    def get(self, latitude, longitude, language, time):
+        token = request.headers.get('Authorization')
+        token = token.split(' ')[1]
+        auth = middleware.authentication(token)
+        if not auth:
+            return {'status' : False,
+                    'message': 'you need to login first'
+                    }, 401
+        connection = database.connect_db()
+        cursor = connection.cursor()
+        cursor.execute(
+            '''
+            select travelorder from viet_introduction, tour
+            where viet_introduction.tid = tour.tid and
+            (longitude / %s >= 0.85 and longitude / %s <= 1.15
+            and latitude / %s >= 0.85 and latitude / %s <= 1.15) LIMIT 1;
+            ''',
+            (longitude, longitude, latitude, latitude)
+        )
+        try:
+            GPS = str(cursor.fetchone()[0])
+        except:
+            return {
+                'message': "you are out of range"
+            }, 200
+        
+        cursor.execute(
+            '''
+            select sum(score) from User_content_based, Tour
+            where CID = %s and User_content_based.tid = Tour.tid
+            and travelOrder < %s;
+            ''',
+            (auth['CID'], GPS)
+        )
+        up = cursor.fetchone()[0]
+
+        cursor.execute(
+            '''
+            select sum(score) from User_content_based, Tour
+            where CID = %s and User_content_based.tid = Tour.tid
+            and travelOrder > %s;
+            ''',
+            (auth['CID'], GPS)
+        )
+        down = cursor.fetchone()[0]
+        
+        if up == None or (down != None and up != None and down > up):
+            cursor.execute(
+            '''
+            select Tour.TID, score, travelorder, attribute from Tour, User_content_based, viet_introduction
+            where Tour.tid = User_content_based.tid and Tour.tid = viet_introduction.tid and CID = %s and travelOrder > %s
+            LIMIT %s;
+            ''',
+            (auth['CID'], GPS, time*4)
+            )
+        else:
+            cursor.execute(
+            '''
+            select Tour.TID, score, travelorder, attribute from Tour, User_content_based, viet_introduction
+            where Tour.tid = User_content_based.tid and Tour.tid = viet_introduction.tid and CID = %s and travelOrder < %s
+            LIMIT %s;
+            ''',
+            (auth['CID'], GPS, time*4)
+            )
+        
+        tour = cursor.fetchall()
+        for i in range(len(tour)):
+            tour[i] = list(tour[i])
+            if 'restaurant' in tour[i][3]:
+                tour[i][1] += 0.7
+            if 'hotel' in tour[i][3]:
+                tour[i][1] += 0.5
+        
+        tour.sort(key=lambda x: x[1], reverse=True)
+        tour = tour[: time*3]
+        tour.sort(key=lambda x: x[2])
+
+        result = list()
+        for i in tour:
+            cursor.execute(
+                '''
+                SELECT viet_introduction.tid, viet_introduction.name, latitude, longitude, timezone, location_string, images, address, description, story, likes
+                FROM viet_introduction , attractions
+                where attractions.TID = %s and viet_introduction.tid = attractions.tid;
+                ''',
+                (i[0],)
+            )
+            result.append(cursor.fetchone())
+        col_name = ['TID', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'likes']
+        result = middleware.toDict(col_name, result)
+        return {
+            'GPS': GPS,
+            'Tour': result
+        }
