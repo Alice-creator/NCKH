@@ -1,71 +1,93 @@
 {
     "0": {
-        "Nha Tho": {
-            "0": "Nha_Tho_Duc_Ba",
-            "1": "Nha_Tho_Lon_Ha_Noi"
-        }
-    },
-    "1": {
-        "Toa_Nha": {
-            "2": "Landmark_81",
-            "3": "Ben_Nha_Rong",
-            "4": "Cho_Ben_Thanh",
-            "5": "Nha_Hat_Lon_Ha_Noi",
-            "6": "Dinh_Doc_Lap",
-            "7": "Lang_Chu_Tich_HCM",
-            "8": "Buu_Dien_TPHCM",
-            "9": "Bitexco_Tower"
-        }
-    },
-    "2": {
-        "Cong_Vien": {
-            "10": "Ho_Xuan_Huong",
-            "11": "Quang_Truong_Lam_Vien",
-            "12": "Duong_Ham_Dieu_Khac",
-            "13": "Ho_Guom"
-        }
-    },
-    "3": {
-        "Di_Tich": {
-            "14": "Chua_Mot_Cot",
-            "15": "Van_Mieu",
-            "16": "Kinh_Thanh_Hue",
-            "17": "Hoang_Thanh_Thang_Long"
-        }
-    },
-    "4": {
-        "Nui": {
-            "18": "Lang_Biang",
-            "19": "Nui_Tao_Phung",
-            "20": "Sun_World_Ba_Na_Hills",
-            "21": "Thung_Lung_Tinh_Yeu",
-            "22": "Cau_Vang"
-        }
-    },
-    "5": {
         "Unknown": {
-            "23": "Nui",
-            "24": "Bien",
-            "25": "Cong_Vien"
+            0: 'Cau',
+            1: 'Cong_vien',
+            2: 'Bien',
+            3: 'Toa_Nha',
+            4: 'Nui',
+            5: 'Cho',
+        },
+    1: {
+        'Kinh_Thanh': {
+            6: 'Hoang_Thanh_Thang_Long',
+            7: 'Kinh_Thanh_Hue'
         }
     },
-    "6": {
-        "Thap": {
-            "26": "My_Son",
-            "27": "Thap_Ba_Ponagar"
+    2: {
+        'Chua_Thap': {
+            8: 'Chua_Thien_Mu',
+            9: 'Chua_Tran_Quoc'
         }
     },
-    "7": {
-        "Chua": {
-            "28": "Chua_Buu_Long",
-            "29": "Chua_Tran_Quoc",
-            "30": "Chua_Long_Son"
+    3: {
+        'Mall': {
+            10: 'Emart_Sala',
+            11: 'Cresent_Mall'
         }
     },
-    "8": {
-        "Bien": {
-            "31": "Hon_Thom",
-            "32": "Bien_Nha_Trang"
+    4: {
+        'Chua': {
+            12: 'Chua_Vinh_Nghiem',
+            13: 'Chua_Buu_Long',
+            14: 'Chua_Long_Son',
+            15: 'Chua_Mot_Cot'
+        }
+    },
+    5: {
+        'Nha_Cao_Tang': {
+            16: 'Bitexco',
+            17: 'Landmark_81'
+        }
+    },
+    6: {
+        'Cau': {
+            18: 'Cau_Rong',
+            19: 'Cau_Vang'
+        }
+    },
+    7: {
+        'Cong_Vien': {
+            20: 'Quang_Truong_Lam_Vien',
+            21: 'Ho_Con_Rua'
+        }
+    },
+    8: {
+        'Toa_Nha_Lon': {
+            22: 'Dinh_Doc_Lap',
+            23: 'UBND_TPHCM',
+            24: 'Lang_Chu_Tich_HCM'
+        }
+    },
+    9: {
+        'Toa_Nha': {
+            25: 'Cho_Ben_Thanh',
+            26: 'Buu_Dien_TPHCM'
+        }
+    },
+    10: {
+        'Toa_Nha_Nho': {
+            27: 'Nha_Hat_Lon_Ha_Noi',
+            28: 'Ben_Nha_Rong'
+        }},
+    11: {
+        'Thap': {
+            29: 'Thap_Ba_Ponagar',
+            30: 'My_Son'
+        }
+    },
+    12: {
+        'Bao_Tang': {
+            31: 'Bao_Tang_HCM_HN',
+            32: 'Bao_Tang_My_Thuat',
+            33: 'Bao_Tang_Chung_Tich_Chien_Tranh'
+        }
+    },
+    13: {
+        'Nha_Tho': {
+            34: 'Nha_Tho_Giao_Xu_Tan_Dinh',
+            35: 'Nha_Tho_Duc_Ba',
+            36: 'Nha_Tho_Lon_Ha_Noi'
         }
     }
 }
