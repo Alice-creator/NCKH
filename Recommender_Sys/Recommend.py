@@ -285,6 +285,7 @@ class TourSuggestion(Resource):
         tour.sort(key=lambda x: x[1], reverse=True)
         tour = tour[: time*3]
         tour.sort(key=lambda x: x[2])
+
         result = list()
         for i in tour:
             cursor.execute(
