@@ -17,7 +17,7 @@ const TouristAttractionInfo = ({ navigation, data }) => {
         const token = JSON.parse(await AsyncStorage.getItem('token'));
         // const language = JSON.parse(await AsyncStorage.getItem('language'));
         AsyncStorage.getItem('language').then(language => {
-            axios.post(`${REACT_NATIVE_BASE_URL}/${language}/User/storage`, { TID: value.id },
+            axios.post(`${REACT_NATIVE_BASE_URL}/${language}/User/storage`, { TID: value },
             {
                 headers: {
                     'Content-Type': 'application/json',

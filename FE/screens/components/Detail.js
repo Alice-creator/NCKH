@@ -112,7 +112,6 @@ const Detail = ({ data, scan, navigation }) => {
       return closest_point
     }
 
-    return closest_point
     useEffect(() => {
       const getCurrentLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -181,6 +180,7 @@ const Detail = ({ data, scan, navigation }) => {
                 {
                     data.suggest?.map((value, index) => (
                         <TouristAttractionInfo 
+                            key={`suggest-${index}`}
                             navigation={navigation} 
                             data = {{
                               id: value.TID,

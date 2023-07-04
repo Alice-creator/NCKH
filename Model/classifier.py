@@ -18,11 +18,11 @@ class Classifier(Resource):
         # get num class
         model_class = os.path.join(os.getcwd(), 'Model\model_class.json')
         classes, idx_to_class = get_num_class(model_class)
-        print(classes)
         # load model
         model = get_model_instance(classes)
         if os.path.isfile(model_dir):
             model = load_model(model, model_dir)
+            
             model.eval().to(device)
         else:
             return None
@@ -38,14 +38,17 @@ class Classifier(Resource):
         args = pred_np.argsort()[-5:][::-1]
         result = [
             {
-                'idx': idx_to_class[args[0]],
+                'index': args[0],
+                'name': idx_to_class[str(args[0])],
                 'prob': pred_sm[args[0]]
             },
         ]
+        print(idx_to_class, pred_sm)
         for arg in args[1:]:
             if pred_sm[arg] >= 0.7:
                 obj = {
-                    'idx': idx_to_class[arg],
+                    'index': arg,
+                    'name': idx_to_class[str(arg)],
                     'prob': pred_sm[arg]
                 }
                 result.append(obj)
@@ -73,7 +76,7 @@ class Classifier(Resource):
             # self.saveImg(auth, file.filename, img)
             pred = self.predict(img)
             result = self.getAttractionInfo(pred, language, request.headers.get('Authorization'))
-            return jsonify({"result": result})
+            return jsonify({"result": result, "prob": pred[0]['prob']})
         error = 'Allowed file types are png and jpg'
         return jsonify({"error": error})
     
@@ -93,14 +96,15 @@ class Classifier(Resource):
         connection.commit()
     
     def getAttractionInfo(self, predict, language, token):
+        print("pre", predict)
         connection = database.connect_db()
         cursor = connection.cursor()
         
-        if int(predict['index']) in range(23, 26):
+        if int(predict[0]['index']) in range(0, 6):
             headers = {}
             headers['Authorization'] = token
-            # print(requests.get('http://127.0.0.1:5000/' +  language + '/Account/SearchByType/' + predict['name'], headers=headers).json())
-            return requests.get('http://127.0.0.1:5000/' +  language + '/Account/SearchByType/' + predict['name'], headers=headers).json()
+            print('http://127.0.0.1:5000/' +  language + '/Account/SearchByType/' + predict[0]['name'])
+            return requests.get('http://127.0.0.1:5000/' +  language + '/Account/SearchByType/' + predict[0]['name'], headers=headers).json()
             
         if language.lower().strip() in 'vi':
             cursor.execute(
@@ -109,7 +113,7 @@ class Classifier(Resource):
                 from viet_introduction, attractions
                 where viet_introduction.index = %s and viet_introduction.tid = attractions.tid;
                 ''',
-                (predict['index'],)
+                (str(predict[0]['index']),)
             )
         else:
             cursor.execute(
@@ -118,7 +122,7 @@ class Classifier(Resource):
                 from eng_introduction, attractions
                 where eng_introduction.index = %s and eng_introduction.tid = attractions.tid;
                 ''',
-                (predict['index'],)
+                (str(predict[0]['index']),)
             )
         result = cursor.fetchone()
         col_name = ['TID', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'likes']

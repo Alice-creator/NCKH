@@ -20,12 +20,13 @@ class Storage(Resource):
         cursor = connection.cursor()
         # data = extension.create_json(request.values.lists())
         data = request.get_json()
+        print(data)
         cursor.execute(
             '''
             select count(TID) from user_storage
             where CID = %s and TID = %s;
             ''',
-            (auth['CID'], data['TID'],)
+            (auth['CID'], request.json['TID'],)
         )
         try:
             temp = cursor.fetchone()[0]
@@ -35,10 +36,10 @@ class Storage(Resource):
                     insert into user_storage(CID, TID)
                     values(%s, %s);
                     ''',
-                    (auth['CID'], data['TID'])
+                    (auth['CID'], request.json['TID'])
                 )
                 connection.commit()
-                middleware.update_Like(data['TID'],  auth['CID'], 1)
+                middleware.update_Like(request.json['TID'],  auth['CID'], 1)
                 return {
                     'status': True,
                     'message': 'Success'

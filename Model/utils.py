@@ -27,8 +27,10 @@ def get_model_instance(num_classes):
 def load_model(model, model_path):
     if device == 'cuda':
         model.load_state_dict(torch.load(model_path))
+        print("model", model.load_state_dict(torch.load(model_path)))
     else:
         model.load_state_dict(torch.load(model_path, map_location='cpu'))
+        print("model", model.load_state_dict(torch.load(model_path, map_location='cpu')))
     return model
 
 def get_num_class(filepath):

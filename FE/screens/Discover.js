@@ -43,6 +43,7 @@ const Discover = ({ navigation }) => {
                 },
             })
             .then(response => {
+                console.log(response.data)
                 // const data = response.data.stored.concat(response.data.notStored);
                 setTouristAttraction(response.data);
                 setLoading(false);
