@@ -149,32 +149,20 @@ class TourSuggestion(Resource):
         return distance, name
 
     def addPath(self, addedAtt, pointMatrix):
-        # state = addedAtt[-1]
-        # indexs = list()
-        # for i in pointMatrix[state][::-1]:
-        #     if pointMatrix[state].index(i) in addedAtt:
-        #         pointMatrix[state].remove(i)
-        #     else:
-        #         indexs.append(pointMatrix[state].index(i))
-        # indexs.reverse()
-        # print("pointMatrix", pointMatrix[state])
-        # if len(pointMatrix[state]) > 0:
-        #     addedAtt.append(indexs[pointMatrix[state].index(min(pointMatrix[state]))])
-        # else: 
-        #     return addedAtt
         state = addedAtt[-1]
         # indexs = list()
         temp = pointMatrix[state]
         maxPointIndex = max(temp)
         minPointIndex = None
-        while not(minPointIndex):
+        while minPointIndex != 0 and not(minPointIndex):
             minArg = temp.index(min(temp))
             if minArg in addedAtt:
-                temp[minArg] = maxPointIndex
+                temp[minArg] = maxPointIndex + 1
             else:
                 minPointIndex = minArg
         addedAtt.append(minPointIndex)
         return addedAtt
+    
     def createPath(self, pointMatrix, nameList):
         bestMinPoint = None
         bestConfig = None
@@ -194,7 +182,7 @@ class TourSuggestion(Resource):
                 bestConfig = state
                 bestMinPoint = point
 
-            return bestConfig
+        return bestConfig
 
 
     def post(self, latitude, longitude, language, time):
