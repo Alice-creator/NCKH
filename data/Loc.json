@@ -1,29 +1,5 @@
 [
     {
-        "name": "Bãi Sau",
-        "latitude": "10.333165",
-        "longitude": "107.090034",
-        "timezone": "Asia/Ho_Chi_Minh",
-        "location_string": "Ba Ria - Vung Tau",
-        "images": "https://homepage.momocdn.net/blogscontents/momo-upload-api-221013140325-638012666059696731.jpeg",
-        "address": "Thùy Vân, Phường 2, Vũng Tàu, Bà Rịa - Vũng Tàu, Vietnam",
-        "description": "Bãi Sau ở Vũng Tàu là một bãi tắm nằm ở phía Đông Nam của thành phố, kéo dài từ chân núi Nhỏ cho đến khu Chí Linh. Đây là bãi tắm chính của Vũng Tàu và được ưa chuộng bởi nhiều du khách cũng như người dân địa phương. Bãi tắm này có độ dốc thoải thoải và sóng nhỏ, tạo điều kiện thuận lợi cho mọi người đến đây tắm biển và thư giãn hóng gió mỗi chiều.",
-        "story": "",
-        "attribute": "religion, symbolize, information, europian"
-    },
-    {
-        "name": "Bãi Sau",
-        "latitude": "10.333165",
-        "longitude": "107.090034",
-        "timezone": "Asia/Ho_Chi_Minh",
-        "location_string": "Ba Ria - Vung Tau",
-        "images": "https://media-cdn.tripadvisor.com/media/photo-o/09/57/19/19/saigon-notre-dame-cathedral.jpg",
-        "address": "Thùy Vân, Ward 2, Vũng Tàu, Bà Rịa - Vũng Tàu, Vietnam",
-        "description": "Bãi Sau in Vũng Tàu is a beach located in the southeastern part of the city, stretching from the foot of Small Mountain to the Chí Linh area. This is the main beach of Vũng Tàu and is favored by many tourists as well as local residents. The beach has a gentle slope and small waves, providing favorable conditions for people to come here for swimming and relaxing, enjoying the sea breeze in the afternoon.",
-        "story": "",
-        "attribute": "religion, symbolize, information, europian"
-    },
-    {
         "name": "Bãi Trước",
         "latitude": "10.3434131",
         "longitude": "107.07419",
