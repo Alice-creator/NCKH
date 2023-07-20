@@ -76,7 +76,7 @@ class Classifier(Resource):
             # self.saveImg(auth, file.filename, img)
             pred = self.predict(img)
             result = self.getAttractionInfo(pred, language, request.headers.get('Authorization'))
-            return jsonify({"result": result, "prob": pred[0]['prob']})
+            return jsonify({"result": result, "prob": str(pred[0]['prob'])})
         error = 'Allowed file types are png and jpg'
         return jsonify({"error": error})
     
@@ -129,5 +129,7 @@ class Classifier(Resource):
         
         token = token.split(' ')[1]
         auth = middleware.authentication(token)
+        if not auth:
+            auth = { 'CID': 'CID000' }
         middleware.update_Search(result[0], auth['CID'])
         return middleware.toDict(key=col_name, value=[result])

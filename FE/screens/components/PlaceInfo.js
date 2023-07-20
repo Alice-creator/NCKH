@@ -8,7 +8,7 @@ import { REACT_NATIVE_BASE_URL } from '../../contains'
 import LoginModal from './LoginModal'
 
 const PlaceInfo = ({ navigation, data }) => {
-    
+    const [ liked, setLiked ] = useState(data.isStorage)
     const handleDetail = (data) => {
         navigation.navigate("Details", { data })
     }
@@ -16,22 +16,26 @@ const PlaceInfo = ({ navigation, data }) => {
         const token = JSON.parse(await AsyncStorage.getItem('token'));
         // const language = JSON.parse(await AsyncStorage.getItem('language'));
         AsyncStorage.getItem('language').then(language => {
-            axios.post(`${REACT_NATIVE_BASE_URL}/${language}/User/storage`, { TID: value.id },
-            {
+            fetch(`${REACT_NATIVE_BASE_URL}/${language}/User/storage`, {
+                method: liked ? 'DELETE' : 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`,
                 },
-            }
-            )
-            .then(response => {
-                console.log(response.data)
-                if(!response.data.status) {
+                body: JSON.stringify(data)
+              })
+                .then(response => response.json())
+                .then(data => {
+                  // Cập nhật trạng thái "like/unlike" trong component
+                  setLiked(!liked);
+                  if(!data.status) {
                     setModalVisible(true)
                 }
-            }).catch(error => {
-                console.log(error);
-            });
+                })
+                .catch(error => {
+                  console.error('Error toggling like:', error);
+                });
+    
         })
     }
     const [modalVisible, setModalVisible] = useState(false);
@@ -48,7 +52,7 @@ const PlaceInfo = ({ navigation, data }) => {
                 <TouchableOpacity 
                     onPress={() => handleStorage(data)}
                     className="bg-white opacity-80 p-2 flex items-center justify-center rounded-full">
-                    <Image source={like} className="z-50 w-5 h-5" tintColor={data.isStorage ?  "#fec76f" : ''} />
+                    <Image source={like} className="z-50 w-5 h-5" tintColor={liked ?  "#fec76f" : ''} />
                 </TouchableOpacity>
             </View>
             <Text className="text-[17px] font-semibold mx-1 mt-1 text-bold-txt">{data.name}</Text>

@@ -43,7 +43,6 @@ const Discover = ({ navigation }) => {
                 },
             })
             .then(response => {
-                console.log(response.data)
                 // const data = response.data.stored.concat(response.data.notStored);
                 setTouristAttraction(response.data);
                 setLoading(false);
@@ -104,19 +103,37 @@ const Discover = ({ navigation }) => {
         setCategory(name)
         setSearchPlaces([])
         const token = JSON.parse(await AsyncStorage.getItem('token'))
-        axios.get(`${REACT_NATIVE_BASE_URL}/${getLanguage}/Account/SearchByType/${type}`,
-        {
-            headers: {
+        const newlanguage = await AsyncStorage.getItem('language')
+        if (type == 'recommend') {
+            axios.get(`${REACT_NATIVE_BASE_URL}/${newlanguage || 'en'}/Recommender`,
+            {
+                headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
-            },
-        })
-        .then(response => {
-            setSearchType(response.data)
-            setLoading(false)
-        }).catch(error => {
-            console.log(error);
-        });
+                },
+            })
+            .then(response => {
+                setSearchType(response.data)
+                // const data = response.data.stored.concat(response.data.notStored);
+                // setTouristAttraction(response.data);
+            }).catch(error => {
+                setSearchType([])
+            });
+        } else {
+            axios.get(`${REACT_NATIVE_BASE_URL}/${getLanguage}/Account/SearchByType/${type}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then(response => {
+                setSearchType(response.data)
+                setLoading(false)
+            }).catch(error => {
+                console.log(error);
+            })
+        }
     }
     const renderCategory = (name, icon, id, type) => {
         return (
@@ -124,7 +141,7 @@ const Discover = ({ navigation }) => {
                 key={`${Math.random()}`}
                 onPress={() => handleTouchCategory(name, type)}
             >
-                <View className={name == category ? "mr-4 flex-row items-center rounded-3xl px-4 py-[5px] bg-primary" : "mr-4 flex-row items-center rounded-3xl px-4 py-[5px] bg-secondary"}>
+                <View className={name == category ? "mr-4 flex-row items-center rounded-3xl px-4 py-[5px] bg-secondary" : "mr-4 flex-row items-center rounded-3xl px-4 py-[5px] bg-primary"}>
                     <Image source={icon} className="w-[24px] h-[24px] mr-1" />
                     <Text className="text-white">{name}</Text>
                 </View>
@@ -253,7 +270,7 @@ const Discover = ({ navigation }) => {
                                     key={`${Math.random()}`}
                                     navigation={navigation} 
                                     data = {{
-                                        id: `forYou-${index}`,
+                                        id: value.TID,
                                         name: value.name,
                                         latitude: value.latitude,
                                         longitude: value.longitude,

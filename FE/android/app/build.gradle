@@ -279,7 +279,6 @@ dependencies {
     implementation project(':onnxruntime-react-native')
     // onnxruntime-react-native @generated end onnxruntime-react-native
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation project(':onnxruntime-react-native')
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 

@@ -105,9 +105,9 @@ class Storage(Resource):
             ''',
             (auth['CID'], request.json['TID'],)
         )
-
+        print("tid", request.json['TID'])
         connection.commit()
-        middleware.update_Like(request.json['TID'], -1)
+        middleware.update_Like(request.json['TID'], auth['CID'], -1)
         return{
             'status': True,
             'message': 'Successfully deleted'

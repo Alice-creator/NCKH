@@ -230,6 +230,12 @@ values('CID001','admin@gmail.com', 'admin', '63640264849a87c90356129d99ea165e37a
 insert into admin_info(cid)
 values('CID001');
 
+insert into account_info(cid, gmail, username, password)
+values('CID000','user@gmail.com', 'user', '63640264849a87c90356129d99ea165e37aa5fabc1fea46906df1a7ca50db492');
+
+insert into admin_info(cid)
+values('CID000');
+
 -- call insertaccount('user1@gmail.com', 'Anna', '12345');
 -- call insertaccount('', '', '');
 -- call insertaccount('user2@gmail.com', 'An', '1234567');

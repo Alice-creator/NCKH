@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Text, View, SafeAreaView, Button, TouchableOpacity } from 'react-native';
+import { Text, View, SafeAreaView, Button, TouchableOpacity, ScrollView } from 'react-native';
 import NavigationBack from './components/NavigationBack';
 import TouristAttractionInfo from './components/TouristAttractioninfo';
 import { REACT_NATIVE_BASE_URL } from '../contains';
@@ -57,7 +57,7 @@ export default function Saved({ navigation }) {
             </TouchableOpacity>
         </View>
         :
-        <View className="mx-3">
+        <ScrollView className="mx-3">
           <View className="flex-row flex-wrap justify-between">
             {storages.length > 0 && storages?.map((value, index) => (
               <TouristAttractionInfo navigation={navigation}  key={index}
@@ -83,7 +83,7 @@ export default function Saved({ navigation }) {
                 <Text className="text-bold-txt font-bold text-xl tracking-wider">{t('saved.noItem')}</Text>
               </View>
             }
-        </View>
+        </ScrollView>
       }
     </SafeAreaView>
   );

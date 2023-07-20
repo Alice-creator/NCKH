@@ -13,7 +13,7 @@ import Loading from './Loading';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Location from 'expo-location';
 import TouristAttractionInfo from './TouristAttractioninfo';
-import { PLACES_API } from '../../contains';
+import { PLACES_API, REACT_NATIVE_BASE_URL } from '../../contains';
 
 const Detail = ({ data, scan, navigation }) => {
     const { t } = useTranslation()
@@ -23,6 +23,7 @@ const Detail = ({ data, scan, navigation }) => {
     const [ nearList, setNearList ] = useState([])
     const [ loading, setLoading ] = useState(true)
     const [ distance, setDistance ] = useState('None')
+    const [ tours, setTours ] = useState([])
     useEffect(() => {
     const getNearByLocation = async () => {
       setLoading(true)
@@ -33,13 +34,14 @@ const Detail = ({ data, scan, navigation }) => {
         const radius = 20000;
         let types = []   
         if (category == "hotels") {
-          types = [ "point_of_interest", "hotel" ];
+          types = [ "hotel" ];
         } else if (category == "restaurants") {
           types = [ "restaurant" ];
         } else {
           types = [ "tourist_attraction", "museum", "zoo", "natural_feature", "aquarium" ];
         }
         try {
+          console.log(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location}&radius=${radius}&types=${types.join("|")}&key=${PLACES_API}&language=${language}&rankby=prominence`)
           const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location}&radius=${radius}&types=${types.join("|")}&key=${PLACES_API}&language=${language}&rankby=prominence`;
           const { data } = await axios.request(url);
           const results = data.results;
@@ -122,17 +124,46 @@ const Detail = ({ data, scan, navigation }) => {
         }
       
         let location = await Location.getCurrentPositionAsync({});
-        const { latitude: lat1, longitude: lon1 } = location.coords;
+        const { latitude, longitude } = location.coords;
+        return { latitude, longitude }
+        // Lấy được vị trí hiện tại của thiết bị
+        // Tiếp tục tính toán khoảng cách từ vị trí hiện tại đến vị trí đích
+      }
+      const getDistance = async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          console.log('Permission to access location was denied');
+          setDistance('None')
+          return;
+        }
+      
+        let location = await Location.getCurrentPositionAsync({});
+        const { latitude:lat1 , longitude: lon1 } = location.coords;
         const lat2 = data.latitude
         const lon2 = data.longitude
   
         const dis = haversine_distance(lat1, lon1, lat2, lon2)
         setDistance(dis.toFixed(2) + ' km')
-        // Lấy được vị trí hiện tại của thiết bị
-        // Tiếp tục tính toán khoảng cách từ vị trí hiện tại đến vị trí đích
       }
       
-      getCurrentLocation()
+      getDistance()
+      const getTours = async () => {
+        const newlanguage = await AsyncStorage.getItem('language')
+        const token = JSON.parse(await AsyncStorage.getItem('token'))
+        axios.get(`${REACT_NATIVE_BASE_URL}/${newlanguage || 'en'}/Tour/${data.latitude}/${data.longitude}/1`,
+        {
+            headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(response => {
+            setTours(response.data.Tour)           
+        }).catch(error => {
+            console.log(error)
+        });
+    }
+    getTours()
       const backAction = () => {
         navigation.navigate(scan ? "Scan": "Discover");
         return true; // Trả về true để ngăn không thoát khỏi ứng dụng
@@ -149,9 +180,8 @@ const Detail = ({ data, scan, navigation }) => {
               key={`category-${id}`}
               onPress={() => handleTouchCategory(type)}
           >
-              <View className={type == category ? "flex-row items-center rounded-3xl px-3 py-[6px] bg-primary" : "flex-row items-center rounded-3xl px-3 py-[6px] bg-secondary"}>
-                  <Image source={icon} className="w-[26px] h-[26px] mr-1" />
-                  <Text className="text-white text-sm">{name}</Text>
+              <View className={type == category ? "border-b-2 border-basic mr-4" : "mr-4"}>
+                  <Text className="text-[15px] font-semibold text-basic">{name}</Text>
               </View>
           </TouchableOpacity>
       )
@@ -159,7 +189,7 @@ const Detail = ({ data, scan, navigation }) => {
   return (
   <ScrollView className="bg-theme relative">
     <NavigationBack navigation={navigation} to={scan ? "Scan" : "Discover"}/>
-    <NavigationPanorama navigation={navigation}/>
+    {/* <NavigationPanorama navigation={navigation}/> */}
     <View className="flex-1 flex justify-between bg-theme">
       <View className="" style={{ height: 373 , width: '100%' }}>
         <Image
@@ -286,29 +316,33 @@ const Detail = ({ data, scan, navigation }) => {
                 </View>
             </View>      */}
           </View>
-          <View>
-            <View className="w-full h-[2px] rounded-lg my-3 bg-[#e2e2e2]"></View>
-            <Text className="font-bold text-[17px] text-bold-txt mb-1">{t('detail.tour')}</Text>
-            <View> 
-              <Text className="font-bold text-[15px] text-primary mt-2">Tour 1: Exploring the trace of the past in the heart of the city</Text>
-              <View className="flex flex-row my-1">
-                <View className="w-14 h-14 rounded-lg mr-2 p-[2px] border-[2px] border-[#e2e2e2]">
-                  <Image className="w-full h-full rounded-lg" source={{
-                    uri: `${data.image}`
-                  }}/>
-                </View>
-                <View className="flex flex-col justify-center">
-                  <Text className="font-bold text-[14px] text-bold-txt">{data.name}</Text>
-                  <Text className="text-[13px] text-basic">{data.address}</Text>
-                </View>
+          {tours.length > 0 &&
+            <View>
+              <View className="w-full h-[2px] rounded-lg my-3 bg-[#e2e2e2]"></View>
+              <Text className="font-bold text-[17px] text-bold-txt mb-1">{t('detail.tour')}</Text>
+              <View> 
+                {/* <Text className="font-bold text-[15px] text-primary mt-2">Tour 1: Exploring the trace of the past in the heart of the city</Text> */}
+                {tours.map((data,index) => (
+                  <View className="flex flex-row my-1" key={`tours-${index}`}>
+                    <View className="w-14 h-14 rounded-lg mr-2 p-[2px] border-[2px] border-[#e2e2e2]">
+                      <Image className="w-full h-full rounded-lg" source={{
+                        uri: `${data.images}`
+                      }}/>
+                    </View>
+                    <View className="flex flex-col justify-center">
+                      <Text className="font-bold text-[14px] text-bold-txt">{data.name}</Text>
+                      <Text className="text-[13px] text-basic">{data.address}</Text>
+                    </View>
+                  </View>
+                ))}
               </View>
             </View>
-          </View>
+          }
 
           <View>
             <View className="w-full h-[2px] rounded-lg my-3 bg-[#e2e2e2]"></View>
             <Text className="font-bold text-[17px] text-bold-txt mb-1">{t('detail.suggest')}</Text>
-            <View className="flex-row justify-between mb-2">
+            <View className="flex-row mb-2">
                 {categoriesNearData.map((category) => (
                   renderCategory(t(`detail.${category.name}`), category.icon, category.id, category.name)
                 ))}

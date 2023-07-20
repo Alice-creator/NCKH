@@ -11,6 +11,8 @@ import mountain from "../assets/mountain.png"
 import hotel from "../assets/hotels.png"
 import restaurant from "../assets/restaurant.png"
 import attraction from "../assets/places.png"
+import recommend from "../assets/recommend.png"
+
 
 export const categoriesData = [
     {
@@ -21,51 +23,45 @@ export const categoriesData = [
     },
     {
         id: 2,
+        name: "recommend",
+        type: "recommend",
+        icon: recommend
+    },
+    {
+        id: 3,
         name: "mountain",
         type: "Nui",
         icon: mountain
     },
     {
-        id: 3,
+        id: 4,
         name: "beach",
         type: "Bien",
         icon: beach
     },
     {
-        id: 4,
-        name: "monuments",
-        type: "Di_Tich",
-        icon: monuments
-    },
-    {
         id: 5,
-        name: "building",
-        type: "Toa_Nha",
-        icon: building
-    },
-    {
-        id: 6,
         name: "tower",
         type: "Thap",
         icon: tower
     },
     {
-        id: 7,
+        id: 6,
         name: "park",
         type: "Cong_Vien",
         icon: park
     },
     {
-        id: 8,
+        id: 7,
         name: "pagoda",
         type: "Chua",
         icon: pagoda
     },
     {
-        id: 9,
-        name: "church",
-        type: "Nha Tho",
-        icon: church
+        id: 8,
+        name: "museum",
+        type: "Bao_Tang",
+        icon: monuments
     },
 ]
 

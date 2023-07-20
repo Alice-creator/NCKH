@@ -9,34 +9,38 @@ import LoginModal from './LoginModal'
 
 const TouristAttractionInfo = ({ navigation, data }) => {
     const [modalVisible, setModalVisible] = useState(false);
-
+    const [ liked, setLiked ] = useState(data.isStorage)
     const handleDetail = (data) => {
         navigation.navigate("Details", { data })
     }
     const handleStorage = async (value) => {
         const token = JSON.parse(await AsyncStorage.getItem('token'));
         // const language = JSON.parse(await AsyncStorage.getItem('language'));
+        const data = { TID: value }
         AsyncStorage.getItem('language').then(language => {
-            axios.post(`${REACT_NATIVE_BASE_URL}/${language}/User/storage`, { TID: value },
-            {
+            fetch(`${REACT_NATIVE_BASE_URL}/${language}/User/storage`, {
+                method: liked ? 'DELETE' : 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`,
                 },
-            }
-            )
-            .then(response => {
-                console.log(response.data)
-                if(!response.data.status) {
+                body: JSON.stringify(data)
+              })
+                .then(response => response.json())
+                .then(data => {
+                  // Cập nhật trạng thái "like/unlike" trong component
+                  setLiked(!liked);
+                  if(!data.status) {
                     setModalVisible(true)
                 }
-            }).catch(error => {
-                console.log(error);
-            });
+                })
+                .catch(error => {
+                  console.error('Error toggling like:', error);
+                });
+    
         })
     }
-
-  return (
+    return (
     <TouchableOpacity 
         onPress={() => handleDetail(data)}
         className={`w-[170px] h-[250px] my-2 mx-1 shadow`}
@@ -51,7 +55,7 @@ const TouristAttractionInfo = ({ navigation, data }) => {
                     <TouchableOpacity 
                         onPress={() => handleStorage(data.id)}
                         className="bg-white opacity-80 p-[6px] flex items-center justify-center rounded-full">
-                        <Image source={like} tintColor={data.isStorage ?  "#fec76f" : ''} className="z-50 w-6 h-6" />
+                        <Image source={like} tintColor={liked ?  "#fec76f" : ''} className="z-50 w-6 h-6" />
                     </TouchableOpacity>
                 </>
             }

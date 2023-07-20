@@ -24,52 +24,53 @@ export default function Scans({ navigation }) {
   const [ flash, setFlash ] = useState(Camera.Constants.FlashMode.off)
   const [ loading, setLoading ] = useState(false)
   const getPlace = async (data, image) => {
-    setLoading(true)
-    const token = JSON.parse(await AsyncStorage.getItem('token'));
-    const language = await AsyncStorage.getItem('language');
-    axios.post(`${REACT_NATIVE_BASE_URL}/${language}/FindingPlace`, data, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`,
-      },
-    }).then(response => {          
-      const result = response.data.result
-      let data = {}
-      if(result.length > 1) {
-        data = {
-          suggest: result,
-          image: image,
-          name: result[0].type
-        }
-      } else {
-        data = {
-          id: result[0].TID,
-          name: result[0].name,
-          latitude: result[0].latitude,
-          longitude: result[0].longitude,
-          location_string: result[0].location_string,
-          image: image,
-          address: result[0].address,
-          description: result[0].description,
-          story: result[0].story,
-          type: result[0].type,
-          likes: result[0].likes,
-          isStorage: result[0].Stored
-        }
-      }
-      navigation.navigate("Details", { data, scan: true })
-      setLoading(false)
-    }).catch(error => {
-      console.log(error);
-    });  
+    // setLoading(true)
+    // const token = JSON.parse(await AsyncStorage.getItem('token'));
+    // const language = await AsyncStorage.getItem('language');
+    // axios.post(`${REACT_NATIVE_BASE_URL}/${language}/FindingPlace`, data, {
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data',
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // }).then(response => {          
+    //   const result = response.data.result
+    //   let data = {}
+    //   if(result.length > 1) {
+    //     data = {
+    //       suggest: result,
+    //       image: image,
+    //       name: result[0].type
+    //     }
+    //   } else {
+    //     data = {
+    //       id: result[0].TID,
+    //       name: result[0].name,
+    //       latitude: result[0].latitude,
+    //       longitude: result[0].longitude,
+    //       location_string: result[0].location_string,
+    //       image: image,
+    //       address: result[0].address,
+    //       description: result[0].description,
+    //       story: result[0].story,
+    //       type: result[0].type,
+    //       likes: result[0].likes,
+    //       isStorage: result[0].Stored
+    //     }
+    //   }
+    //   navigation.navigate("Details", { data, scan: true })
+    //   setLoading(false)
+    // }).catch(error => {
+    //   console.log(error);
+    // });  
+    
     // let myModel = ort.InferenceSession;
     // const modelPath = '../model/best.onnx'
-    // const path = require('../assets/best.onnx')
-    // const assets = await Asset.loadAsync(path);
-    // const modelUri = assets[0].localUri;
-    // console.log("modelUri", modelUri)
-    // let myModel = await InferenceSession.create(modelUri);
-    // console.log("myModel", myModel)
+    const path = require('../assets/best.ort')
+    const assets = await Asset.loadAsync(path);
+    const modelUri = assets[0].localUri;
+    console.log("modelUri", modelUri)
+    let myModel = await InferenceSession.create(modelUri);
+    console.log("myModel", myModel)
 
   }
   const pickImage = async () => {

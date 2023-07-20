@@ -28,6 +28,7 @@ const LoginModal = ({ navigation,  isVisible, setModalVisible }) => {
             <Text className="text-lg">{t('modal.requireLogin.content')}</Text>
             <TouchableOpacity
               className="bg-primary w-full mt-4 py-2 rounded-lg"
+              onPress={() => navigation.navigate('Login')}
             >
               <Text className="text-white text-base font-semibold text-center">{t('modal.requireLogin.button')}</Text>
             </TouchableOpacity>
