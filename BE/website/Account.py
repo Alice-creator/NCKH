@@ -83,7 +83,6 @@ class Login(Resource):
                 'alpha': alpha
             }, 200
         except:
-            alpha = 4
             return {
                 'status': False,
                 'username': None,
