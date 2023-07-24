@@ -6,6 +6,9 @@ import json
         
 class RootAttraction(Resource):
     def post(self):
+        return {
+            'info': 'database'
+        }
         # token = request.headers.get('Authorization')
         # token = token.split(' ')[1]
         # if not middleware.authentication(token):
