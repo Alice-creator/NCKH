@@ -37,7 +37,9 @@ class RootAttraction(Resource):
                         except:
                             return{
                                 'name': attractions[i][j][k],
-                                'type': j
+                                'type': j,
+                                'type name': str(type(attractions[i][j][k])),
+                                'type j': str(type(j))
                             }
         
         if 'introductions' in files:
