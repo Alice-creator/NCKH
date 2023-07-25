@@ -16,13 +16,12 @@ class Classifier(Resource):
         img_tf = tf(img, 'test')
         img = img_tf[None]
         # get num class
-        model_class = os.path.join(os.getcwd(), 'Model\model_class.json')
+        model_class = os.path.join(os.getcwd(), 'Model/model_class.json')
         classes, idx_to_class = get_num_class(model_class)
         # load model
         model = get_model_instance(classes)
         if os.path.isfile(model_dir):
             model = load_model(model, model_dir)
-            
             model.eval().to(device)
         else:
             return None

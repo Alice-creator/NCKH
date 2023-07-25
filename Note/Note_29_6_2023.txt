@@ -1,22 +1,20 @@
-Tour recommender :
-- cho gps của user (x,y), bán kính r, số ngày k 
-tạo thành tour du lịch cho khách tham quan các địa
-điểm trong bán kính r (bao gồm ăn uống nghỉ ngơi
-và các hoạt động giải trí).
-- 1 ngày du lịch cơ bản gồm:
-+ Ăn sáng 
-+ Tham quan 
-+ Ăn trưa
-+ Tham quan 
-+ Ăn tối (ưu tiên nhà hàng)
-+ Nghỉ ngơi (khách sạn)
+1. Thêm vào dataset ảnh các địa điểm trong từng hoàn cảnh thời tiết khác nhau:
+- Sáng, trưa, chiều, tối(nếu địa điểm đó nổi bật vào buổi tối)
+- nắng, mưa, sương mù(nếu có)
 
-- Các nhà hàng khách sạn có thể lặp lại
+2. Cập nhật background lúc trả ảnh về cho FE:
+- sử dụng đo tương đồng giữa các ảnh
 
+3. Sửa lại Rec sys cho xịn hơn:
+- thời gian user ở lại 1 địa điểm
+- xây dựng profile cho user
 
-- tạo ngẫu nhiên 10 cặp bố mẹ
-- đánh giá điểm số
-- loại đi 5 cặp
-- lai chéo (tạo ra 10 cặp mới)
-- đột biến theo tỉ lệ phần trăm
-- lặp lại
+4. DL tự động gán nhãn cho các địa điểm
+
+5. AI cào data các địa điểm về
+
+6. Nâng cấp UX/UI (nhìn hơi phèn)
+
+7. Thêm chức năng đặt phòng ks
+
+8. model nhận diện offline
