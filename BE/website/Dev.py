@@ -27,20 +27,12 @@ class RootAttraction(Resource):
                 for j in attractions[i]:
                     for k in attractions[i][j]:
                         # print(k, attractions[i][j][k], j, 0)
-                        try:
-                            cursor.execute(
-                                '''
-                                call insertourist(%s, %s, %s);
-                                ''',
-                                (attractions[i][j][k], j, 0)
-                            )
-                        except:
-                            return{
-                                'name': attractions[i][j][k],
-                                'type': j,
-                                'type name': str(type(attractions[i][j][k])),
-                                'type j': str(type(j))
-                            }
+                        cursor.execute(
+                            '''
+                            call insertourist(%s, %s, %s);
+                            ''',
+                            (attractions[i][j][k], j, 0)
+                        )
         
         if 'introductions' in files:
             introductions = files['introductions'].read().decode('utf-8')

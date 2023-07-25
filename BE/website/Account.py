@@ -42,6 +42,7 @@ class Login(Resource):
         data = request.get_json()
         data['password'] = middleware.one_way_hash(data['password'])
         # data = extension.create_json(request.values.lists())
+        alpha = 1
         try:
             cursor.execute(
                 '''
@@ -50,16 +51,13 @@ class Login(Resource):
                 ''',
                 (data['gmail'], data['password'])
             )
-            alpha = 'here 1'
             CID = cursor.fetchone()
-            alpha = 'here 2'
             cursor.execute(
                 '''
                 select count(CID) from user_info where CID = %s;
                 ''',
                 (CID[0],)
             )
-            alpha = 'here 3'
             if cursor.fetchone()[0] == 1:
                 payload =  {
                     'CID': CID[0],
@@ -75,13 +73,13 @@ class Login(Resource):
             alpha = 2
             # Lưu token vào sesion
             # print(type(CID[1]), type(middleware.encryp(payload=payload)))
-            token = middleware.encryp(payload=payload)
+            # token = middleware.encryp(payload=payload)
             alpha = 3
             return {
                 'status': True,
                 'username': CID[1],
                 'role': payload['role'],
-                'token': token,
+                'token': 'temp',
                 'alpha': alpha
             }, 200
         except:

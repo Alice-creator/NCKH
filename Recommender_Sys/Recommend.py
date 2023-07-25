@@ -265,7 +265,7 @@ class TourSuggestion(Resource):
             where Tour.tid = User_content_based.tid and Tour.tid = viet_introduction.tid and CID = %s and travelOrder > %s
             LIMIT %s;
             ''',
-            (auth['CID'], GPS, time*4)
+            (auth['CID'], GPS, time*3)
             )
         else:
             cursor.execute(
@@ -274,19 +274,19 @@ class TourSuggestion(Resource):
             where Tour.tid = User_content_based.tid and Tour.tid = viet_introduction.tid and CID = %s and travelOrder < %s
             LIMIT %s;
             ''',
-            (auth['CID'], GPS, time*4)
+            (auth['CID'], GPS, time*3)
             )
         
         tour = cursor.fetchall()
         for i in range(len(tour)):
             tour[i] = list(tour[i])
             if 'restaurant' in tour[i][3]:
-                tour[i][1] += 0.7
-            if 'hotel' in tour[i][3]:
                 tour[i][1] += 0.5
+            if 'hotel' in tour[i][3]:
+                tour[i][1] += 0.4
         
         tour.sort(key=lambda x: x[1], reverse=True)
-        tour = tour[: time*3]
+        tour = tour[: time*2]
         tour.sort(key=lambda x: x[2])
 
         result = list()
