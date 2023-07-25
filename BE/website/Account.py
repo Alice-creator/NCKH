@@ -73,13 +73,13 @@ class Login(Resource):
             alpha = 2
             # Lưu token vào sesion
             # print(type(CID[1]), type(middleware.encryp(payload=payload)))
-            # token = middleware.encryp(payload=payload)
+            token = middleware.encryp(payload=payload)
             alpha = 3
             return {
                 'status': True,
                 'username': CID[1],
                 'role': payload['role'],
-                'token': 'temp',
+                'token': token,
                 'alpha': alpha
             }, 200
         except:
