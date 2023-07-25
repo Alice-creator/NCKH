@@ -36,13 +36,11 @@ class SignUp(Resource):
 
 class Login(Resource):
     def post(self):
-        alpha = 0
         connection = database.connect_db()
         cursor = connection.cursor()
         data = request.get_json()
         data['password'] = middleware.one_way_hash(data['password'])
         # data = extension.create_json(request.values.lists())
-        alpha = 1
         try:
             cursor.execute(
                 '''
@@ -70,25 +68,21 @@ class Login(Resource):
                     'role': 'Admin',
                     'language': 'Vietnamese'
                 }
-            alpha = 2
             # Lưu token vào sesion
             # print(type(CID[1]), type(middleware.encryp(payload=payload)))
             token = middleware.encryp(payload=payload)
-            alpha = 3
             return {
                 'status': True,
                 'username': CID[1],
                 'role': payload['role'],
-                'token': token,
-                'alpha': alpha
+                'token': token
             }, 200
         except:
             return {
                 'status': False,
                 'username': None,
                 'token': None,
-                'data': data['gmail'],
-                'alpha': alpha
+                'data': data['gmail']
             }, 401
 
 class ChangeInfo(Resource):
