@@ -242,9 +242,10 @@ class TourSuggestion(Resource):
             '''
             select sum(score) from User_content_based, Tour
             where CID = %s and User_content_based.tid = Tour.tid
-            and travelOrder < %s;
+            and travelOrder < %s
+            LIMIT %s;
             ''',
-            (auth['CID'], GPS)
+            (auth['CID'], GPS, time*4)
         )
         up = cursor.fetchone()[0]
 
@@ -252,9 +253,10 @@ class TourSuggestion(Resource):
             '''
             select sum(score) from User_content_based, Tour
             where CID = %s and User_content_based.tid = Tour.tid
-            and travelOrder > %s;
+            and travelOrder > %s
+            LIMIT %s;
             ''',
-            (auth['CID'], GPS)
+            (auth['CID'], GPS, time*4)
         )
         down = cursor.fetchone()[0]
         
@@ -265,7 +267,7 @@ class TourSuggestion(Resource):
             where Tour.tid = User_content_based.tid and Tour.tid = viet_introduction.tid and CID = %s and travelOrder > %s
             LIMIT %s;
             ''',
-            (auth['CID'], GPS, time*3)
+            (auth['CID'], GPS, time*4)
             )
         else:
             cursor.execute(
@@ -274,7 +276,7 @@ class TourSuggestion(Resource):
             where Tour.tid = User_content_based.tid and Tour.tid = viet_introduction.tid and CID = %s and travelOrder < %s
             LIMIT %s;
             ''',
-            (auth['CID'], GPS, time*3)
+            (auth['CID'], GPS, time*4)
             )
         
         tour = cursor.fetchall()
@@ -286,7 +288,7 @@ class TourSuggestion(Resource):
                 tour[i][1] += 0.4
         
         tour.sort(key=lambda x: x[1], reverse=True)
-        tour = tour[: time*2]
+        tour = tour[: time*3]
         tour.sort(key=lambda x: x[2])
 
         result = list()

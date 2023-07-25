@@ -26,10 +26,11 @@ class RootAttraction(Resource):
             for i in attractions:
                 for j in attractions[i]:
                     for k in attractions[i][j]:
-                        # print(k, attractions[i][j][k], j, 0)
+                        # 
+                        # (k, attractions[i][j][k], j, 0)
                         cursor.execute(
                             '''
-                            call insertourist(%s, %s, %s);
+                            call inserTourist(%s, %s, %s);
                             ''',
                             (attractions[i][j][k], j, 0)
                         )
