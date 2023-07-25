@@ -226,8 +226,8 @@ class TourSuggestion(Resource):
             '''
             select travelorder from viet_introduction, tour
             where viet_introduction.tid = tour.tid and
-            (longitude / %s >= 0.85 and longitude / %s <= 1.15
-            and latitude / %s >= 0.85 and latitude / %s <= 1.15) LIMIT 1;
+            (longitude / %s >= 0.98 and longitude / %s <= 1.003
+            and latitude / %s >= 0.98 and latitude / %s <= 1.003) LIMIT 1;
             ''',
             (longitude, longitude, latitude, latitude)
         )
