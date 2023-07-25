@@ -56,13 +56,13 @@ class Classifier(Resource):
         return result
 
     def post(self, language):
-        token = request.headers.get('Authorization')
-        token = token.split(' ')[1]
-        auth = middleware.authentication(token)
-        # if not auth:
-        #     return {'status' : False,
-        #             'message': 'you need to login first'
-        #             }, 401
+        # token = request.headers.get('Authorization')
+        # token = token.split(' ')[1]
+        # auth = middleware.authentication(token)
+        # # if not auth:
+        # #     return {'status' : False,
+        # #             'message': 'you need to login first'
+        # #             }, 401
 
         file = request.files['file']
         if not file.filename:
@@ -126,8 +126,8 @@ class Classifier(Resource):
             )
         result = cursor.fetchone()
         col_name = ['TID', 'name', 'latitude', 'longitude', 'timezone', 'location_string', 'images', 'address', 'description', 'story', 'likes']
-        
-        token = token.split(' ')[1]
+        if token:
+            token = token.split(' ')[1]
         auth = middleware.authentication(token)
         if not auth:
             auth = { 'CID': 'CID000' }
