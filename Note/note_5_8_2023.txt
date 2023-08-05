@@ -1,0 +1,3 @@
+Lộc
+- Cải thiện tour theo thời gian hiện tại của user
+- gợi ý tour dựa trên địa điểm user tra cứu
